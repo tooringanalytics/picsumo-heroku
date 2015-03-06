@@ -79,7 +79,7 @@ module.exports.connections = {
     host: 'localhost',
     user: 'postgres',
     password: '',
-    database: 'appdb'
+    database: 'picsumodb'
   }
 
 
