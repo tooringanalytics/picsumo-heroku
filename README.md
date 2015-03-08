@@ -16,53 +16,139 @@ Download your photos for yourself or share them on sites like Facebook, Twitter,
 
 Link to my Trello: https://trello.com/b/QUUxjqFT/picsumo
 
-Models
+#Models
 
 beforePhoto
-	id: 'string'
-	date: 'datetime'
-	url: 'string'
-	shortUrl: 'string'
-
+	id: {
+		type: 'string',
+		required: true,
+		unique: true
+		}
+	date: {
+		type: 'datetime',
+		required: true,
+		unique: false
+		}
+	url: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
+	shortUrl: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
 afterPhoto
-	id: 'string'
-	date: 'datetime'
-	url: 'string'
-	shortURl: 'string'
+	id: {
+		type: 'string',
+		required: true,
+		unique: true
+		}
+	date: {
+		type: 'datetime',
+		required: true,
+		unique: false
+		}
+	url: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
+	shortUrl: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
 
 framedPhoto
-	id: 'string'
-	date: 'datetime'
-	url: 'string'
-	shortURl: 'string'
+	id: {
+		type: 'string',
+		required: true,
+		unique: true
+		}
+	date: {
+		type: 'datetime',
+		required: true,
+		unique: false
+		}
+	url: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
+	shortUrl: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
 
 photo
-	id: 'string'
-	date: 'datetime'
-	url: 'string'
-	shortUrl: 'string'
-	type: integer (1 - before, 2 - after, 3-framed)
+	id: {
+		type: 'string',
+		required: true,
+		unique: true
+		}
+	date: {
+		type: 'datetime',
+		required: true,
+		unique: false
+		}
+	url: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
+	shortUrl: {
+		type: 'string'
+		required: true,
+		unique: true
+		url: true
+		} 
+	type: {
+		type: 'integer', (before, after, framed)
+		required: true
+		unique: false
+
+}
 
 user
 	email: 'string'
 	username: 'string'
 	password: 'string'
 	registrationDate: 'datetime'
+	loggedin: 'boolean'
 	loginHistory: 'array'
 	
 
-notifications
-	to: 'string' validation: email
+notification
+	to: 'string'
 	from: 'string'
 	sendAt: 'datetime'
 	message: 'string'
 
-APIs
+#APIs
  - Facebook Share
  - Twitter Share
  - Instagram Share
  - URL Shortener
 
+ #Libraries 
+ angular
+ angular-ui-router
+ angular-camera
+ Ionicons
+ jQuery
+ Google Fonts
+
+#Misc
 Cool formatting of photo with box shadow
 http://mdn-samples.mozilla.org/s/webrtc-capturestill/
 
