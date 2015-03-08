@@ -141,10 +141,10 @@ notification
  - URL Shortener
 
  #Libraries 
- -angular
- -angular-ui-router
- -angular-camera
- -jQuery
+ - angular
+ - angular-ui-router
+ - angular-camera
+ - jQuery
 
 #Misc
 Cool formatting of photo with box shadow
