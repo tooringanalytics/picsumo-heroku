@@ -140,9 +140,10 @@ notification
  - Instagram Share
  - URL Shortener
 
- #Libraries 
- - angular
- - angular-ui-router
+ #Libraries
+ - sails-template 
+ - angular (auto added by sails-template)
+ - angular-ui-router (auto added by sails-template)
  - angular-camera
  - jQuery
 
