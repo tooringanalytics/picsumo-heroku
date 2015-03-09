@@ -18,80 +18,9 @@ Link to my Trello: https://trello.com/b/QUUxjqFT/picsumo
 
 #Models
 
-beforePhoto
-	id: {
-		type: 'string',
-		required: true,
-		unique: true
-		}
-	date: {
-		type: 'datetime',
-		required: true,
-		unique: false
-		}
-	url: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-	shortUrl: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-afterPhoto
-	id: {
-		type: 'string',
-		required: true,
-		unique: true
-		}
-	date: {
-		type: 'datetime',
-		required: true,
-		unique: false
-		}
-	url: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-	shortUrl: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-
-framedPhoto
-	id: {
-		type: 'string',
-		required: true,
-		unique: true
-		}
-	date: {
-		type: 'datetime',
-		required: true,
-		unique: false
-		}
-	url: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-	shortUrl: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-
 photo
 	id: {
-		type: 'string',
+		type:'integer',
 		required: true,
 		unique: true
 		}
@@ -101,12 +30,6 @@ photo
 		unique: false
 		}
 	url: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-	shortUrl: {
 		type: 'string'
 		required: true,
 		unique: true
@@ -116,10 +39,27 @@ photo
 		type: 'integer', (before, after, framed)
 		required: true
 		unique: false
+		}
+	matchID {
+		type: 'integer',
+		required: false,
+		unique: false
+		}
+	private: {
+		type: 'Boolean',
+		required: true,
+		unique: false
+		}
+	userID: {
+		type: integer,
+		required: true,
+		unique: false
+	}
 
 }
 
 user
+	id: 'integer'
 	email: 'string'
 	username: 'string'
 	password: 'string'
@@ -145,10 +85,29 @@ notification
  - angular (auto added by sails-template)
  - angular-ui-router (auto added by sails-template)
  - angular-camera
+ - ng-file-upload (https://github.com/danialfarid/ng-file-upload#install)
  - jQuery
 
 #Misc
 Cool formatting of photo with box shadow
 http://mdn-samples.mozilla.org/s/webrtc-capturestill/
+
+I am going to need an Angular library for taking the photo and uploading the photo. Annoying.
+
+Questions for Aaron
+
+1 - How to speed up the sails loading process. It's too slow for design iteration.
+2 - How to install fonts and libraries. They keep disappearing from layout.js and/or the order in the scripts are messed up and it doesn't allow for dependencies to work properly.
+3 - Data models. One photo or multiple photo models.
+4 - How do I find a simple file uploader that's for only one file at a time?
+5 - It keeps putting angular-file-upload before angular in the scripts area.
+
+AWS Info:
+https://s3.amazonaws.com/picsumo/
+AKIAJCA7CFBEBQQ6KUDA
+public
+http://localhost:1337/#/before
+ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwKICAiY29uZGl0aW9ucyI6IFsKICAgIHsiYnVja2V0IjogInBpY3N1bW8ifSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICIiXSwKICAgIHsiYWNsIjogInByaXZhdGUifSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJGZpbGVuYW1lIiwgIiJdLAogICAgWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDUyNDI4ODAwMF0KICBdCn0=
+5B4giEs8TU4AKT50uO6p+Rnc3x8=
 
 

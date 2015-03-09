@@ -1,0 +1,31 @@
+<nav ng-controller="LogoutCtrl">
+	<a ng-click="logout()" ui-sref="home">Log out</a>
+</nav>
+<header>
+	<h1>Step 1</h1>
+	<h2>Let's add your "before" photo</h2>
+</header>
+<main>
+	<div class="before-picture" ng-hide="shutter === true">
+		<div class="button-area">
+			<button class="takePic" ng-click="shutter = true">Take a photo</button>
+			<p class="option">Or, if you prefer...</p>
+			<label class="uploadPic">
+    		<input type="file" ng-file-select ng-model="files">
+    		Choose a photo to upload
+			</label>
+		</div>
+	</div>
+
+
+
+
+	
+
+	<!-- <label class="uploadPic">
+		<input type="file" ng-file-select ng-model="files">
+		Choose a photo to upload
+	</label> -->
+
+	<div class="camera" ng-if="shutter === true" ng-cloak></div>
+</main>

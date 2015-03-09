@@ -29,6 +29,6 @@
 //
 // etc.
 
-.test {
-	color: blue;
-}
+@import 'homepage.scss';
+@import 'home.scss';
+@import 'before.scss';
