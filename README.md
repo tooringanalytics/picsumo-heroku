@@ -79,6 +79,7 @@ notification
  - Twitter Share
  - Instagram Share
  - URL Shortener
+ - http://imgix.com/
 
  #Libraries
  - sails-template 
@@ -87,6 +88,11 @@ notification
  - angular-camera
  - ng-file-upload (https://github.com/danialfarid/ng-file-upload#install)
  - jQuery
+
+Here are the 3 options I have for cameras:
+- https://github.com/onemightyroar/angular-camera
+- https://github.com/jhuckaby/webcamjs
+- https://github.com/bcabanes/ng-camera
 
 #Misc
 Cool formatting of photo with box shadow
