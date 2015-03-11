@@ -1,20 +1,39 @@
 /**
+<<<<<<< HEAD
  * TestController
  *
  * @description :: Server-side logic for managing tests
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-var AWS = require('aws-sdk');
 
-var s3  = new AWS.S3({
-    accessKeyId: '',
-    secretAccessKey: ''
-});
+=======
+ * UploadControllerController
+ *
+ * @description :: Server-side logic for managing Uploadcontrollers
+ * @help        :: See http://links.sailsjs.org/docs/controllers
+ */
+
+var skipperS3 = require('skipper-s3');
 
 module.exports = {
-	index: function (req, res) {
-		console.log('test');
-		console.log(req.files);
-		console.log(req.file);
+	index: function(req, res) {
+		req.file('file').upload({
+			adapter: skipperS3,
+			key: sails.config.s3.key,
+			secret: sails.config.s3.secret,
+			bucket: sails.config.s3.bucket,
+			region: sails.config.s3.region
+		}, function(err, uploadedFiles) {
+			if(err) {
+				res.status(500);
+				res.jsonx({
+					"error": "E_UPLOAD",
+					"status": 500,
+					"summary": "There was a problem uploading the file."
+				});
+			}
+			
+			return res.jsonx(uploadedFiles);
+		});
 	}
 };

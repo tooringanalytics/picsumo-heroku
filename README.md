@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # picsumo
 
 Why - Because people deserve to be recognized for transforming their bodies.
@@ -67,7 +68,6 @@ user
 	registrationDate: 'datetime'
 	loggedin: 'boolean'
 	loginHistory: 'array'
-	
 
 notification
 	to: 'string'
