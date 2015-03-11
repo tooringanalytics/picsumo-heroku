@@ -5,6 +5,8 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "aws": "0.0.3-2",
+    "aws-sdk": "^2.1.16",
     "bcryptjs": "^2.1.0",
     "ejs": "~0.8.4",
     "grunt": "0.4.2",
@@ -31,6 +33,7 @@
     "rc": "~0.5.0",
     "sails": "~0.11.0",
     "sails-postgresql": "^0.10.14",
+    "sdk": "^0.2.2",
     "validator": "^3.33.0"
   },
   "scripts": {
