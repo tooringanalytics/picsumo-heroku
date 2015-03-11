@@ -108,11 +108,5 @@ Questions for Aaron
 4 - How do I find a simple file uploader that's for only one file at a time?
 5 - It keeps putting angular-file-upload before angular in the scripts area.
 
-AWS Info:
-https://s3.amazonaws.com/picsumo/
-AKIAJCA7CFBEBQQ6KUDA
-public
-http://localhost:1337/#/before
-TPbUuQPE9xui0mAzjfXxkCI8pBxc0AWsSkdLpg6m
 
 
