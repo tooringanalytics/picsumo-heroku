@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # picsumo
 
 Why - Because people deserve to be recognized for transforming their bodies.
@@ -109,4 +110,8 @@ Questions for Aaron
 5 - It keeps putting angular-file-upload before angular in the scripts area.
 
 
+=======
+ - error: string - the error code that caused the failure.
+ - status: integer - the HTTP status code.
+ - summary: string - a message describing the error.
 
