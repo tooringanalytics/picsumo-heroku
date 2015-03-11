@@ -1,8 +1,9 @@
-//  * UploadControllerController
-//  *
-//  * @description :: Server-side logic for managing Uploadcontrollers
-//  * @help        :: See http://links.sailsjs.org/docs/controllers
-//  */
+/**
+ * UploadControllerController
+ *
+ * @description :: Server-side logic for managing Uploadcontrollers
+ * @help        :: See http://links.sailsjs.org/docs/controllers
+ */
 
 var skipperS3 = require('skipper-s3');
 
