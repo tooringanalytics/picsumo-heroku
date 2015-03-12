@@ -115,3 +115,26 @@ Questions for Aaron
  - status: integer - the HTTP status code.
  - summary: string - a message describing the error.
 
+ {
+  "name": "sails-template",
+  "version": "0.0.0",
+  "authors": [
+    "Aaron Larner <anlarner@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.14",
+    "angular-ui-router": "~0.2.13",
+    "validator-js": "~3.33.0",
+    "ng-file-upload": "~3.1.2",
+    "webcamjs": "*"
+  },
+}
+

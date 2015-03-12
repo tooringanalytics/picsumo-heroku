@@ -1,0 +1,24 @@
+<main>
+	<nav>
+        <a ui-sref="home">Home</a>
+        <a ui-sref="login" ng-click="logout()">Log in</a>
+    </nav>
+    <header>
+        <h1>picSumo<h1>
+        <h2>The easiest way to take "before" and "after" pics </h2>
+    </header>
+    <section class="user-form">
+        <form class="signup" ng-submit="register(credentials)" novalidate>
+            <p ng-repeat="errorMessage in error.generic" ng-bind="errorMessage"></p>
+            <label ng-class="error.identifier ? 'error' : ''">
+                <input type="text" placeholder="Enter your email" ng-model="credentials.identifier">
+                <p class="error" ng-bind="error.identifier"></p>
+            </label>
+            <label ng-class="error.password ? 'error' : ''">
+                <input type="password" placeholder="Create a password" ng-model="credentials.password">
+                <p class="error" ng-bind="error.password"><p>
+            </label>
+            <button type="submit">Sign Up</button>
+        </form>
+    </section>
+</main>
