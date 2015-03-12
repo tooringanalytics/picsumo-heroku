@@ -2,7 +2,7 @@
 	<h1>Step 2</h1>
 	<h2>Let's add your "after" photo</h2>
 </header>
-<main>
+
 
 <!-- When you arrive on page, your before photo should appear -->
 
@@ -23,27 +23,38 @@
 		</div>
 	</div>
 
-	<div class="after-photo" ng-cloak>
+	<div class="after-snap" ng-if="showAfterWebcam" ng-cloak>
+		<div class="dashed-container">Webcam</div>
+		<button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
+	</div>
+
+	<div class="after-photo" ng-if="showAfterAcceptOptions" ng-cloak>
 		<div class="dashed-container" id="framed">The Hidden Stored Image</div>
 		<div class="button-container">
-			<button class="retry" ng-click="retry()">Retry</button>
+			<button class="retry" ng-click="retryAfter()">Retry</button>
 			<button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
 		</div>
 	</div>
 
 </div>
 
-<!-- When you click Take Photo, Camera should appear with option to Snap Photo-->
-	
+<!-- Reminder option -->
 
-<!-- When you click Snap Photo button the webcam view and Snap Photo button should disappear--> 
+<p><a class="reminder" ng-href="#/after" ng-click="setReminder = true">or get a reminder to take it later...</a></p>
 
-	<div class="camera" ng-if="showAfterWebcam" ng-cloak>
-		<div class="dashed-container">Webcam</div>
-		<button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
-	</div>
+<div ng-if="setReminder === true">
+        <p>We'll send you an email reminder</p>
+        When: <select class='days'>
+            <option value="7">In 7 days</option>
+            <option value="14">In 14 days</option>
+            <option value="30">In 30 days</option>
+            <option value="60">In 60 days</option>
+            <option value="90">In 90 days</option>
+        </select>
+        <button class="remind">Remind Me</button>
+</div>
 
-<!-- Then the image should appear with options to accept or retry--> 
+
 
 	
 	

@@ -10,7 +10,7 @@
 			<button class="takePic" ng-click="takePhoto()">Take a photo</button>
 			<p class="option">Or, if you prefer...</p>
 			<label class="uploadPic">
-	    		<input type="file" ng-file-select ng-model="files">
+	    		<input type="file" ng-file-select ng-file-change="upload($files)">
 	    		Choose a photo to upload
 			</label>
 		</div>
