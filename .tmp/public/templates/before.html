@@ -5,7 +5,7 @@
 <main>
 
 <!-- When you click Take Photo, Camera should appear with option to Snap Photo-->
-	<div class="before-camera" ng-if="showPhotoOptions">
+	<div class="before-options" ng-if="showPhotoOptions">
 		<div class="button-area">
 			<button class="takePic" ng-click="takePhoto()">Take your 'before' photo</button>
 			<p class="option">Or, if you prefer...</p>
@@ -19,7 +19,7 @@
 <!-- When you click Snap Photo button the webcam view and Snap Photo button should disappear--> 
 
 	<div ng-if="showWebcam">
-		<div class="webcam-placeholder"  ng-cloak>Webcam Placeholder</div>
+		<div class="webcam-placeholder" ng-cloak>Webcam Placeholder</div>
 		<button class="snap" ng-click="snapShutter()">Snap photo</button>
 	</div>
 

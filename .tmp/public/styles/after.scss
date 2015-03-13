@@ -1,30 +1,61 @@
 .frame {
-	background-color: red;
 	display: inline-block;
 	padding: 16px;
-
 }
 
-.before-photo {
-	display:inline-block;
-	background-color: green;
-	float: left;
-}
-
-.after-camera {
+.saved-before-image-placeholder {
 	display: inline-block;
-	margin: 0 auto;
-	width: 168px;
-	height: 136px;
+	margin: 15px auto;
+	width: 237px;
+	height: 200px;
 	border: 4px dashed #ddd;
 	border-radius: 3px;
-	padding: 32px 16px;
+	padding: 45px 30px;
 	float: left;
+}
+
+.after-options {
+	display: inline-block;
+	margin: 15px auto;
+	width: 237px;
+	height: 200px;
+	border: 4px dashed #ddd;
+	border-radius: 3px;
+	padding: 45px 30px;
+	float: left;
+}
+
+.after-webcam {
+	float: left;
+}
+.after-webcam-placeholder, {
+	display: inline-block;
+	margin: 15px auto;
+	width: 237px;
+	height: 200px;
+	border: 4px dashed #ddd;
+	border-radius: 3px;
+	padding: 45px 30px;
+}
+
+.after-webcam .snap {
+	display: block;
+	margin: 0 auto;
+}
+
+.saved-after-image-placeholder {
+	display: inline-block;
+	float: left;
+	margin: 15px auto;
 }
 
 .after-photo {
 	display:inline-block;
-	background-color: orange;
+	width: 237px;
+	height: 200px;
+	border: 4px dashed #ddd;
+	border-radius: 3px;
+	padding: 45px 30px;
 }
 
 .button-container {
@@ -38,7 +69,8 @@
 }
 
 .reminder {
-	font-size: 24px;
+	font-size: 1em;
+	color: #2895f1;
 }
 
 

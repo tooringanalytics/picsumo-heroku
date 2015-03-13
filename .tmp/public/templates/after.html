@@ -1,19 +1,17 @@
 <header>
 	<div class="step">Step 2</div>
-	<div class="instruction">Let's add your "after" photo</div>
+	<div class="instruction">Add your "after" photo now or <a class="reminder" ng-href="#/after" ng-click="setReminder = true">or set a reminder to take it later...</a></div>
 </header>
 
 <!-- When you arrive on page, your before photo should appear -->
 
 <div class="frame">
 
-	<div class="before-photo" ng-cloak>
-		<div class="dashed-container">The Stored Before Image</div>
-	</div>
+	<div class="saved-before-image-placeholder" ng-cloak>"Before" Image Placeholder</div>
 
-	<div class="after-camera" ng-if="showAfterPhotoOptions">
+	<div class="after-options" ng-if="showAfterPhotoOptions">
 		<div class="button-area">
-			<button class="takePic" ng-click="takeAfterPhoto()">Take a photo</button>
+			<button class="takePic" ng-click="takeAfterPhoto()">Take your 'after' photo</button>
 			<p class="option">Or, if you prefer...</p>
 			<label class="uploadPic">
 	    		<input type="file" ng-file-select ng-model="files">
@@ -22,13 +20,13 @@
 		</div>
 	</div>
 
-	<div class="after-snap" ng-if="showAfterWebcam" ng-cloak>
-		<div class="dashed-container">Webcam</div>
+	<div class="after-webcam" ng-if="showAfterWebcam" ng-cloak>
+		<div class="after-webcam-placeholder">Webcam Placeholder</div>
 		<button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
 	</div>
 
-	<div class="after-photo" ng-if="showAfterAcceptOptions" ng-cloak>
-		<div class="dashed-container" id="framed">The Hidden Stored Image</div>
+	<div class="saved-after-image-placeholder" ng-if="showAfterAcceptOptions" ng-cloak>
+		<div class="after-photo">"After" Image Placeholder</div>
 		<div class="button-container">
 			<button class="retry" ng-click="retryAfter()">Retry</button>
 			<button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
@@ -38,8 +36,6 @@
 </div>
 
 <!-- Reminder option -->
-
-<p><a class="reminder" ng-href="#/after" ng-click="setReminder = true">or get a reminder to take it later...</a></p>
 
 <div ng-if="setReminder === true">
         <p>We'll send you an email reminder</p>

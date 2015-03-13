@@ -76,7 +76,8 @@ notification
 	message: 'string'
 
 #APIs
- - Facebook Share
+ - Facebook Share - https://developers.facebook.com/docs/sharing/markup. Have to add marked up meta tags to the Share page.
+ 
  - Twitter Share
  - Instagram Share
  - URL Shortener
@@ -101,7 +102,7 @@ http://mdn-samples.mozilla.org/s/webrtc-capturestill/
 
 I am going to need an Angular library for taking the photo and uploading the photo. Annoying.
 
-Questions for Aaron
+#Questions for Aaron
 
 1 - How to speed up the sails loading process. It's too slow for design iteration.
 2 - How to install fonts and libraries. They keep disappearing from layout.js and/or the order in the scripts are messed up and it doesn't allow for dependencies to work properly.
@@ -110,31 +111,6 @@ Questions for Aaron
 5 - It keeps putting angular-file-upload before angular in the scripts area.
 
 
-=======
- - error: string - the error code that caused the failure.
- - status: integer - the HTTP status code.
- - summary: string - a message describing the error.
+#Todos:
 
- {
-  "name": "sails-template",
-  "version": "0.0.0",
-  "authors": [
-    "Aaron Larner <anlarner@gmail.com>"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "angular": "~1.3.14",
-    "angular-ui-router": "~0.2.13",
-    "validator-js": "~3.33.0",
-    "ng-file-upload": "~3.1.2",
-    "webcamjs": "*"
-  },
-}
-
+ - Need to figure out how to stitch images together.
