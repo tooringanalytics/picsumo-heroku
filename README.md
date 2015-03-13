@@ -77,7 +77,7 @@ notification
 
 #APIs
  - Facebook Share - https://developers.facebook.com/docs/sharing/markup. Have to add marked up meta tags to the Share page.
- 
+
  - Twitter Share
  - Instagram Share
  - URL Shortener
@@ -113,4 +113,5 @@ I am going to need an Angular library for taking the photo and uploading the pho
 
 #Todos:
 
- - Need to figure out how to stitch images together.
+ - Need to figure out how to stitch images together. https://css-tricks.com/css-sprites/
+ - Need to auto add the date and other labels to the scaffolding and make sure the text has shadowing so it'll appear on all photos. Research progress pics and see which overlays look best and most unobtrusive. 
