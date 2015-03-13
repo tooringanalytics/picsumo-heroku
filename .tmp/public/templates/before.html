@@ -1,13 +1,13 @@
 <header>
-	<h1>Step 1</h1>
-	<h2>Let's add your "before" photo</h2>
+	<div class="step">Step 1</div>
+	<div class="instruction">Add your "before" photo</div>
 </header>
 <main>
 
 <!-- When you click Take Photo, Camera should appear with option to Snap Photo-->
 	<div class="before-camera" ng-if="showPhotoOptions">
 		<div class="button-area">
-			<button class="takePic" ng-click="takePhoto()">Take a photo</button>
+			<button class="takePic" ng-click="takePhoto()">Take your 'before' photo</button>
 			<p class="option">Or, if you prefer...</p>
 			<label class="uploadPic">
 	    		<input type="file" ng-file-select ng-file-change="upload($files)">
@@ -18,15 +18,15 @@
 
 <!-- When you click Snap Photo button the webcam view and Snap Photo button should disappear--> 
 
-	<div class="camera" ng-if="showWebcam" ng-cloak>
-		<div class="dashed-container">Webcam</div>
+	<div ng-if="showWebcam">
+		<div class="webcam-placeholder"  ng-cloak>Webcam Placeholder</div>
 		<button class="snap" ng-click="snapShutter()">Snap photo</button>
 	</div>
 
 <!-- Then the image should appear with options to accept or retry--> 
 
 	<div ng-if="showAcceptOptions" ng-cloak>
-		<div class="dashed-container">The Stored Image</div>
+		<div class="draft-image-placeholder">The Stored Image</div>
 		<div class="button-container">
 			<button class="retry" ng-click="retry()">Retry</button>
 			<button class="accept" ng-click="accept()" ui-sref="after">Accept</button>

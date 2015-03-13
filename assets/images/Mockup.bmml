@@ -555,5 +555,27 @@
     <control controlID="167" controlTypeID="com.balsamiq.mockups::Webcam" x="1783" y="721" w="58" h="49" measuredW="177" measuredH="146" zOrder="101" locked="false" isInGroup="-1"/>
     <control controlID="168" controlTypeID="com.balsamiq.mockups::Webcam" x="1725" y="778" w="58" h="49" measuredW="177" measuredH="146" zOrder="102" locked="false" isInGroup="-1"/>
     <control controlID="169" controlTypeID="com.balsamiq.mockups::Webcam" x="1783" y="778" w="58" h="49" measuredW="177" measuredH="146" zOrder="103" locked="false" isInGroup="-1"/>
+    <control controlID="171" controlTypeID="com.balsamiq.mockups::SubTitle" x="1696" y="350" w="-1" h="-1" measuredW="163" measuredH="17" zOrder="104" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>14</size>
+        <text>We%27ll%20send%20you%20a%20reminder</text>
+      </controlProperties>
+    </control>
+    <control controlID="184" controlTypeID="com.balsamiq.mockups::Label" x="1725" y="375" w="-1" h="-1" measuredW="36" measuredH="21" zOrder="105" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>When%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="185" controlTypeID="com.balsamiq.mockups::ComboBox" x="1774" y="373" w="-1" h="-1" measuredW="87" measuredH="24" zOrder="106" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>In%207%20Days</text>
+      </controlProperties>
+    </control>
+    <control controlID="186" controlTypeID="com.balsamiq.mockups::Button" x="1801" y="405" w="-1" h="-1" measuredW="63" measuredH="27" zOrder="107" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>8</size>
+        <text>Remind%20Me</text>
+      </controlProperties>
+    </control>
   </controls>
 </mockup>

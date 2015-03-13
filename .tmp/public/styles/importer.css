@@ -13,83 +13,131 @@
  * always omit, customize, or replace this behavior with SASS, SCSS,
  * or any other Grunt tasks you like.)
  */
-.signup input {
-  display: block; }
-
 /*Special Angular css rule. Prevents hidden elements from flickering on screen. Tested and works.*/
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important; }
 
 /*Styling for index.html mobile*/
 body {
-  text-align: center;
-  font-family: 'Open Sans', sans-serif; }
-
-h1 {
-  font-size: 3em;
-  font-family: 'Handlee', cursive; }
-
-h2 {
-  font-size: 1.5em;
-  padding: .4em; }
+  font-family: 'Open Sans', cursive;
+  text-align: center; }
 
 nav {
+  color: #91a8ba;
   text-align: right;
   padding: 1em; }
 
+a {
+  color: #91a8ba;
+  text-decoration: none;
+  font-size: 13px; }
+
+a:hover {
+  text-decoration: underline; }
+
+.logo {
+  font-family: 'Courgette', cursive;
+  font-size: 4em;
+  line-height: 1.2em;
+  padding: 0.1em;
+  text-shadow: 1px 1px 1px #33536d;
+  color: #33536d;
+  text-align: center; }
+
+.tagline {
+  font-size: 1.8em;
+  line-height: 1.2em;
+  padding: 0.5em;
+  color: #748796;
+  font-weight: 700;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center; }
+
 .signup {
   margin: 0 auto;
-  background-color: blue;
-  width: 180px;
+  width: 220px;
   padding: 8px; }
 
 .signup input {
   display: block;
   width: auto;
   border-radius: 3px;
-  padding: 3px 6px;
-  font-size: 13px;
-  margin: 0 auto;
-  background-color: orange; }
+  padding: 8px 6px;
+  font-size: 1em;
+  margin: 0.2em auto; }
 
 .signup p {
   font-size: 11px;
   color: red;
   text-align: left;
   padding: 4px 10px 2px 10px;
-  background-color: green;
   margin: 0; }
 
 .signup button {
-  background-color: #44c767;
-  -moz-border-radius: 28px;
-  -webkit-border-radius: 28px;
-  border-radius: 28px;
-  border: 1px solid #18ab29;
+  -moz-box-shadow: inset 0px 1px 0px 0px #97c4fe;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #97c4fe;
+  box-shadow: inset 0px 1px 0px 0px #97c4fe;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+  background: -moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background: -webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background: -o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background: -ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+  background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+  background-color: #3d94f6;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  border: 1px solid #337fed;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
-  font-family: arial;
-  font-size: 17px;
-  padding: 16px 49px;
+  font-size: 1.2em;
+  padding: 1em 0;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #2f6627;
-  margin: 8px 0; }
+  width: 100%;
+  text-shadow: 0px 1px 0px #1570cd; }
 
 .signup:hover button {
-  background-color: #56cc75; }
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
+  background: -moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background: -webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background: -o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background: -ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+  background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+  background-color: #1e62d0; }
 
 .signup:active button {
   position: relative;
   top: 1px; }
 
+.step {
+  font-size: 2em;
+  line-height: 1.2em;
+  padding: 0.3em;
+  color: #33536d;
+  margin-top: 0.5em;
+  font-family: 'Courgette', cursive; }
+
+.instruction {
+  font-size: 1em;
+  line-height: 1.2em;
+  padding: 0.5em;
+  color: #748796;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center; }
+
 .before-camera {
   display: block;
-  margin: 0 auto;
-  width: 200px;
+  margin: 15px auto;
+  width: 237px;
+  height: 200px;
   border: 4px dashed #ddd;
   border-radius: 3px;
-  padding: 1em; }
+  padding: 45px 30px; }
 
 /*Upload options. We want takePic showing first and 
 to be taller height b/c that's the action we want to encourage*/
@@ -112,13 +160,12 @@ to be taller height b/c that's the action we want to encourage*/
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
-  font-family: arial;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 16px 24px;
+  font-size: 1em;
+  padding: 1em 1.5em;
   text-decoration: none;
   text-shadow: 0px 1px 0px #1570cd;
-  width: 100%; }
+  width: 100%;
+  margin: 1em 0; }
 
 .takePic:hover {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
@@ -135,8 +182,9 @@ to be taller height b/c that's the action we want to encourage*/
   top: 1px; }
 
 .option {
-  font-size: 13px;
-  color: #ccc; }
+  font-size: 0.9em;
+  color: #ccc;
+  padding: 1em; }
 
 input[type="file"] {
   display: none; }
@@ -160,10 +208,8 @@ input[type="file"] {
   display: inline-block;
   cursor: pointer;
   color: #666666;
-  font-family: arial;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 8px 0px;
+  font-size: 13px;
+  padding: 12px 0px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #ffffff;
   width: 99.5%;
@@ -182,6 +228,15 @@ input[type="file"] {
 .uploadPic:active {
   position: relative;
   top: 1px; }
+
+.webcam-placeholder, .draft-image-placeholder {
+  display: block;
+  margin: 15px auto;
+  width: 237px;
+  height: 200px;
+  border: 4px dashed #ddd;
+  border-radius: 3px;
+  padding: 45px 30px; }
 
 .dashed-container {
   display: block;
@@ -231,6 +286,9 @@ input[type="file"] {
 .snap:active {
   position: relative;
   top: 1px; }
+
+.button-container {
+  display: block; }
 
 .retry {
   -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
@@ -339,8 +397,7 @@ input[type="file"] {
   background-color: orange; }
 
 .button-container {
-  display: block;
-  background-color: blue; }
+  display: block; }
 
 .after-snap {
   display: inline-block;

@@ -1,10 +1,30 @@
+.step {
+	font-size: 2em;
+	line-height: 1.2em;
+	padding: 0.3em;
+	color: #33536d;
+	margin-top: 0.5em;
+	font-family: 'Courgette', cursive;
+}
+
+.instruction {
+	font-size: 1em;
+	line-height: 1.2em;
+	padding: 0.5em;
+	color: #748796;
+	max-width: 400px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 .before-camera {
 	display: block;
-	margin: 0 auto;
-	width: 200px;
+	margin: 15px auto;
+	width: 237px;
+	height: 200px;
 	border: 4px dashed #ddd;
 	border-radius: 3px;
-	padding: 1em;
+	padding: 45px 30px;
 }
 /*Upload options. We want takePic showing first and 
 to be taller height b/c that's the action we want to encourage*/
@@ -28,13 +48,12 @@ to be taller height b/c that's the action we want to encourage*/
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	font-family:arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:16px 24px;
+	font-size:1em;
+	padding:1em 1.5em;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #1570cd;
 	width: 100%;
+	margin: 1em 0;
 }
 .takePic:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
@@ -52,8 +71,9 @@ to be taller height b/c that's the action we want to encourage*/
 }
 
 .option {
-	font-size: 13px;
+	font-size: 0.9em;
 	color: #ccc;
+	padding: 1em;
 }
 
 input[type="file"] {
@@ -80,10 +100,8 @@ input[type="file"] {
 	display:inline-block;
 	cursor:pointer;
 	color:#666666;
-	font-family:arial;
-	font-size:11px;
-	font-weight:bold;
-	padding:8px 0px;
+	font-size:13px;
+	padding:12px 0px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #ffffff;
 	width: 99.5%;
@@ -104,6 +122,15 @@ input[type="file"] {
 	top:1px;
 }
 
+.webcam-placeholder, .draft-image-placeholder {
+	display: block;
+	margin: 15px auto;
+	width: 237px;
+	height: 200px;
+	border: 4px dashed #ddd;
+	border-radius: 3px;
+	padding: 45px 30px;
+}
 
 .dashed-container {
 	display: block;
@@ -156,6 +183,10 @@ input[type="file"] {
 	top:1px;
 }
 
+.button-container {
+	display: block;
+}
+
 .retry {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -193,12 +224,11 @@ input[type="file"] {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed',GradientType=0);
 	background-color:#dfdfdf;
 }
+
 .retry:active {
 	position:relative;
 	top:1px;
 }
-
-
 
 .accept {
 	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
