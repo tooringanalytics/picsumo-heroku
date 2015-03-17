@@ -26,11 +26,20 @@
 <!-- Then the image should appear with options to accept or retry--> 
 
 	<div ng-if="showAcceptOptions" ng-cloak>
-		<div class="draft-image-placeholder">The Stored Image</div>
+		<figure class="draft-image-placeholder">
+			The Stored Image
+			<img ng-src="{{files}}" alt="before picture">
+			<figcaption>
+				<div class="day">Day 1</div>
+				<div class="date">{{date | date: 'mediumDate'}}</div>
+			</figcaption>
+		</figure>
 		<div class="button-container">
 			<button class="retry" ng-click="retry()">Retry</button>
 			<button class="accept" ng-click="accept()" ui-sref="after">Accept</button>
 		</div>
 	</div>
+
+	<div class="progressBar" style="width:{{progressPercentage}}%">{{progressPercentage}}%</div>
 	
 </main>
