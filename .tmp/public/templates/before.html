@@ -4,42 +4,52 @@
 </header>
 <main>
 
-<!-- When you click Take Photo, Camera should appear with option to Snap Photo-->
-	<div class="before-options" ng-if="showPhotoOptions">
-		<div class="button-area">
-			<button class="takePic" ng-click="takePhoto()">Take your 'before' photo</button>
-			<p class="option">Or, if you prefer...</p>
-			<label class="uploadPic">
-	    		<input type="file" ng-file-select ng-file-change="upload($files)">
-	    		Choose a photo to upload
-			</label>
+	<div class="outer-container">
+
+	<!-- When you click Take Photo, Camera should appear with option to Snap Photo-->
+		<div class="before-options" ng-if="showPhotoOptions">
+			<div class="button-area">
+				<button class="takePic" ng-click="takePhoto()">Take your 'before' photo</button>
+				<p class="option">Or, if you prefer...</p>
+				<label class="uploadPic">
+		    		<input type="file" ng-file-select ng-file-change="upload($files)">
+		    		Choose a photo to upload
+				</label>
+			</div>
 		</div>
-	</div>
 
-<!-- When you click Snap Photo button the webcam view and Snap Photo button should disappear--> 
+	<!-- When you click Snap Photo button the webcam view and Snap Photo button should disappear--> 
 
-	<div ng-if="showWebcam">
-		<div class="webcam-placeholder" ng-cloak>Webcam Placeholder</div>
-		<button class="snap" ng-click="snapShutter()">Snap photo</button>
-	</div>
-
-<!-- Then the image should appear with options to accept or retry--> 
-
-	<div ng-if="showAcceptOptions" ng-cloak>
-		<figure class="draft-image-placeholder">
-			The Stored Image
-			<img ng-src="{{files}}" alt="before picture">
-			<figcaption>
-				<div class="day">Day 1</div>
-				<div class="date">{{date | date: 'mediumDate'}}</div>
-			</figcaption>
-		</figure>
-		<div class="button-container">
-			<button class="retry" ng-click="retry()">Retry</button>
-			<button class="accept" ng-click="accept()" ui-sref="after">Accept</button>
+		<div ng-if="showWebcam">
+			<div class="webcam-placeholder" ng-cloak>Webcam Placeholder</div>
+			<button class="snap" ng-click="snapShutter()">Snap photo</button>
 		</div>
-	</div>
 
-	<div class="progressBar" style="width:{{progressPercentage}}%">{{progressPercentage}}%</div>
-	
+	<!-- Then the image should appear with options to accept or retry--> 
+
+		<div ng-if="showAcceptOptions" ng-cloak>
+			<figure class="draft-image-placeholder">
+				The Stored Image
+				<img ng-src="{{files}}" alt="before picture">
+				<figcaption>
+					<div class="day">Day 1</div>
+					<div class="date">{{date | date: 'mediumDate'}}</div>
+				</figcaption>
+			</figure>
+			<div class="button-container">
+				<button class="retry" ng-click="retry()">Retry</button>
+				<button class="accept" ng-click="accept()" ui-sref="after">Accept</button>
+			</div>
+		</div>
+
+	<!-- As the image uploads there should be a progress bar -->
+		<div class="progress-bar-container">
+			<div class="progress-text">Upload progress:</div>
+			<div class="progress-bar">
+				<div class="progress" style="width:{{progressPercentage}}%"></div>
+			</div>
+			<div class="percentage">{{progressPercentage}}%</div>
+		</div>
+
+	</div>
 </main>

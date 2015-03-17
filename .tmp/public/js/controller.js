@@ -60,8 +60,8 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
         .success(function(res) {
           console.log('Success');
           console.log('res');
-
           if(res.success) {
+            console.log('supposed to go to before page');
             $state.go('before');
           }
           else {
@@ -76,25 +76,10 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     };
   })
-  .controller('BeforeCtrl', ['$scope', '$upload', function($scope, $upload) {
-    // $scope.$watch('files', function() {
-    //   $scope.upload($scope.files);
-    //   console.log('changed');
-    //   console.log
-    // });
+  .controller('BeforeCtrl', ['$scope', '$upload', function($scope, $upload, $http) {
 
 
     $scope.date = new Date ();
-
-    // $scope.upload = function(files) {
-    //   console.log(files);
-    //   $upload.upload({
-    //     url: '/upload/index',
-    //     method: 'POST',
-    //     data: {}, // Any data needed to be submitted along with the files
-    //     file: files
-    //   });
-    // };
 
     $scope.progressPercentage = 0;
 
@@ -111,20 +96,40 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
                     $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
                 }).success(function (data, status, headers, config) {
+                    
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                });
+                    console.log(data);
+                   
+                   $http.get('auth/user/')
+                      .success(function(res) {
+                      console.log('Success');
+                      console.log('res');
+                        if(res.success) {
+                        console.log(res);
+                        }
+                        else {
+                          $scope.error.generic = res.errors;
+                        }
+                      })
+                      .error(function(err) {
+                        $scope.errorMessage = err;
+                        console.log('Error');
+                        console.log(err);
+                      });
+                    });
             }
         }
     };
 
+
     $scope.photo = {
-      id: {},
-      date: {},
-      url: {},
-      type: {},
-      matchID: {},
-      privatePic: {},
-      userID: {},
+      id: null,
+      date: null,
+      url: null,
+      type: null,
+      matchID: null,
+      privatePic: null,
+      userID: null,
     };
 
     $scope.showPhotoOptions = true;

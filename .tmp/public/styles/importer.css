@@ -130,6 +130,12 @@ a:hover {
   margin: 0 auto;
   text-align: center; }
 
+.outer-container {
+  width: 305px;
+  padding: 5px;
+  background-color: orange;
+  margin: 0 auto; }
+
 .before-options {
   display: block;
   margin: 15px auto;
@@ -263,14 +269,6 @@ input[type="file"] {
 .date {
   font-size: 13px; }
 
-.dashed-container {
-  display: block;
-  margin: 0 auto;
-  height: 200px;
-  width: 200px;
-  border: 4px dashed #ddd;
-  border-radius: 3px; }
-
 .snap {
   -moz-box-shadow: inset 0px 1px 0px 0px #f7c5c0;
   -webkit-box-shadow: inset 0px 1px 0px 0px #f7c5c0;
@@ -397,10 +395,34 @@ input[type="file"] {
   position: relative;
   top: 1px; }
 
-.progressBar {
+.progress-bar-container {
+  background-color: red;
+  padding: 4px; }
+
+.progress-text {
+  font-size: 11px;
+  height: 12px;
+  line-height: 12px;
+  background-color: green;
+  width: 30%;
+  display: inline-block; }
+
+.progress-bar {
+  display: inline-block;
+  height: 12px;
+  line-height: 12px;
+  width: 50%;
+  border: 1px solid black;
+  border-radius: 2px; }
+
+.progress {
   background-color: blue;
-  height: 16px;
-  border-radius: 4px; }
+  height: 12px;
+  display: inline-block; }
+
+.percentage {
+  display: inline-block;
+  font-size: 11px; }
 
 .upload-buttons input[type="file"] {
   width: 6.3em \0/IE9; }
@@ -443,16 +465,6 @@ fieldset {
 
 fieldset label {
   /*font-size: smaller;*/ }
-
-.progress {
-  display: inline-block;
-  width: 100px;
-  border: 3px groove #CCC; }
-
-.progress div {
-  font-size: smaller;
-  background: orange;
-  width: 0; }
 
 .drop-box {
   background: #F8F8F8;

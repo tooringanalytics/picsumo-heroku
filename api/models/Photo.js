@@ -9,20 +9,7 @@ module.exports = {
 
   attributes: {
   	
-  	//eg 1, 145, 8989, etc
-  	id: {
-		type:'integer',
-		required: true,
-		unique: true,
-		autoincrement: true
-		},
-	//eg the date the file was uploaded
-	date: {
-		type: 'datetime',
-		required: true,
-		unique: false
-		},
-	//the amazon s3 URL
+	//the amazon s3 URL, pass this in.
 	url: {
 		type: 'string',
 		required: true,
@@ -40,7 +27,7 @@ module.exports = {
 	matchID: {
 		type: 'integer',
 		required: false,
-		unique: false
+		defaultsTo: null
 		},
 	// should the photo be publically viewable?
 	privatePic: {
@@ -49,7 +36,7 @@ module.exports = {
 		unique: false,
 		defaultsTo: false
 		},
-	// what userID is associated with the photo?
+	// what userID is associated with the photo, pass this in.
 	userID: {
 		type: 'integer',
 		required: true,

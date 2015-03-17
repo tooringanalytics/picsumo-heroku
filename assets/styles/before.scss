@@ -16,6 +16,12 @@
 	margin: 0 auto;
 	text-align: center;
 }
+.outer-container {
+	width: 305px;
+	padding: 5px;
+	background-color: orange;
+	margin: 0 auto;
+}
 
 .before-options {
 	display: block;
@@ -162,15 +168,6 @@ input[type="file"] {
 	font-size: 13px
 }
 
-.dashed-container {
-	display: block;
-	margin: 0 auto;
-	height: 200px;
-	width: 200px;
-	border: 4px dashed #ddd;
-	border-radius: 3px;
-}
-
 .snap {
 	-moz-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
@@ -302,9 +299,36 @@ input[type="file"] {
 	top:1px;
 }
 
+.progress-bar-container {
+	background-color: red;
+	padding: 4px;
+}
 
-.progressBar {
+.progress-text {
+	font-size: 11px;
+	height: 12px;
+	line-height: 12px;
+	background-color: green;
+	width: 30%;
+	display: inline-block;
+}
+
+.progress-bar {
+	display:inline-block;
+	height: 12px;
+	line-height: 12px;
+	width: 50%;
+	border: 1px solid black;
+	border-radius: 2px;
+}
+
+.progress {
 	background-color: blue;
-	height: 16px;
-	border-radius: 4px;
+	height: 12px;
+	display: inline-block;
+}
+
+.percentage {
+	display: inline-block;
+	font-size: 11px;
 }
