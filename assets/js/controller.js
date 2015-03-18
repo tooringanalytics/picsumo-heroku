@@ -86,13 +86,15 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     $scope.showWebcam = false;
     $scope.showAcceptOptions = false;
     $scope.progressBar = false;
+    $scope.imageDisplayed = false;
     $scope.photoURL = null;
 
     $scope.showProgressBar = function () {
       $scope.progressBar = true;
       $scope.showAcceptOptions = true;
       $scope.showPhotoOptions = false;
-    }
+      $scope.imageDisplayed = true;
+    };
 
     $scope.upload = function (files) {
         if (files && files.length) {

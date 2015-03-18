@@ -27,10 +27,10 @@
 
 	<!-- Then the image should appear with options to accept or retry--> 
 		<div ng-if="showAcceptOptions" ng-cloak>
-			<figure class="draft-image-placeholder">
-				The Stored Image
-				<img ng-src="{{photoURL}}" alt="before picture">
-				<figcaption>
+	<!-- When the image appears the padding on the image container goes away --> 
+			<figure ng-class="{imagePlaceholder: showPhotoOptions ,imageDisplayed: imageDisplayed} ">
+				<img class="before-image" ng-src="{{photoURL}}" alt="before picture">
+				<figcaption class="before-image-caption">
 					<div class="day">Day 1</div>
 					<div class="date">{{date | date: 'mediumDate'}}</div>
 				</figcaption>

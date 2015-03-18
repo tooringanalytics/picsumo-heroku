@@ -138,15 +138,28 @@ input[type="file"] {
 	background-color: #EBEBEB;
 }
 
-.draft-image-placeholder {
+.imagePlaceholder {
 	position: relative;
 }
 
-.draft-image-placeholder img {
+.imageDisplayed {
+	display: block;
+	margin: 15px auto;
+	width: 301px;
+	height: 290px;
+	border: 2px solid #ddd;
 	border-radius: 3px;
+	background-color: rgba(38,38,38,0.5);
+	position: relative;
 }
 
-.draft-image-placeholder figcaption {
+.before-image {
+	border-radius: 3px;
+	max-width:100%;
+	max-height:100%;
+}
+
+.before-image-caption {
 	z-index:100;
     position:absolute;    
     font-size:1em;
@@ -337,3 +350,5 @@ input[type="file"] {
 	display: inline-block;
 	font-size: 11px;
 }
+
+
