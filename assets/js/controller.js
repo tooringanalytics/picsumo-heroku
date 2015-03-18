@@ -76,12 +76,23 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     };
   })
-  .controller('BeforeCtrl', ['$scope', '$upload', function($scope, $upload, $http) {
+  .controller('BeforeCtrl', ['$scope', '$upload', '$http', function($scope, $upload, $http) {
 
 
     $scope.date = new Date ();
 
     $scope.progressPercentage = 0;
+    $scope.showPhotoOptions = true;
+    $scope.showWebcam = false;
+    $scope.showAcceptOptions = false;
+    $scope.progressBar = false;
+    $scope.photoURL = null;
+
+    $scope.showProgressBar = function () {
+      $scope.progressBar = true;
+      $scope.showAcceptOptions = true;
+      $scope.showPhotoOptions = false;
+    }
 
     $scope.upload = function (files) {
         if (files && files.length) {
@@ -96,27 +107,10 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
                     $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
                 }).success(function (data, status, headers, config) {
-                    
+                    $scope.photoURL = data[0].extra.Location;
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                     console.log(data);
-                   
-                   $http.get('auth/user/')
-                      .success(function(res) {
-                      console.log('Success');
-                      console.log('res');
-                        if(res.success) {
-                        console.log(res);
-                        }
-                        else {
-                          $scope.error.generic = res.errors;
-                        }
-                      })
-                      .error(function(err) {
-                        $scope.errorMessage = err;
-                        console.log('Error');
-                        console.log(err);
-                      });
-                    });
+                });
             }
         }
     };
@@ -132,15 +126,13 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       userID: null,
     };
 
-    $scope.showPhotoOptions = true;
-    $scope.showWebcam = false;
+    
     
     $scope.takePhoto = function () {
       $scope.showPhotoOptions = false;
+      $scope.progressBar = false;
       $scope.showWebcam = true;
     }
-
-    $scope.showAcceptOptions = false;
 
     $scope.snapShutter = function () {
       $scope.showWebcam = false;
@@ -149,7 +141,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
 
     $scope.retry = function () {
       $scope.showAcceptOptions = false;
-      $scope.showWebcam = true;
+      $scope.showPhotoOptions = true;
     }
     }])
   .controller('AfterCtrl', function($scope) {
