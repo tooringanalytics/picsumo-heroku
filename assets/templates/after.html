@@ -1,0 +1,55 @@
+<header>
+	<div class="step">Step 2</div>
+	<div class="instruction">Add your "after" photo now or <a class="reminder" ng-href="#/after" ng-click="setReminder = true">or set a reminder to take it later...</a></div>
+</header>
+
+<!-- When you arrive on page, your before photo should appear -->
+
+<div class="frame">
+
+	<div class="saved-before-image-placeholder" ng-cloak>"Before" Image Placeholder</div>
+
+	<div class="after-options" ng-if="showAfterPhotoOptions">
+		<div class="button-area">
+			<button class="takePic" ng-click="takeAfterPhoto()">Take your 'after' photo</button>
+			<p class="option">Or, if you prefer...</p>
+			<label class="uploadPic">
+	    		<input type="file" ng-file-select ng-model="files">
+	    		Choose a photo to upload
+			</label>
+		</div>
+	</div>
+
+	<div class="after-webcam" ng-if="showAfterWebcam" ng-cloak>
+		<div class="after-webcam-placeholder">Webcam Placeholder</div>
+		<button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
+	</div>
+
+	<div class="saved-after-image-placeholder" ng-if="showAfterAcceptOptions" ng-cloak>
+		<div class="after-photo">"After" Image Placeholder</div>
+		<div class="button-container">
+			<button class="retry" ng-click="retryAfter()">Retry</button>
+			<button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
+		</div>
+	</div>
+
+</div>
+
+<!-- Reminder option -->
+
+<div ng-if="setReminder === true">
+        <p>We'll send you an email reminder</p>
+        When: <select class='days'>
+            <option value="7">In 7 days</option>
+            <option value="14">In 14 days</option>
+            <option value="30">In 30 days</option>
+            <option value="60">In 60 days</option>
+            <option value="90">In 90 days</option>
+        </select>
+        <button class="remind">Remind Me</button>
+</div>
+
+
+
+	
+	
