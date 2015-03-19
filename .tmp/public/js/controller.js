@@ -139,11 +139,13 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     $scope.snapShutter = function () {
       $scope.showWebcam = false;
       $scope.showAcceptOptions = true;
+      $scope.imageDisplayed = true;
     }
 
     $scope.retry = function () {
       $scope.showAcceptOptions = false;
       $scope.showPhotoOptions = true;
+      $scope.imageDisplayed = false;
     }
     }])
   .controller('AfterCtrl', function($scope) {

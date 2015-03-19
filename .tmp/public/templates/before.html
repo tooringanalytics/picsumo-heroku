@@ -26,7 +26,7 @@
 		</div>
 
 	<!-- Then the image should appear with options to accept or retry--> 
-		<div ng-if="showAcceptOptions" ng-cloak>
+		<div ng-show="showAcceptOptions" ng-cloak>
 	<!-- When the image appears the padding on the image container goes away --> 
 			<figure ng-class="{imagePlaceholder: showPhotoOptions ,imageDisplayed: imageDisplayed} ">
 				<img class="before-image" ng-src="{{photoURL}}" alt="before picture">
@@ -36,7 +36,7 @@
 				</figcaption>
 			</figure>
 			<!-- As the image uploads there should be a progress bar -->
-			<div class="progress-bar-container" ng-if="progressBar && progressPercentage < 100">
+			<div class="progress-bar-container" ng-show="progressBar && progressPercentage < 100">
 				<div class="progress-text">Upload progress:</div>
 				<div class="progress-bar-wrapper">
 					<div class="progress-bar">
