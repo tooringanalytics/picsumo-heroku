@@ -41,7 +41,7 @@ module.exports.connections = {
   *                                                                          *
   *                                                                          *
   ***************************************************************************/
-  db-core: {
+  "db-core": {
     adapter: 'sails-postgresql',
     host: process.env.PG_HOSTNAME || 'localhost',
     user: process.env.PG_USER || 'root',
