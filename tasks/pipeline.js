@@ -31,7 +31,7 @@ var jsFilesToInject = [
   'js/dependencies/angular.js',
   'js/dependencies/angular-ui-router.js',
   'js/dependencies/ng-file-upload.js',
-  'js/dependencies/ng-file-uploads-shims.js',
+  'js/dependencies/ng-file-uploads-shim.js',
   'js/dependencies/ng-mocks.js',
   'js/dependencies/validator.js',
   'js/dependencies/webcam.js',
