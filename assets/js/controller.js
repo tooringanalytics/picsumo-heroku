@@ -69,11 +69,10 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     };
   })
-  .controller('BeforeCtrl', ['$scope', '$upload', '$http', function($scope, $upload, $http) {
-
+  .controller('BeforeCtrl', ['$scope', '$upload', '$http', 'BeforeURL', function($scope, $upload, $http, BeforeURL) {
+    console.log(BeforeURL);
 
     $scope.date = new Date ();
-
     $scope.progressPercentage = 0;
     $scope.showPhotoOptions = true;
     $scope.showWebcam = false;
@@ -102,26 +101,14 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
                     $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
                 }).success(function (data, status, headers, config) {
-                    $scope.photoURL = data[0].extra.Location;
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                     console.log(data);
+                    $scope.photoURL = data[0].extra.Location;
+                    BeforeURL.url = $scope.photoURL;
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                 });
             }
         }
     };
-
-
-    $scope.photo = {
-      id: null,
-      date: null,
-      url: null,
-      type: null,
-      matchID: null,
-      privatePic: null,
-      userID: null,
-    };
-
-    
     
     $scope.takePhoto = function () {
       $scope.showPhotoOptions = false;
@@ -141,7 +128,8 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       $scope.imageDisplayed = false;
     }
     }])
-  .controller('AfterCtrl', function($scope) {
+  .controller('AfterCtrl', function($scope, BeforeURL) {
+    $scope.beforeURL = BeforeURL.url;
     $scope.showAfterPhotoOptions = true;
     $scope.showAfterWebcam = false;
     

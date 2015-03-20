@@ -29,5 +29,10 @@ angular.module('app.services', [])
 			}
 			return false;
 		}
+	}
+})
+.factory('BeforeURL', function() {
+	return {
+		url: ''
 	};
 });

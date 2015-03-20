@@ -1,3 +1,10 @@
+<nav>
+	<a ui-sref="home">Home</a> |
+	<a ui-sref="before">Before</a> |
+	<a ui-sref="after">After</a> | 
+	<a ui-sref="share">Share</a> |
+	<a ui-sref="logout" ng-click="logout()">Log out</a>
+</nav>
 <header>
 	<div class="step">Step 2</div>
 	<div class="instruction">Add your "after" photo now or <a class="reminder" ng-href="#/after" ng-click="setReminder = true">or set a reminder to take it later...</a></div>
@@ -9,7 +16,7 @@
 
 	<div ng-cloak>
 		<figure class="imageDisplayed">
-			<img class="before-image" ng-src="{{photoURL}}">
+			<img class="before-image" ng-src="{{beforeURL}}">
 			<figcaption class="before-image-caption">
 				<div class="day">Day 1</div>
 				<div class="date">{{date | date: 'mediumDate'}}</div>
