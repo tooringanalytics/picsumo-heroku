@@ -23,13 +23,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
         .success(function(res) {
           console.log('Success');
           console.log('res');
-          if(res.success) {
-            $state.go('before');
-          }
-          else {
-            $scope.error.generic = res.errors;
-          }
-
+          $state.go('before');
         })
         .error(function(err) {
           console.log('Error');

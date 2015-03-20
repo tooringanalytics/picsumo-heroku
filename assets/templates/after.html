@@ -7,7 +7,15 @@
 
 <div class="frame">
 
-	<div class="saved-before-image-placeholder" ng-cloak>"Before" Image Placeholder</div>
+	<div ng-cloak>
+		<figure class="imageDisplayed">
+			<img class="before-image" ng-src="{{photoURL}}">
+			<figcaption class="before-image-caption">
+				<div class="day">Day 1</div>
+				<div class="date">{{date | date: 'mediumDate'}}</div>
+			</figcaption>
+		</figure>
+	</div>
 
 	<div class="after-options" ng-if="showAfterPhotoOptions">
 		<div class="button-area">
