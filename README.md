@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # picsumo
 
 Why - Because people deserve to be recognized for transforming their bodies.

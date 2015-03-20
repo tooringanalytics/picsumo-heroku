@@ -19,11 +19,6 @@ angular.module('app', ['app.controllers', 'ui.router'])
     templateUrl: 'templates/before.html',
     controller: 'BeforeCtrl'
   })
-  .state('fake', {
-  url: '/fake',
-  templateUrl: 'templates/fake.html',
-  controller: 'FakeCtrl'
-  })
   .state('after', {
     url: '/after',
     templateUrl: 'templates/after.html',

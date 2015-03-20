@@ -20,16 +20,6 @@ __p += '<header>\n\t<div class="step">Step 1</div>\n\t<div class="instruction">A
 return __p
 };
 
-this["JST"]["assets/templates/fake.html"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="up-buttons">\n\t\t\t\t\t\t<div ng-file-select ng-model="files" class="upload-button"\n\t\t\t\t\t\t\t ng-multiple="false" ng-accept="\'*.pdf,*.jpg,*.png\'" ng-model-rejected="rejFiles"\n\t\t\t\t\t\t\t tabindex="0">Attach an Image or PDF</div>\n</div>\n\n\t\t<ul style="clear:both" ng-show="rejFiles.length > 0" class="response">\n\t\t\t<li class="sel-file" ng-repeat="f in rejFiles">\n\t\t\t\tRejected file: {{f.name}} - size: {{f.size}}B - type: {{f.type}}\n\t\t\t</li>\n\t\t</ul>\n\t\t<ul style="clear:both" ng-show="files.length > 0" class="response">\n\t\t\t<li class="sel-file" ng-repeat="f in files">\n\t\t\t\t<img ng-show="f.dataUrl" ng-src="{{f.dataUrl}}" class="thumb">\n\t\t\t\t<span class="progress" ng-show="f.progress >= 0">\t\t\t\t\t\t\n\t\t\t\t\t<div style="width:{{f.progress}}%">{{f.progress}}%</div>\n\t\t\t\t</span>\t\t\t\t\n\t\t\t\t<button class="button" ng-click="f.upload.abort();f.upload.aborted=true" \n\t\t\t\t\t\tng-show="f.upload != null && f.progress < 100 && !f.upload.aborted">Abort</button>\n\t\t\t\t{{f.name}} - size: {{f.size}}B - type: {{f.type}}\n\t\t\t\t<a ng-show="f.result" href="javascript:void(0)" ng-click="f.showDetail = !f.showDetail">details</a>\n\t\t\t\t<div ng-show="f.showDetail">\n\t\t\t\t\t<br/>\n\t\t\t\t\t<div data-ng-show="f.result.result == null">{{f.result}}</div>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li ng-repeat="item in f.result.result">\n\t\t\t\t\t\t\t<div data-ng-show="item.name">file name: {{item.name}}</div>\n\t\t\t\t\t\t\t<div data-ng-show="item.fieldName">name: {{item.fieldName}}</div>\n\t\t\t\t\t\t\t<div data-ng-show="item.size">size on the serve: {{item.size}}</div>\n\t\t\t\t\t\t\t<div data-ng-show="item.value">value: {{item.value}}</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t\t<div data-ng-show="f.result.requestHeaders" class="reqh">request headers: {{f.result.requestHeaders}}</div>\n\t\t\t\t</div>\n\t\t\t</li>\n\t\t</ul>\n\n\t\t<br/>\n\t\t<div style="clear:both" class="err" ng-show="errorMsg != null">{{errorMsg}}</div>\n\t</div>';
-
-}
-return __p
-};
-
 this["JST"]["assets/templates/home.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
