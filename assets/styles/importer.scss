@@ -18,13 +18,20 @@
 
 // For example:
 //
-// @import 'variables/colors.less';
-// @import 'mixins/foo.less';
-// @import 'mixins/bar.less';
-// @import 'mixins/baz.less';
+// @import 'variables/colors.scss';
+// @import 'mixins/foo.scss';
+// @import 'mixins/bar.scss';
+// @import 'mixins/baz.scss';
 //
-// @import 'styleguide.less';
-// @import 'pages/login.less';
-// @import 'pages/signup.less';
+// @import 'styleguide.scss';
+// @import 'pages/login.scss';
+// @import 'pages/signup.scss';
 //
 // etc.
+
+@import 'home.scss';
+@import 'before.scss';
+@import 'fake.scss';
+@import 'after.scss';
+@import 'share.scss';
+
