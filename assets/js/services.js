@@ -31,8 +31,9 @@ angular.module('app.services', [])
 		}
 	}
 })
-.factory('BeforeURL', function() {
+.factory('Before', function() {
 	return {
-		url: ''
+		url: '',
+		date: null,
 	};
 });

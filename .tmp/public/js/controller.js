@@ -69,10 +69,9 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     };
   })
-  .controller('BeforeCtrl', ['$scope', '$upload', '$http', 'BeforeURL', function($scope, $upload, $http, BeforeURL) {
-    console.log(BeforeURL);
+  .controller('BeforeCtrl', ['$scope', '$upload', '$http', 'Before', function($scope, $upload, $http, Before) {
 
-    $scope.date = new Date ();
+    $scope.date = null;
     $scope.progressPercentage = 0;
     $scope.showPhotoOptions = true;
     $scope.showWebcam = false;
@@ -80,6 +79,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     $scope.progressBar = false;
     $scope.imageDisplayed = false;
     $scope.photoURL = null;
+    $scope.enterDate = false;
 
     $scope.showProgressBar = function () {
       $scope.progressBar = true;
@@ -92,6 +92,19 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
+                  EXIF.getData(file, function() {
+                  var createDate = EXIF.getTag(this, "DateTimeOriginal");
+                  console.log(createDate);
+                  if (createDate === 'undefined') {
+                    $scope.enterDate = true;
+                     //Temporary until date input finished.
+                  } else {
+                    var createISODateFormat = createDate.slice(0, 10).replace(/:/g,'-');
+                    console.log(createISODateFormat);
+                    $scope.date = createISODateFormat;
+                    Before.date = $scope.date;
+                  }
+                  });
                 $upload.upload({
                     url: 'upload/index',
                     method: 'POST',
@@ -103,7 +116,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
                 }).success(function (data, status, headers, config) {
                     console.log(data);
                     $scope.photoURL = data[0].extra.Location;
-                    BeforeURL.url = $scope.photoURL;
+                    Before.url = $scope.photoURL;
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                 });
             }
@@ -128,8 +141,9 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       $scope.imageDisplayed = false;
     }
     }])
-  .controller('AfterCtrl', function($scope, BeforeURL) {
-    $scope.beforeURL = BeforeURL.url;
+  .controller('AfterCtrl', function($scope, Before) {
+    $scope.beforeURL = Before.url;
+    $scope.beforeDate = Before.date;
     $scope.showAfterPhotoOptions = true;
     $scope.showAfterWebcam = false;
     
