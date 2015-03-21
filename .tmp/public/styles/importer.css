@@ -321,6 +321,14 @@ input[type="file"] {
   position: relative;
   top: 1px; }
 
+.back {
+  display: block;
+  cursor: pointer;
+  margin-top: 8px;
+  color: #2895f1;
+  text-decoration: none;
+  font-size: 13px; }
+
 .button-container {
   display: block; }
 
@@ -444,14 +452,7 @@ input[type="file"] {
   display: inline-block;
   padding: 16px; }
 
-.saved-before-image-placeholder {
-  display: inline-block;
-  margin: 15px auto;
-  width: 237px;
-  height: 200px;
-  border: 4px dashed #ddd;
-  border-radius: 3px;
-  padding: 45px 30px;
+#before-frame {
   float: left; }
 
 .after-options {

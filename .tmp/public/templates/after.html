@@ -14,15 +14,13 @@
 
 <div class="frame">
 
-	<div ng-cloak>
-		<figure class="imageDisplayed">
-			<img class="before-image" ng-src="{{beforeURL}}">
-			<figcaption class="before-image-caption">
-				<div class="day">Day 1</div>
-				<div class="date">{{beforeDate | date: 'mediumDate'}}</div>
-			</figcaption>
-		</figure>
-	</div>
+	<figure class="imageDisplayed" id="before-frame">
+		<img class="before-image" ng-src="{{beforeURL}}">
+		<figcaption class="before-image-caption">
+			<div class="day">Day 1</div>
+			<div class="date">{{beforeDate | date: 'mediumDate'}}</div>
+		</figcaption>
+	</figure>
 
 	<div class="after-options" ng-if="showAfterPhotoOptions">
 		<div class="button-area">

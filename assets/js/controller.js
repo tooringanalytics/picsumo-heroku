@@ -95,7 +95,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
                   EXIF.getData(file, function() {
                   var createDate = EXIF.getTag(this, "DateTimeOriginal");
                   console.log(createDate);
-                  if (createDate === 'undefined') {
+                  if (createDate === undefined) {
                     $scope.enterDate = true;
                      //Temporary until date input finished.
                   } else {
@@ -139,6 +139,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       $scope.showAcceptOptions = false;
       $scope.showPhotoOptions = true;
       $scope.imageDisplayed = false;
+      $scope.showWebcam = false;
     }
     }])
   .controller('AfterCtrl', function($scope, Before) {
