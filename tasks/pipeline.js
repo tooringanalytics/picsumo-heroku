@@ -52,17 +52,17 @@ var jsFilesToConcat = [
 
 var jsFilesToInjectProd = [
   // Load sails.io before everything else
-  'js/dependencies/sails.io.js',
+  //'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
   //'js/dependencies/**/*.js',
-  'js/angular.js',
-  'js/release/angular-ui-router.js',
-  'js/angular-file-upload.js',
-  'js/angular-file-upload-shim.js',
-  'js/angular-mocks.js',
-  'js/validator.js',
-  'js/webcam.js',
+  //'js/angular.js',
+  //'js/release/angular-ui-router.js',
+  //'js/angular-file-upload.js',
+  //'js/angular-file-upload-shim.js',
+  //'js/angular-mocks.js',
+  //'js/validator.js',
+  //'js/webcam.js',
 
   'min/production.min.js'
 ];
