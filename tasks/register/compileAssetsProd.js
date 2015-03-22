@@ -4,7 +4,6 @@ module.exports = function (grunt) {
         'bower:dev',
         'jst:dev',
         'less:dev',
-        'compass:prod',
         'copy:dev',
         'coffee:dev',
     ]);
