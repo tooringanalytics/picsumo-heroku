@@ -1,14 +1,14 @@
 module.exports = function (grunt) {
     grunt.registerTask('heroku:production', [
         'compileAssetsProd',
-        'concat',
-        //'uglify',
+        //'concat',
+        'uglify',
         'cssmin',
-        'sails-linker:prodJs',
-        'sails-linker:prodStyles',
+        'sails-linker:devJs',
+        'sails-linker:devStyles',
         'sails-linker:devTpl',
-        'sails-linker:prodJsJade',
-        'sails-linker:prodStylesJade',
+        'sails-linker:devJsJade',
+        'sails-linker:devStylesJade',
         'sails-linker:devTplJade'
     ]);
 };
