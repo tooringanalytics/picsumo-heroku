@@ -3,6 +3,7 @@
 <div class="step">Please login</div>
 <section class="user-form">
 	<form class="signup" ng-submit="login(credentials)">
+		<p class="error" ng-if="errorMessage" ng-bind="errorMessage.summary"></p>
 		<label ng-class="error.identifier ? 'error' : ''">
 			<input type="text" placeholder="Email" ng-model="credentials.identifier">
 			<p class="error" ng-bind="error.identifier"></p>

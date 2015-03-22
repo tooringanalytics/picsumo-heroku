@@ -4,6 +4,74 @@
                                 ['app.services',
                                 'angularFileUpload']);
 
+
+    /**
+     * NavCtrl
+     *
+     *
+     */
+    appctl.controller('NavCtrl', ['$scope',
+                                  '$http',
+                                  '$state',
+                                  'NavUpdate',
+                                  function ($scope,
+                                            $http,
+                                            $state,
+                                            NavUpdate) {
+        var navctl = this;
+
+        navctl.user = '';
+
+        $scope.logout = function () {
+            $http.get('/logout')
+            .success(function(res) {
+                console.log('Success');
+                console.log(res);
+                if(res.success) {
+                    console.log('supposed to go to home page');
+                    $scope.getUser();
+                    $state.go('home');
+                } else {
+                    $scope.error.generic = res.errors;
+                }
+            })
+            .error(function(err) {
+                $scope.errorMessage = err;
+                console.log('Error');
+                console.log(err);
+            });
+        };
+
+        $scope.getUser = function () {
+            $http.get('/user')
+            .success(function(res) {
+                console.log('Success');
+                console.log(res);
+                if(res.success) {
+                    console.log('A user is currently logged in');
+                    navctl.user = res.user;
+                } else {
+                    $scope.error.generic = res.errors;
+                    navctl.user = '';
+                }
+            })
+            .error(function(err) {
+                $scope.errorMessage = err;
+                console.log('Error');
+                console.log(err);
+                navctl.user = '';
+            });
+        };
+
+        $scope.$on('updateNavbar', function() {
+            $scope.getUser();
+        });
+
+        $scope.getUser();
+
+    }]);
+
+
     /**
      * HomeCtrl
      *
@@ -13,11 +81,16 @@
                       ['$scope',
                        '$http',
                        '$state',
+                       'Validate',
+                       'NavUpdate',
                        function($scope,
                                 $http,
                                 $state,
-                                Validate) {
+                                Validate,
+                                NavUpdate) {
         'use strict';
+
+        var homectl = this;
 
         $scope.error = {
           identifier: '',
@@ -27,6 +100,10 @@
         $scope.credentials = {
           identifier: '',
           password: ''
+        };
+
+        homectl.updateNavbar = function(msg) {
+            NavUpdate.prepForBroadcast(msg);
         };
 
         $scope.register = function(credentials) {
@@ -41,10 +118,10 @@
                 $http.post('auth/local/register', registerObj)
                 .success(function(res) {
                     console.log('Success');
-                    console.log('res');
-
+                    console.log(res);
                     if(res.success) {
-                        state.go('before');
+                        homectl.updateNavbar(res);
+                        $state.go('before');
                     }
                     else {
                         $scope.error.generic = res.errors;
@@ -69,12 +146,17 @@
                       ['$scope',
                        '$http',
                        '$state',
+                       'Validate',
+                       'NavUpdate',
                        function($scope,
                                 $http,
                                 $state,
-                                Validate) {
+                                Validate,
+                                NavUpdate) {
 
         'use strict';
+
+        var loginctl = this;
 
         $scope.error = {
             identifier: '',
@@ -86,6 +168,10 @@
             password: ''
         };
 
+        loginctl.updateNavbar = function(msg) {
+            NavUpdate.prepForBroadcast(msg);
+        };
+
         $scope.login = function(credentials) {
             $scope.error = Validate.credentials(credentials);
             $scope.errorMessage = false;
@@ -94,12 +180,12 @@
                 $http.post('auth/local/', credentials)
                 .success(function(res) {
                     console.log('Success');
-                    console.log('res');
+                    console.log(res);
                     if(res.success) {
                         console.log('supposed to go to before page');
+                        loginctl.updateNavbar(res);
                         $state.go('before');
-                    }
-                    else {
+                    } else {
                         $scope.error.generic = res.errors;
                     }
                 })

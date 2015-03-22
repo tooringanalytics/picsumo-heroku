@@ -1,12 +1,13 @@
 
 <div ng-app='app'>
-    <nav>
+    <nav ng-controller="NavCtrl as navctl">
         <a ui-sref="home">Home</a> |
         <a ui-sref="before">Before</a> |
         <a ui-sref="fake">Fake</a> |
         <a ui-sref="after">After</a> |
         <a ui-sref="share">Share</a> |
-        <a ui-sref="login" ng-click="logout()">Log in</a>
+        <a ui-sref="login">Log in</a> |
+        <a ui-sref="login" ng-click="logout()">Log Out {{ navctl.user.username }}</a>
     </nav>
     <div ui-view>
 

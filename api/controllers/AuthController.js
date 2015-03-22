@@ -121,16 +121,24 @@ var AuthController = {
    * @param {Object} res
    */
   user: function (req, res) {
-    if(req.user) {
-      res.jsonx(req.user);
-    }
-    else {
-      res.status(404);
-      res.jsonx({
-        "error": "E_NOTFOUND",
-        "status": 404,
-        "summary": "No user is logged in."
-      });
+    if (req.user) {
+        sails.log.debug(req.user);
+        res.jsonx({
+            "error": null,
+            "status": 200,
+            "summary": "Found user.",
+            "success": true,
+            "user": req.user
+        });
+    } else {
+        sails.log.debug("No user");
+        res.status(404);
+        res.jsonx({
+            "error": "E_NOTFOUND",
+            "status": 404,
+            "summary": "No user is logged in.",
+            "success": false
+        });
     }
   },
 
@@ -165,31 +173,37 @@ var AuthController = {
         case 'Error.Passport.Username.Missing': return 400;
         case 'Error.Passport.Password.Missing': return 400;
         case 'Error.Passport.Generic': return 500;
+        default: return 200;
       }
+    }
+
+    function getErrorToReturn(req, err) {
+        // Only certain error messages are returned via req.flash('error', someError)
+        // because we shouldn't expose internal authorization errors to the user.
+        // We do return a generic error and the original request body.
+        var flashError = req.flash('error')[0];
+
+        var errorToReturn = null;
+
+        if (err && !flashError ) {
+            //req.flash('error', 'Error.Passport.Generic');
+            errorToReturn = 'Error.Passport.Generic';
+        } else if (flashError) {
+            //req.flash('error', flashError);
+            errorToReturn = flashError;
+        }
+        //req.flash('form', req.body);
+        if(!req.wantsJSON) {
+            req.flash('error', errorToReturn);
+            req.flash('form', req.body);
+        }
+
+        return errorToReturn;
     }
 
     function tryAgain (err) {
 
-      // Only certain error messages are returned via req.flash('error', someError)
-      // because we shouldn't expose internal authorization errors to the user.
-      // We do return a generic error and the original request body.
-      var flashError = req.flash('error')[0];
-
-      var errorToReturn = null;
-
-      if (err && !flashError ) {
-        //req.flash('error', 'Error.Passport.Generic');
-        errorToReturn = 'Error.Passport.Generic';
-      } else if (flashError) {
-        //req.flash('error', flashError);
-        errorToReturn = flashError;
-      }
-      //req.flash('form', req.body);
-      if(!req.wantsJSON) {
-        req.flash('error', errorToReturn);
-        req.flash('form', req.body);
-      }
-
+      var errorToReturn = getErrorToReturn(req, err);
 
       // If an error was thrown, redirect the user to the
       // login, register or disconnect action initiator view.
@@ -205,7 +219,8 @@ var AuthController = {
             res.jsonx({
               "error": errorToReturn,
               "status": status,
-              "summary": locale.get(errorToReturn, req.getLocale())
+              "summary": locale.get(errorToReturn, req.getLocale()),
+              "success": !errorToReturn
             });
           }
           else {
@@ -223,7 +238,8 @@ var AuthController = {
             res.jsonx({
               "error": errorToReturn,
               "status": status,
-              "summary": locale.get(errorToReturn, req.getLocale())
+              "summary": locale.get(errorToReturn, req.getLocale()),
+              "success": !errorToReturn
             });
           }
           else {
@@ -232,7 +248,33 @@ var AuthController = {
       }
     }
 
+    function onSuccess(req, err) {
+        var errorToReturn = getErrorToReturn(req, err);
+
+        // Upon successful login, send the user to the homepage were req.user
+        // will be available.
+        if(req.wantsJSON) {
+            var status = getStatusCode(errorToReturn);
+            res.status(status);
+            res.jsonx({
+              "error": errorToReturn,
+              "status": status,
+              "summary": locale.get(errorToReturn, req.getLocale()),
+              "success": !errorToReturn
+            });
+        } else {
+            res.redirect('/');
+        }
+
+    }
+
     passport.callback(req, res, function (err, user, challenges, statuses) {
+      sails.log.debug(req);
+      sails.log.debug(res);
+      sails.log.debug(err);
+      sails.log.debug(user);
+      sails.log.debug(challenges);
+      sails.log.debug(statuses);
       if (err || !user) {
         return tryAgain(challenges);
       }
@@ -245,9 +287,8 @@ var AuthController = {
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true
 
-        // Upon successful login, send the user to the homepage were req.user
-        // will be available.
-        res.redirect('/');
+        onSuccess(req, err);
+
       });
     });
   },

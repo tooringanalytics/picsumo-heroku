@@ -20,6 +20,8 @@
 
         // $locationProvider.html5Mode(true);
 
+        // Angular-UI states, activated by
+        // ui-sref tags in the templates.
         $stateProvider
         .state('home', {
           url: '/',
@@ -60,4 +62,5 @@
         $urlRouterProvider.otherwise('/');
 
     }]);
+
 })();
