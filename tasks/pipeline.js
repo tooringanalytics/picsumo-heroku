@@ -45,9 +45,6 @@ var jsFilesToInject = [
 ];
 
 var jsFilesToConcat = [
-  'js/app.js',
-  'js/controller.js',
-  'js/services.js'
 ];
 
 var jsFilesToInjectProd = [
