@@ -1,6 +1,11 @@
 module.exports = function (grunt) {
     grunt.registerTask('heroku:production', [
-        'compileAssets',
+        'clean:dev',
+        'bower:dev',
+        'jst:dev',
+        'compass:prod',
+        'copy:dev',
+        'coffee:dev',
         'concat',
         'uglify',
         'cssmin'
