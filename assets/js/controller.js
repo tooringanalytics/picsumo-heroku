@@ -1,3 +1,4 @@
+(function() {
 angular.module('app.controllers', ['app.services', 'angularFileUpload'])
   .controller('HomeCtrl', function($scope, $http, $state, Validate) {
     'use strict';
@@ -41,7 +42,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     };
   })
   .controller('LoginCtrl', function($scope, $http, $state, Validate) {
-    'use strict'; 
+    'use strict';
     $scope.error = {
       identifier: '',
       password: ''
@@ -126,8 +127,8 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       userID: null,
     };
 
-    
-    
+
+
     $scope.takePhoto = function () {
       $scope.showPhotoOptions = false;
       $scope.progressBar = false;
@@ -147,7 +148,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
   .controller('AfterCtrl', function($scope) {
     $scope.showAfterPhotoOptions = true;
     $scope.showAfterWebcam = false;
-    
+
     $scope.takeAfterPhoto = function () {
       $scope.showAfterPhotoOptions = false;
       $scope.showAfterWebcam = true;
@@ -178,14 +179,14 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     }
   });
-  
+
   $scope.uploadPic = function(files) {
     $scope.formUpload = true;
     if (files != null) {
       generateThumbAndUpload(files[0])
     }
   };
-  
+
   function generateThumbAndUpload(file) {
     $scope.errorMsg = null;
     $scope.generateThumb(file);
@@ -197,7 +198,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       uploadS3(file);
     }
   }
-  
+
   $scope.generateThumb = function(file) {
     if (file != null) {
       if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
@@ -213,7 +214,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     }
   };
-  
+
   function uploadUsing$upload(file) {
     file.upload = $upload.upload({
       url: 'https://angular-file-upload-cors-srv.appspot.com/upload' + $scope.getReqParams(),
@@ -244,7 +245,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
     });
   }
-  
+
   function uploadUsing$http(file) {
     var fileReader = new FileReader();
     fileReader.onload = function(e) {
@@ -257,14 +258,14 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
           },
           data: e.target.result
         });
-      
+
         file.upload.then(function(response) {
           file.result = response.data;
         }, function(response) {
           if (response.status > 0)
             $scope.errorMsg = response.status + ': ' + response.data;
         });
-      
+
         file.upload.progress(function(evt) {
           file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
         });
@@ -272,7 +273,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     };
     fileReader.readAsArrayBuffer(file);
   }
-  
+
   function uploadS3(file) {
     file.upload = $upload
     .upload({
@@ -298,13 +299,13 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       if (response.status > 0)
         $scope.errorMsg = response.status + ': ' + response.data;
     });
-    
+
     file.upload.progress(function(evt) {
       file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
     });
     storeS3UploadConfigInLocalStore();
   }
-  
+
   $scope.generateSignature = function() {
     $http.post('/s3sign?aws-secret-key=' + encodeURIComponent($scope.AWSSecretKey), $scope.jsonPolicy).
       success(function(data) {
@@ -312,7 +313,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
         $scope.signature = data.signature;
       });
   };
-  
+
   if (localStorage) {
     $scope.s3url = localStorage.getItem('s3url');
     $scope.AWSAccessKeyId = localStorage.getItem('AWSAccessKeyId');
@@ -321,11 +322,11 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     $scope.policy = localStorage.getItem('policy');
     $scope.signature = localStorage.getItem('signature');
   }
-  
+
   $scope.success_action_redirect = $scope.success_action_redirect || window.location.protocol + '//' + window.location.host;
   $scope.jsonPolicy = $scope.jsonPolicy || '{\n  "expiration": "2020-01-01T00:00:00Z",\n  "conditions": [\n    {"bucket": "angular-file-upload"},\n    ["starts-with", "$key", ""],\n    {"acl": "private"},\n    ["starts-with", "$Content-Type", ""],\n    ["starts-with", "$filename", ""],\n    ["content-length-range", 0, 524288000]\n  ]\n}';
   $scope.acl = $scope.acl || 'private';
-  
+
   function storeS3UploadConfigInLocalStore() {
     if ($scope.howToSend === 3 && localStorage) {
       localStorage.setItem('s3url', $scope.s3url);
@@ -336,10 +337,10 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       localStorage.setItem('signature', $scope.signature);
     }
   }
-  
+
   (function handleDynamicEditingOfScriptsAndHtml($scope) {
     $scope.defaultHtml = document.getElementById('editArea').innerHTML.replace(/\t\t\t\t/g, '');
-    
+
     $scope.editHtml = (localStorage && localStorage.getItem('editHtml' + version)) || $scope.defaultHtml;
     function htmlEdit() {
       document.getElementById('editArea').innerHTML = $scope.editHtml;
@@ -348,7 +349,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       if ($scope.editHtml != $scope.htmlEditor.getValue()) $scope.htmlEditor.setValue($scope.editHtml);
     }
     $scope.$watch('editHtml', htmlEdit);
-    
+
     $scope.htmlEditor = CodeMirror(document.getElementById('htmlEdit'), {
       lineNumbers: true, indentUnit: 4,
       mode:  'htmlmixed'
@@ -360,11 +361,11 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     });
   })($scope, $http);
-  
+
   $scope.confirm = function() {
     return confirm('Are you sure? Your local changes will be lost.');
   };
-  
+
   $scope.getReqParams = function() {
     return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
         '&errorMessage=' + $scope.serverErrorMsg : '';
@@ -404,3 +405,4 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
     $state.go('/');
     };
   });
+})();

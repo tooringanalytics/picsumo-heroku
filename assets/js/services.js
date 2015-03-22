@@ -1,3 +1,4 @@
+(function() {
 angular.module('app.services', [])
 .factory('Validate', function() {
 	return {
@@ -31,3 +32,4 @@ angular.module('app.services', [])
 		}
 	};
 });
+})();
