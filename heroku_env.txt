@@ -1,0 +1,13 @@
+# These environment variables need to be set for Heroku deployment.
+BUILDPACK_URL=https://github.com/stephanmelzer/heroku-buildpack-nodejs-grunt-compass.git
+DATABASE_URL=
+HEROKU_POSTGRESQL_PURPLE_URL=
+MANDRILL_APIKEY=
+MANDRILL_USERNAME=
+NODE_ENV=production
+PAPERTRAIL_API_TOKEN=
+PG_DATABASE=
+PG_HOSTNAME=
+PG_PASSWORD=
+PG_PORT=
+PG_USER=
