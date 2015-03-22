@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     grunt.registerTask('heroku:production', [
         'compileAssetsProd',
-        'concat',
+        //'concat',
         'uglify',
         'cssmin',
         'sails-linker:prodJs',
