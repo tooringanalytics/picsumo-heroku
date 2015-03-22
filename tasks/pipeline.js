@@ -36,16 +36,6 @@ var jsFilesToInject = [
   'js/validator.js',
   'js/webcam.js',
 
-  // Bower-installed dependencies:
-  'bower_components/angular/angular.js',
-  'bower_components/angular-ui-router/release/angular-ui-router.js',
-  'bower_components/ng-file-upload/angular-file-upload.js',
-  'bower_components/ng-file-upload-shim/angular-file-upload-shim.js',
-  'bower_components/angular-mocks/angular-mocks.js',
-  'bower_components/validator-js/validator.js',
-  'bower_components/webcamjs/webcam.js',
-
-
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
   //'js/**/*.js'
@@ -74,16 +64,7 @@ var jsFilesToInjectProd = [
   'js/validator.js',
   'js/webcam.js',
 
-  // Bower-installed dependencies:
-  'bower_components/angular/angular.js',
-  'bower_components/angular-ui-router/release/angular-ui-router.js',
-  'bower_components/ng-file-upload/angular-file-upload.js',
-  'bower_components/ng-file-upload-shim/angular-file-upload-shim.js',
-  'bower_components/angular-mocks/angular-mocks.js',
-  'bower_components/validator-js/validator.js',
-  'bower_components/webcamjs/webcam.js',
-
-  '.tmp/public/min/production.min.js'
+  'min/production.min.js'
 ];
 
 // Client-side HTML templates are injected using the sources below
@@ -108,6 +89,12 @@ module.exports.cssFilesToInject = cssFilesToInject.map(function(path) {
   return '.tmp/public/' + path;
 });
 module.exports.jsFilesToInject = jsFilesToInject.map(function(path) {
+  return '.tmp/public/' + path;
+});
+module.exports.jsFilesToConcat = jsFilesToConcat.map(function(path) {
+  return '.tmp/public/' + path;
+});
+module.exports.jsFilesToInjectProd = jsFilesToInjectProd.map(function(path) {
   return '.tmp/public/' + path;
 });
 module.exports.templateFilesToInject = templateFilesToInject.map(function(path) {
