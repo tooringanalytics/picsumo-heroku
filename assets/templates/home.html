@@ -6,7 +6,8 @@
     </header>
     <section class="user-form">
         <form class="signup" ng-submit="register(credentials)" novalidate>
-            <p ng-repeat="errorMessage in error.generic" ng-bind="errorMessage"></p>
+            <p class="error" ng-if="errorMessage" ng-bind="errorMessage.summary"></p>
+            <!--p ng-repeat="errorMessage in error.generic" ng-bind="errorMessage"></p-->
             <label ng-class="error.identifier ? 'error' : ''">
                 <input type="text" placeholder="Enter your email" ng-model="credentials.identifier">
                 <p class="error" ng-bind="error.identifier"></p>

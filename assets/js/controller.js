@@ -97,6 +97,8 @@
           password: ''
         };
 
+        $scope.errorMessage = false;
+
         $scope.credentials = {
           identifier: '',
           password: ''
@@ -107,6 +109,7 @@
         };
 
         $scope.register = function(credentials) {
+            $scope.errorMessage = false;
             $scope.error = Validate.credentials(credentials);
 
             if(!Validate.hasError($scope.error)) {
@@ -120,16 +123,19 @@
                     console.log('Success');
                     console.log(res);
                     if(res.success) {
+                        $scope.errorMessage = res;
                         homectl.updateNavbar(res);
                         $state.go('before');
                     }
                     else {
-                        $scope.error.generic = res.errors;
+                        $scope.error.generic = res.error;
+                        $scope.errorMessage = res;
                     }
                 })
                 .error(function(err) {
                     console.log('Error');
                     console.log(err);
+                    $scope.errorMessage = err;
                 });
                 console.log(registerObj);
             }
@@ -163,6 +169,8 @@
             password: ''
         };
 
+        $scope.errorMessage = false;
+
         $scope.credentials = {
             identifier: '',
             password: ''
@@ -173,8 +181,8 @@
         };
 
         $scope.login = function(credentials) {
-            $scope.error = Validate.credentials(credentials);
             $scope.errorMessage = false;
+            $scope.error = Validate.credentials(credentials);
 
             if(!Validate.hasError($scope.error)) {
                 $http.post('auth/local/', credentials)
@@ -186,7 +194,8 @@
                         loginctl.updateNavbar(res);
                         $state.go('before');
                     } else {
-                        $scope.error.generic = res.errors;
+                        $scope.error.generic = res.error;
+                        $scope.errorMessage = res;
                     }
                 })
                 .error(function(err) {
