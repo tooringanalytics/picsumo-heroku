@@ -54,6 +54,37 @@ var jsFilesToInject = [
   'js/services.js'
 ];
 
+var jsFilesToConcat = [
+  'js/app.js',
+  'js/controller.js',
+  'js/services.js'
+];
+
+var jsFilesToInjectProd = [
+  // Load sails.io before everything else
+  'js/dependencies/sails.io.js',
+
+  // Dependencies like jQuery, or Angular are brought in here
+  //'js/dependencies/**/*.js',
+  'js/angular.js',
+  'js/release/angular-ui-router.js',
+  'js/angular-file-upload.js',
+  'js/angular-file-upload-shim.js',
+  'js/angular-mocks.js',
+  'js/validator.js',
+  'js/webcam.js',
+
+  // Bower-installed dependencies:
+  'bower_components/angular/angular.js',
+  'bower_components/angular-ui-router/release/angular-ui-router.js',
+  'bower_components/ng-file-upload/angular-file-upload.js',
+  'bower_components/ng-file-upload-shim/angular-file-upload-shim.js',
+  'bower_components/angular-mocks/angular-mocks.js',
+  'bower_components/validator-js/validator.js',
+  'bower_components/webcamjs/webcam.js',
+
+  '.tmp/public/min/production.min.js'
+];
 
 // Client-side HTML templates are injected using the sources below
 // The ordering of these templates shouldn't matter.

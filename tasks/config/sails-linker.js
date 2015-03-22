@@ -51,9 +51,9 @@ module.exports = function(grunt) {
 				appRoot: '.tmp/public'
 			},
 			files: {
-				'.tmp/public/**/*.html': ['.tmp/public/min/production.min.js'],
-				'views/**/*.html': ['.tmp/public/min/production.min.js'],
-				'views/**/*.ejs': ['.tmp/public/min/production.min.js']
+				'.tmp/public/**/*.html': require('../pipeline').jsFilesToInjectProd,
+				'views/**/*.html': require('../pipeline').jsFilesToInjectProd,
+				'views/**/*.ejs': require('../pipeline').jsFilesToInjectProd
 			}
 		},
 
