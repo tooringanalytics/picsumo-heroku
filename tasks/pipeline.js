@@ -45,6 +45,19 @@ var jsFilesToInject = [
 ];
 
 var jsFilesToConcat = [
+  // Load sails.io before everything else
+  'js/dependencies/sails.io.js',
+
+  // Dependencies like jQuery, or Angular are brought in here
+  'js/angular.js',
+  'js/release/angular-ui-router.js',
+  'js/angular-file-upload.js',
+  'js/angular-file-upload-shim.js',
+  'js/angular-mocks.js',
+  'js/validator.js',
+  'js/webcam.js',
+
+  // Other client-side js files
   'js/app.js',
   'js/controller.js',
   'js/services.js'
@@ -55,7 +68,6 @@ var jsFilesToInjectProd = [
   //'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
-  //'js/dependencies/**/*.js',
   //'js/angular.js',
   //'js/release/angular-ui-router.js',
   //'js/angular-file-upload.js',
