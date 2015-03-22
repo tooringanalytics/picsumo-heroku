@@ -35,4 +35,6 @@ module.exports = {
   //   level: "silent"
   // }
 
+  hookTimeout: 30000  // Required for server-side SASS compilation on heroku
+
 };
