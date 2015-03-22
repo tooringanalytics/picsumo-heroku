@@ -41,11 +41,11 @@ module.exports.connections = {
   *                                                                          *
   *                                                                          *
   ***************************************************************************/
-  "db-core": {
+  postgresDb: {
     adapter: 'sails-postgresql',
     host: process.env.PG_HOSTNAME || 'localhost',
-    user: process.env.PG_USER || 'root',
-    password: process.env.PG_PASSWORD || '',
+    user: process.env.PG_USER || 'picsumo',
+    password: process.env.PG_PASSWORD || 'picsumo',
     database:process.env.PG_DATABASE || 'picsumodb',
     port: process.env.PG_PORT || 5432,
     ssl: {

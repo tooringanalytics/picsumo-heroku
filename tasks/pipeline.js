@@ -28,17 +28,23 @@ var jsFilesToInject = [
 
   // Dependencies like jQuery, or Angular are brought in here
   //'js/dependencies/**/*.js',
-  'js/dependencies/angular.js',
-  'js/dependencies/angular-ui-router.js',
-  'js/dependencies/ng-file-upload.js',
-  'js/dependencies/ng-file-uploads-shim.js',
-  'js/dependencies/ng-mocks.js',
-  'js/dependencies/validator.js',
-  'js/dependencies/webcam.js',
+
+  // Bower-installed dependencies:
+  'js/angular.js',
+  'js/release/angular-ui-router.js',
+  'js/angular-file-upload.js',
+  'js/angular-file-upload-shim.js',
+  'js/angular-mocks.js',
+  'js/validator.js',
+  'js/webcam.js',
+
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
-  'js/**/*.js'
+  //'js/**/*.js'
+  'js/app.js',
+  'js/controller.js',
+  'js/services.js'
 ];
 
 
