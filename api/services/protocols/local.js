@@ -33,11 +33,15 @@ exports.register = function (req, res, next) {
     return next(new Error('No email was entered.'));
   }
 
+  username = email.toLowerCase();
+  email = email.toLowerCase();
+
+  /*
   if (!username) {
     req.flash('error', 'Error.Passport.Username.Missing');
     return next(new Error('No username was entered.'));
   }
-
+  */
   if (!password) {
     req.flash('error', 'Error.Passport.Password.Missing');
     return next(new Error('No password was entered.'));
@@ -134,6 +138,10 @@ exports.connect = function (req, res, next) {
  * @param {Function} next
  */
 exports.login = function (req, identifier, password, next) {
+
+  // Force lower casing of all identifiers.
+  identifier = identifier.toLowerCase();
+
   var isEmail = validator.isEmail(identifier)
     , query   = {};
 

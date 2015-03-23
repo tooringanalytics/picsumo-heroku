@@ -54,7 +54,9 @@
                     navctl.user = res.user;
                     navctl.loggedIn = true;
                 } else {
-                    $scope.error.generic = res.errors;
+                    $scope.errorMessage = res;
+                    console.log('Error');
+                    console.log(res);
                     navctl.user = '';
                     navctl.loggedIn = false;
                 }
