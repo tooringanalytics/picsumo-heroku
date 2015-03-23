@@ -22,29 +22,60 @@
 		</figcaption>
 	</figure>
 
-	<div class="after-options" ng-if="showAfterPhotoOptions">
+<!-- Next to before pic should have option to take or upload after pic -->
+	<div class="after-options" ng-if="showPhotoOptions">
 		<div class="button-area">
-			<button class="takePic" ng-click="takeAfterPhoto()">Take your 'after' photo</button>
+			<button class="takePic" ng-click="takePhoto()">Take your 'after' photo</button>
 			<p class="option">Or, if you prefer...</p>
 			<label class="uploadPic">
-	    		<input type="file" ng-file-select ng-model="files">
+	    		<input type="file" ng-file-select ng-file-change="upload($files)" ng-click="showProgessBar()">
 	    		Choose a photo to upload
 			</label>
 		</div>
 	</div>
 
-	<div class="after-webcam" ng-if="showAfterWebcam" ng-cloak>
-		<div class="after-webcam-placeholder">Webcam Placeholder</div>
-		<button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
-	</div>
-
-	<div class="saved-after-image-placeholder" ng-if="showAfterAcceptOptions" ng-cloak>
-		<div class="after-photo">"After" Image Placeholder</div>
+<!-- Click upload and options disappear and loaded photo appears --> 
+	<div ng-show="showAcceptOptions" ng-cloak>
+		<figure ng-class="{imagePlaceholder: showPhotoOptions ,imageDisplayed: imageDisplayed} ">
+			<img class="after-image" ng-src="{{photoURL}}">
+			<figcaption class="after-image-caption">
+				<div class="day">Day 30</div>
+				<div class="date">{{afterDate | date: 'mediumDate'}}</div>
+			</figcaption>
+		</figure>
+		<!-- As the image uploads there should be a progress bar -->
+		<div class="progress-bar-container" ng-show="progressBar && progressPercentage < 100">
+			<div class="progress-text">Upload progress:</div>
+			<div class="progress-bar-wrapper">
+				<div class="progress-bar">
+					<div class="progress" style="width:{{progressPercentage}}%"></div>
+				</div>
+			</div>
+			<div class="percentage">{{progressPercentage}}%</div>
+		</div>
+		<!--The user has the option to accept the photo or take another. -->
 		<div class="button-container">
-			<button class="retry" ng-click="retryAfter()">Retry</button>
-			<button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
+			<button class="retry" ng-click="retry()">Retry</button>
+			<button class="accept" ng-click="accept()" ui-sref="after">Accept</button>
 		</div>
 	</div>
+
+<!-- Click take photo and webcam appears with snap option or go back -->
+
+	<div class="after-webcam" ng-if="showWebcam" ng-cloak>
+		<div class="after-webcam-placeholder">Webcam Placeholder</div>
+		<button class="snap" ng-click="snapShutter()">Snap photo</button>
+	</div>
+
+	<!-- <div class="saved-after-image-placeholder" ng-if="showAcceptOptions" ng-cloak>
+		<div class="after-photo">"After" Image Placeholder</div>
+		<div class="button-container">
+			<button class="retry" ng-click="retry()">Retry</button>
+			<button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
+		</div>
+	</div> -->
+
+
 
 </div>
 
@@ -61,8 +92,6 @@
         </select>
         <button class="remind">Remind Me</button>
 </div>
-
-
 
 	
 	

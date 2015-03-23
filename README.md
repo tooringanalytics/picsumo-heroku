@@ -113,3 +113,6 @@ I am going to need an Angular library for taking the photo and uploading the pho
 
  - Need to figure out how to stitch images together. https://css-tricks.com/css-sprites/
  - Need to auto add the date and other labels to the scaffolding and make sure the text has shadowing so it'll appear on all photos. Research progress pics and see which overlays look best and most unobtrusive. 
+ - Image stitching http://stackoverflow.com/questions/6765370/merge-image-using-javascript
+ - Image placeholding https://github.com/imsky/holder
+ - Image loading notifications / progress status https://github.com/desandro/imagesloaded

@@ -69,7 +69,7 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       }
     };
   })
-  .controller('BeforeCtrl', ['$scope', '$upload', '$http', 'Before', function($scope, $upload, $http, Before) {
+  .controller('BeforeCtrl', ['$scope', '$upload', '$http', '$window', 'Before', function($scope, $upload, $http, $window, Before) {
 
     $scope.date = null;
     $scope.progressPercentage = 0;
@@ -140,31 +140,75 @@ angular.module('app.controllers', ['app.services', 'angularFileUpload'])
       $scope.showPhotoOptions = true;
       $scope.imageDisplayed = false;
       $scope.showWebcam = false;
+      $window.location.reload();
     }
     }])
-  .controller('AfterCtrl', function($scope, Before) {
+  .controller('AfterCtrl', ['$scope', '$upload', '$http', '$window', 'Before', 'After', 'Upload', function($scope, $upload, $http, $window, Before, After, Upload) {
     $scope.beforeURL = Before.url;
     $scope.beforeDate = Before.date;
-    $scope.showAfterPhotoOptions = true;
-    $scope.showAfterWebcam = false;
+    $scope.date = null;
+    $scope.progressPercentage = 0;
+    $scope.showPhotoOptions = true;
+    $scope.showWebcam = false;
+    $scope.showAcceptOptions = false;
+    $scope.progressBar = false;
+    $scope.imageDisplayed = false;
+    $scope.photoURL = null;
+    $scope.enterDate = false;
+
+    $scope.showProgressBar = function () {
+      $scope.progressBar = true;
+      $scope.showAcceptOptions = true;
+      $scope.showPhotoOptions = false;
+      $scope.imageDisplayed = true;
+    };
+
+    $scope.upload = function (files) {
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        console.log(file); 
+        var results = Upload(file);
+        console.log(results);
+        $scope.afterDate = results.date;
+        console.log($scope.afterDate);
+
+        results.uploadPromise.progress(function (evt) {
+          $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
+      }).success(function (data, status, headers, config) {
+          console.log(data);
+          $scope.photoURL = data[0].extra.Location;
+          console.log($scope.photoURL);
+          After.url = $scope.photoURL;
+          console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+      });
+
+        }; 
+      }   
+    };
     
-    $scope.takeAfterPhoto = function () {
-      $scope.showAfterPhotoOptions = false;
-      $scope.showAfterWebcam = true;
+    $scope.takePhoto = function () {
+      $scope.showPhotoOptions = false;
+      $scope.progressBar = false;
+      $scope.showWebcam = true;
     }
 
-    $scope.showAfterAcceptOptions = false;
-
-    $scope.snapAfterShutter = function () {
-      $scope.showAfterWebcam = false;
-      $scope.showAfterAcceptOptions = true;
+    $scope.snapShutter = function () {
+      $scope.showWebcam = false;
+      $scope.showAcceptOptions = true;
+      $scope.imageDisplayed = true;
     }
 
-    $scope.retryAfter = function () {
-      $scope.showAfterAcceptOptions = false;
-      $scope.showAfterWebcam = true;
-    }
-    })
+    $scope.retry = function () {
+      $scope.showAcceptOptions = false;
+      $scope.showPhotoOptions = true;
+      $scope.imageDisplayed = false;
+      $scope.showWebcam = false;
+      $window.location.reload();
+      }
+
+    }])
   .controller('ShareCtrl', function() {
   })
   .controller('GalleryCtrl', function() {
