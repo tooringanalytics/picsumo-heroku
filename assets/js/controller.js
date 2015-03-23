@@ -2,7 +2,8 @@
 
     var appctl = angular.module('app.controllers',
                                 ['app.services',
-                                'angularFileUpload']);
+                                'angularFileUpload',
+                                'validation.match']);
 
 
     /**
@@ -21,6 +22,7 @@
         var navctl = this;
 
         navctl.user = '';
+        navctl.loggedIn = false;
 
         $scope.logout = function () {
             $http.get('/logout')
@@ -50,9 +52,11 @@
                 if(res.success) {
                     console.log('A user is currently logged in');
                     navctl.user = res.user;
+                    navctl.loggedIn = true;
                 } else {
                     $scope.error.generic = res.errors;
                     navctl.user = '';
+                    navctl.loggedIn = false;
                 }
             })
             .error(function(err) {
@@ -60,6 +64,7 @@
                 console.log('Error');
                 console.log(err);
                 navctl.user = '';
+                navctl.loggedIn = false;
             });
         };
 
@@ -207,6 +212,146 @@
         };
     }]);
 
+
+    /**
+     * ResetPasswordCtrl
+     *
+     *
+     */
+    appctl.controller('ResetPasswordCtrl',
+                      ['$scope',
+                       '$http',
+                       '$state',
+                       'Validate',
+                       'NavUpdate',
+                       function($scope,
+                                $http,
+                                $state,
+                                Validate,
+                                NavUpdate) {
+        'use strict';
+
+        var pwctl = this;
+
+        $scope.error = {
+          identifier: '',
+          password: ''
+        };
+
+        $scope.errorMessage = false;
+
+        $scope.credentials = {
+          identifier: '',
+          password: '',
+          passwordConfirm: '',
+        };
+
+        pwctl.updateNavbar = function(msg) {
+            NavUpdate.prepForBroadcast(msg);
+        };
+
+        $scope.resetPassword = function(credentials) {
+            $scope.errorMessage = false;
+            $scope.error = Validate.identifier(credentials);
+
+            if(!Validate.hasError($scope.error)) {
+                var identifierObj = {
+                    email: credentials.identifier
+                };
+                $http.post('auth/password/reset', identifierObj)
+                .success(function(res) {
+                    console.log('Success');
+                    console.log(res);
+                    if(res.success) {
+                        $scope.errorMessage = res;
+                        pwctl.updateNavbar(res);
+                        $state.go('before');
+                    }
+                    else {
+                        $scope.error.generic = res.error;
+                        $scope.errorMessage = res;
+                    }
+                })
+                .error(function(err) {
+                    console.log('Error');
+                    console.log(err);
+                    $scope.errorMessage = err;
+                });
+                console.log(identifierObj);
+            }
+        };
+
+    }]);
+
+
+    /**
+     * ChangePasswordCtrl
+     *
+     *
+     */
+    appctl.controller('ChangePasswordCtrl',
+                      ['$scope',
+                       '$http',
+                       '$state',
+                       'Validate',
+                       'NavUpdate',
+                       function($scope,
+                                $http,
+                                $state,
+                                Validate,
+                                NavUpdate) {
+        'use strict';
+
+        var pwctl = this;
+
+        $scope.error = {
+          identifier: '',
+          password: ''
+        };
+
+        $scope.errorMessage = false;
+
+        $scope.credentials = {
+          identifier: '',
+          password: '',
+          passwordConfirm: '',
+        };
+
+        pwctl.updateNavbar = function(msg) {
+            NavUpdate.prepForBroadcast(msg);
+        };
+
+        $scope.changePassword = function(credentials) {
+            $scope.errorMessage = false;
+            $scope.error = Validate.password(credentials);
+
+            if(!Validate.hasError($scope.error)) {
+                var passwordObj = {
+                    password: credentials.password
+                };
+                $http.post('auth/password/change', passwordObj)
+                .success(function(res) {
+                    console.log('Success');
+                    console.log(res);
+                    if(res.success) {
+                        $scope.errorMessage = res;
+                        pwctl.updateNavbar(res);
+                        $state.go('before');
+                    }
+                    else {
+                        $scope.error.generic = res.error;
+                        $scope.errorMessage = res;
+                    }
+                })
+                .error(function(err) {
+                    console.log('Error');
+                    console.log(err);
+                    $scope.errorMessage = err;
+                });
+                console.log(passwordObj);
+            }
+        };
+    }]);
 
     /**
      * BeforeCtrl

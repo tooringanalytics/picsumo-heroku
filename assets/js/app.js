@@ -4,7 +4,7 @@
 (function() {
 
     var app = angular.module('app',
-                             ['app.controllers', 'ui.router']);
+                             ['app.controllers', 'ui.router', 'validation.match']);
 
     /**
      * Use inline array annotation to annotate the dependencies.
@@ -32,6 +32,16 @@
           url: '/login',
           templateUrl: 'templates/login.html',
           controller: 'LoginCtrl'
+        })
+        .state('resetPassword', {
+          url: '/reset_password',
+          templateUrl: 'templates/reset_password.html',
+          controller: 'ResetPasswordCtrl'
+        })
+        .state('changePassword', {
+          url: '/change_password',
+          templateUrl: 'templates/change_password.html',
+          controller: 'ChangePasswordCtrl'
         })
         .state('before', {
           url: '/before',

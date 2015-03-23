@@ -24,7 +24,37 @@
 
                 return error;
             },
+            identifier: function(credentials) {
+                var error = {
+                    identifier: '',
+                    password: ''
+                };
 
+                if(!credentials.identifier) {
+                    error.identifier = 'Enter your email address.';
+                }
+                else if(!validator.isEmail(credentials.identifier)) {
+                    error.identifier = 'The email address is not valid.';
+                }
+
+                return error;
+            },
+            password: function(credentials) {
+                var error = {
+                    identifier: '',
+                    password: ''
+                };
+
+                if(!credentials.password) {
+                    error.password = 'Enter a password';
+                }
+
+                if(credentials.password != credentials.passwordConfirm) {
+                    error.password = 'Password & Confirmation do not match';
+                }
+
+                return error;
+            },
             hasError: function(error) {
                 for(var i in error) {
                     if(error.hasOwnProperty(i) && error[i]) {

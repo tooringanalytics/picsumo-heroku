@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "angular-ui-router": "~0.2.13",
+    "angular-validation-match": "*",
     "ng-file-upload": "~3.2.4",
     "webcamjs": "*",
     "validator-js": "~3.33.0",

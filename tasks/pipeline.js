@@ -30,6 +30,7 @@ var jsFilesToInject = [
   //'js/dependencies/**/*.js',
   'js/angular.js',
   'js/release/angular-ui-router.js',
+  'js/dist/angular-input-match.min.js',
   'js/angular-file-upload.js',
   'js/angular-file-upload-shim.js',
   'js/angular-mocks.js',
@@ -51,6 +52,7 @@ var jsFilesToConcat = [
   // Dependencies like jQuery, or Angular are brought in here
   'js/angular.js',
   'js/release/angular-ui-router.js',
+  'js/dist/angular-input-match.min.js',
   'js/angular-file-upload.js',
   'js/angular-file-upload-shim.js',
   'js/angular-mocks.js',

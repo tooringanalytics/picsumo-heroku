@@ -1,13 +1,19 @@
 
 <div ng-app='app'>
     <nav ng-controller="NavCtrl as navctl">
-        <a ui-sref="home">Home</a> |
-        <a ui-sref="before">Before</a> |
-        <a ui-sref="fake">Fake</a> |
-        <a ui-sref="after">After</a> |
-        <a ui-sref="share">Share</a> |
-        <a ui-sref="login">Log in</a> |
-        <a ui-sref="login" ng-click="logout()">Log Out {{ navctl.user.username }}</a>
+        <span ng-show="!navctl.loggedIn">
+            <a ui-sref="home">Sign Up</a> |
+            <a ui-sref="login">Log in</a> |
+            <a ui-sref="resetPassword">Reset Password</a>
+        </span>
+        <span ng-show="navctl.loggedIn">
+            <a ui-sref="before">Before</a> |
+            <!--a ui-sref="fake">Fake</a-->
+            <a ui-sref="after">After</a> |
+            <a ui-sref="share">Share</a> |
+            <a ui-sref="changePassword">Change Password</a> |
+            <a href="/" ng-click="logout()">Log Out {{ navctl.user.username }}</a>
+        </span>
     </nav>
     <div ui-view>
 

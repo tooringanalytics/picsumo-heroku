@@ -40,7 +40,8 @@
     "sails-postgresql": "^0.10.14",
     "sdk": "^0.2.2",
     "skipper-s3": "^0.5.5",
-    "validator": "^3.33.0"
+    "validator": "^3.33.0",
+    "mandrill-api":">=1.0.2"
   },
   "scripts": {
     "start": "node app.js",
