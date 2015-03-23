@@ -265,7 +265,7 @@
                     if(res.success) {
                         $scope.errorMessage = res;
                         pwctl.updateNavbar(res);
-                        $state.go('before');
+                        $state.go('login');
                     }
                     else {
                         $scope.error.generic = res.error;
