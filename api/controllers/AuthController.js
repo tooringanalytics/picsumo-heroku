@@ -132,7 +132,6 @@ var AuthController = {
         });
     } else {
         sails.log.debug("No user");
-        res.status(404);
         res.jsonx({
             "error": "E_NOTFOUND",
             "status": 404,
@@ -328,7 +327,8 @@ var AuthController = {
 
         var new_password = generateRandom(9, null);
 
-        User.findOne({ email: req.body.email }, function(err, user) {
+        var userEmail = req.body.email.toLowerCase();
+        User.findOne({ email: userEmail }, function(err, user) {
             if (!user) {
                 var err = 'Error.Passport.Generic';
                 return tryAgain(req, err);
@@ -501,7 +501,7 @@ var AuthController = {
                 options = {
                     "to_email": req.user.email,
                     "to_name": req.user.username,
-                    "username": req.body.username,
+                    "username": req.user.username,
                     "password": req.body.password,
                 };
                 EmailService.sendRegistrationEmail(options);
