@@ -24,7 +24,7 @@ EmailService.sendRegistrationEmail = function(options) {
 
     html_body = "<h1>Welcome to PicSumo!</h1>" +
                 "<p>Your account " + options.username + " is ready.</p>" +
-                "<p>Your password is :'" + options.password + "'. Keep it safe.</p>";
+                "<p>Your password is: '" + options.password + "'. Keep it safe.</p>";
 
     text_body = "Welcome to PicSumo!\n" +
                 "Your account " + options.username + " is ready.\n" +
@@ -77,11 +77,11 @@ EmailService.sendPasswordResetEmail = function(options) {
 
     html_body = "<h1>Your PicSumo Password Has Changed...</h1>" +
                 "<p>The password for your account " + options.username + " has been reset.</p>" +
-                "<p>Your new password is :'" + options.password + "'. Please change it as soon as possible.</p>";
+                "<p>Your new password is: '" + options.password + "'. Please change it as soon as possible.</p>";
 
     text_body = "Your PicSumo Password Has Changed...\n" +
                 "The password for your account " + options.username + " has been reset.\n" +
-                "Your new password is :'" + options.password + "'. Please change it as soon as possible.\n";
+                "Your new password is: '" + options.password + "'. Please change it as soon as possible.\n";
 
     var message = {
         "html": html_body,
@@ -130,11 +130,11 @@ EmailService.sendPasswordChangedEmail = function(options) {
 
     html_body = "<h1>Your PicSumo Password Has Changed...</h1>" +
                 "<p>The password for your account " + options.username + " has been changed.</p>" +
-                "<p>Your new password is :'" + options.password + "'. Keep it safe.</p>";
+                "<p>Your new password is: '" + options.password + "'. Keep it safe.</p>";
 
     text_body = "Your PicSumo Password Has Changed...\n" +
                 "The password for your account " + options.username + " has been changed.\n" +
-                "Your new password is :'" + options.password + "'. Keep it safe.\n";
+                "Your new password is: '" + options.password + "'. Keep it safe.\n";
 
     var message = {
         "html": html_body,
