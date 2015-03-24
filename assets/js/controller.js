@@ -362,73 +362,99 @@
      */
     appctl.controller('BeforeCtrl',
                       ['$scope',
-                       '$upload',
-                       '$http',
+                       'PhotoService',
                        function($scope,
-                                $upload,
-                                $http) {
+                                PhotoService) {
 
-        $scope.date = new Date ();
+        // Controller variables
+        befctl = this;
+
+        this.webcamConfig = {
+            webcam: {
+                width: 320,
+                height: 240,
+                image_format: 'jpeg',
+                jpeg_quality: 90,
+            },
+            displayElement: '#webcam_window'
+        };
+
 
         $scope.progressPercentage = 0;
         $scope.showPhotoOptions = true;
         $scope.showWebcam = false;
         $scope.showAcceptOptions = false;
         $scope.progressBar = false;
-        $scope.photoURL = null;
+        $scope.photoURL = '';
+        $scope.date = new Date ();
+        $scope.photo = {
+            id: null,
+            date: null,
+            url: null,
+            type: null,
+            matchID: null,
+            privatePic: null,
+            userID: null,
+        };
 
+        // Controller & scope methods.
         $scope.showProgressBar = function () {
           $scope.progressBar = true;
           $scope.showAcceptOptions = true;
           $scope.showPhotoOptions = false;
-        }
-
-        $scope.upload = function (files) {
-            if (files && files.length) {
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    $upload.upload({
-                        url: 'upload/index',
-                        method: 'POST',
-                        data: {}, // Any data needed to be submitted along with the files
-                        file: file
-                    }).progress(function (evt) {
-                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
-                    }).success(function (data, status, headers, config) {
-                        $scope.photoURL = data[0].extra.Location;
-                        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                        console.log(data);
-                    });
-                }
-            }
         };
 
-        $scope.photo = {
-          id: null,
-          date: null,
-          url: null,
-          type: null,
-          matchID: null,
-          privatePic: null,
-          userID: null,
+        $scope.upload = function (files) {
+
+            PhotoService.uploadPhotos(files,
+                                      befctl.onLoadPhoto,
+                                      befctl.updateUploadProgress,
+                                      befctl.uploadSuccess);
+
+        };
+
+        this.updateUploadProgress = function (evt) {
+            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
+        };
+
+        this.updateSuccess = function (data, status, headers, config) {
+            $scope.photoURL = data[0].extra.Location;
+            PhotoService.setBeforePhoto($scope.photoURL);
+            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+            console.log(data);
+        };
+
+        this.onLoadPhoto = function (e) {
+            // display the photo loaded from disk
+            $scope.photoURL = e.target.result;
+            PhotoService.setBeforePhoto($scope.photoURL);
+        };
+
+        this.onTakePhoto = function (data_uri) {
+            // display photo from webcam
+            $scope.photoURL = data_uri;
+            PhotoService.setBeforePhoto($scope.photoURL);
         };
 
         $scope.takePhoto = function () {
-          $scope.showPhotoOptions = false;
-          $scope.progressBar = false;
-          $scope.showWebcam = true;
-        }
+            $scope.showPhotoOptions = false;
+            $scope.progressBar = false;
+            $scope.showWebcam = true;
+            PhotoService.startWebcam(befctl.webcamConfig);
+        };
 
         $scope.snapShutter = function () {
-          $scope.showWebcam = false;
-          $scope.showAcceptOptions = true;
-        }
+            $scope.showWebcam = false;
+            $scope.showAcceptOptions = true;
+            PhotoService.takeSnapshot(true, befctl.onTakePhoto);
+        };
 
         $scope.retry = function () {
-          $scope.showAcceptOptions = false;
-          $scope.showPhotoOptions = true;
-        }
+            $scope.showAcceptOptions = false;
+            $scope.showPhotoOptions = true;
+        };
+
     }]);
 
 
@@ -439,28 +465,104 @@
      */
     appctl.controller('AfterCtrl',
                       ['$scope',
-                       function($scope) {
+                       'PhotoService',
+                       function($scope,
+                                PhotoService) {
+
+        var aftctl = this;
+
+        this.webcamConfig = {
+            webcam: {
+                width: 320,
+                height: 240,
+                image_format: 'jpeg',
+                jpeg_quality: 90,
+            },
+            displayElement: '#webcam_window'
+        };
+
+        $scope.showAfterAcceptOptions = false;
         $scope.showAfterPhotoOptions = true;
         $scope.showAfterWebcam = false;
 
-        $scope.takeAfterPhoto = function () {
-          $scope.showAfterPhotoOptions = false;
-          $scope.showAfterWebcam = true;
-        }
+        $scope.afterPhotoURL = '';
+        $scope.beforePhotoURL = PhotoService.getBeforePhoto();
 
-        $scope.showAfterAcceptOptions = false;
+        $scope.progressPercentage = 0;
+        $scope.progressBar = false;
+        $scope.date = new Date ();
+        $scope.afterPhoto = {
+            id: null,
+            date: null,
+            url: null,
+            type: null,
+            matchID: null,
+            privatePic: null,
+            userID: null,
+        };
+
+        this.updateUploadProgress = function (evt) {
+            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
+        };
+
+        this.updateSuccess = function (data, status, headers, config) {
+            $scope.afterPhotoURL = data[0].extra.Location;
+            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+            console.log(data);
+        };
+
+        this.onLoadPhoto = function (e) {
+            // display the photo loaded from disk
+            $scope.afterPhotoURL = e.target.result;
+            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+        };
+
+        this.onTakePhoto = function (data_uri) {
+            // display photo from webcam
+            $scope.afterPhotoURL = data_uri;
+            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+        };
+
+        $scope.takeAfterPhoto = function () {
+            $scope.showAfterPhotoOptions = false;
+            $scope.progressBar = false;
+            $scope.showAfterWebcam = true;
+            PhotoService.startWebcam(aftctl.webcamConfig);
+        };
 
         $scope.snapAfterShutter = function () {
-          $scope.showAfterWebcam = false;
-          $scope.showAfterAcceptOptions = true;
-        }
+            $scope.showAfterWebcam = false;
+            $scope.showAfterAcceptOptions = true;
+            PhotoService.takeSnapshot(true, aftctl.onTakePhoto);
+        };
 
         $scope.retryAfter = function () {
-          $scope.showAfterAcceptOptions = false;
-          $scope.showAfterWebcam = true;
-        }
+            $scope.showAfterAcceptOptions = false;
+            $scope.progressBar = false;
+            $scope.showAfterWebcam = true;
+            PhotoService.startWebcam(aftctl.webcamConfig);
+        };
+
+
     }]);
 
+
+    /**
+     * ShareCtrl
+     *
+     *
+     */
+    appctl.controller('ShareCtrl',
+                      ['$scope',
+                      'PhotoService',
+                      function($scope,
+                               PhotoService) {
+
+        $scope.afterPhotoURL = PhotoService.getAfterPhoto();
+        $scope.beforePhotoURL = PhotoService.getBeforePhoto();
+    }]);
 
     /**
      * FakeCtrl
@@ -721,15 +823,6 @@
         });
     }]);
 
-
-    /**
-     * ShareCtrl
-     *
-     *
-     */
-    appctl.controller('ShareCtrl',
-                      [function() {
-    }]);
 
 
     /**
