@@ -15,12 +15,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-    "assets/bower_components/angular/angular.js",
-    "assets/bower_components/ng-file-upload/ng-file-upload.js",
-    'assets/bower_components/angular-mocks/angular-mocks.js',
-    "assets/bower_components/angular-ui-router/release/angular-ui-router.js",
-    "assets/bower_components/validator-js/validator.js",
-    "assets/bower_components/webcamjs/webcam.js",
+    "bower_components/angular/angular.js",
+    "bower_components/ng-file-upload/angular-file-upload.js",
+    'bower_components/angular-mocks/angular-mocks.js',
+    "bower_components/angular-ui-router/release/angular-ui-router.js",
+    "bower_components/validator-js/validator.js",
+    "bower_components/webcamjs/webcam.js",
     'assets/js/app.js',
     'assets/js/controller.js',
     'assets/js/services.js',

@@ -1,31 +1,60 @@
 /**
- * UploadControllerController
+ * UploadController
  *
- * @description :: Server-side logic for managing Uploadcontrollers
+ * @description :: Server-side logic for managing Uploads
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var skipperS3 = require('skipper-s3');
+var UploadController = {
 
-module.exports = {
-	index: function(req, res) {
-		req.file('file').upload({
-			adapter: skipperS3,
-			key: sails.config.s3.key,
-			secret: sails.config.s3.secret,
-			bucket: sails.config.s3.bucket,
-			region: sails.config.s3.region
-		}, function(err, uploadedFiles) {
-			if(err) {
-				res.status(500);
-				res.jsonx({
-					"error": "E_UPLOAD",
-					"status": 500,
-					"summary": "There was a problem uploading the file."
-				});
-			}
-			
-			return res.jsonx(uploadedFiles);
-		});
-	}
+
+    /**
+    * `UploadController.index()`
+    */
+    index: function (req, res) {
+        sails.log.debug('uploading files to S3');
+        var skipperS3 = require('skipper-s3');
+        // Disable S3 uploads for now
+        res.jsonx({
+                "error": "E_UPLOAD",
+                "status": 500,
+                "summary": "There was a problem uploading the file."
+            });
+        /*
+        try {
+            sails.log.debug(req.file('file'));
+            req.file('file').upload({
+                  adapter: skipperS3,
+                  key: sails.config.s3.key,
+                  secret: sails.config.s3.secret,
+                  bucket: sails.config.s3.bucket,
+                  region: sails.config.s3.region
+            }, function(err, uploadedFiles) {
+                if(err) {
+                    sails.log.error(err);
+                    res.status(500);
+                    res.jsonx({
+                        "error": "E_UPLOAD",
+                        "status": 500,
+                        "summary": "There was a problem uploading the file."
+                    });
+                }
+                sails.log.debug(uploadedFiles);
+                return res.jsonx(uploadedFiles);
+            });
+        } catch (err) {
+            sails.log.error(err);
+            res.status(500);
+            res.jsonx({
+                "error": "E_UPLOAD",
+                "status": 500,
+                "summary": "There was a problem uploading the file."
+            });
+        }
+        */
+    }
 };
+
+
+
+module.exports = UploadController;

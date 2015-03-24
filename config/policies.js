@@ -19,8 +19,6 @@
 
 module.exports.policies = {
 
-  '*': [ 'passport' ]
-
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
@@ -50,4 +48,11 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
+
+  '*': [ 'passport', 'sessionAuth' /* your auth dependant policies go here */ ],
+
+  'auth': {
+    '*': ['passport']
+  }
+
 };

@@ -22,18 +22,64 @@ var cssFilesToInject = [
 // Client-side javascript files to inject in order
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
-  
+
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
-  'js/dependencies/**/*.js',
+  //'js/dependencies/**/*.js',
+  'js/angular.js',
+  'js/release/angular-ui-router.js',
+  'js/dist/angular-input-match.min.js',
+  'js/angular-file-upload.js',
+  'js/angular-file-upload-shim.js',
+  'js/angular-mocks.js',
+  'js/validator.js',
+  'js/webcam.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
-  'js/**/*.js'
+  //'js/**/*.js'
+  'js/app.js',
+  'js/controller.js',
+  'js/services.js'
 ];
 
+var jsFilesToConcat = [
+  // Load sails.io before everything else
+  'js/dependencies/sails.io.js',
+
+  // Dependencies like jQuery, or Angular are brought in here
+  'js/angular.js',
+  'js/release/angular-ui-router.js',
+  'js/dist/angular-input-match.min.js',
+  'js/angular-file-upload.js',
+  'js/angular-file-upload-shim.js',
+  'js/angular-mocks.js',
+  'js/validator.js',
+  'js/webcam.js',
+
+  // Other client-side js files
+  'js/app.js',
+  'js/controller.js',
+  'js/services.js'
+];
+
+var jsFilesToInjectProd = [
+  // Load sails.io before everything else
+  //'js/dependencies/sails.io.js',
+
+  // Dependencies like jQuery, or Angular are brought in here
+  //'js/angular.js',
+  //'js/release/angular-ui-router.js',
+  //'js/angular-file-upload.js',
+  //'js/angular-file-upload-shim.js',
+  //'js/angular-mocks.js',
+  //'js/validator.js',
+  //'js/webcam.js',
+
+  'min/production.min.js'
+];
 
 // Client-side HTML templates are injected using the sources below
 // The ordering of these templates shouldn't matter.
@@ -57,6 +103,12 @@ module.exports.cssFilesToInject = cssFilesToInject.map(function(path) {
   return '.tmp/public/' + path;
 });
 module.exports.jsFilesToInject = jsFilesToInject.map(function(path) {
+  return '.tmp/public/' + path;
+});
+module.exports.jsFilesToConcat = jsFilesToConcat.map(function(path) {
+  return '.tmp/public/' + path;
+});
+module.exports.jsFilesToInjectProd = jsFilesToInjectProd.map(function(path) {
   return '.tmp/public/' + path;
 });
 module.exports.templateFilesToInject = templateFilesToInject.map(function(path) {

@@ -1,3 +1,4 @@
+
 # picsumo
 
 Why - Because people deserve to be recognized for transforming their bodies.
@@ -19,59 +20,59 @@ Link to my Trello: https://trello.com/b/QUUxjqFT/picsumo
 #Models
 
 photo
-	id: {
-		type:'integer',
-		required: true,
-		unique: true
-		}
-	date: {
-		type: 'datetime',
-		required: true,
-		unique: false
-		}
-	url: {
-		type: 'string'
-		required: true,
-		unique: true
-		url: true
-		} 
-	type: {
-		type: 'integer', (before, after, framed)
-		required: true
-		unique: false
-		}
-	matchID {
-		type: 'integer',
-		required: false,
-		unique: false
-		}
-	private: {
-		type: 'Boolean',
-		required: true,
-		unique: false
-		}
-	userID: {
-		type: integer,
-		required: true,
-		unique: false
-	}
+    id: {
+        type:'integer',
+        required: true,
+        unique: true
+        }
+    date: {
+        type: 'datetime',
+        required: true,
+        unique: false
+        }
+    url: {
+        type: 'string'
+        required: true,
+        unique: true
+        url: true
+        }
+    type: {
+        type: 'integer', (before, after, framed)
+        required: true
+        unique: false
+        }
+    matchID {
+        type: 'integer',
+        required: false,
+        unique: false
+        }
+    private: {
+        type: 'Boolean',
+        required: true,
+        unique: false
+        }
+    userID: {
+        type: integer,
+        required: true,
+        unique: false
+    }
 
 }
 
 user
-	id: 'integer'
-	email: 'string'
-	username: 'string'
-	password: 'string'
-	registrationDate: 'datetime'
-	loggedin: 'boolean'
-	loginHistory: 'array'
+    id: 'integer'
+    email: 'string'
+    username: 'string'
+    password: 'string'
+    registrationDate: 'datetime'
+    loggedin: 'boolean'
+    loginHistory: 'array'
 
 notification
-	to: 'string'
-	from: 'string'
-	sendAt: 'datetime'
-	message: 'string'
+    to: 'string'
+    from: 'string'
+    sendAt: 'datetime'
+    message: 'string'
 
 #APIs
  - Facebook Share - https://developers.facebook.com/docs/sharing/markup. Have to add marked up meta tags to the Share page.
@@ -82,7 +83,7 @@ notification
  - http://imgix.com/
 
  #Libraries
- - sails-template 
+ - sails-template
  - angular (auto added by sails-template)
  - angular-ui-router (auto added by sails-template)
  - angular-camera
@@ -112,7 +113,7 @@ I am going to need an Angular library for taking the photo and uploading the pho
 #Todos:
 
  - Need to figure out how to stitch images together. https://css-tricks.com/css-sprites/
- - Need to auto add the date and other labels to the scaffolding and make sure the text has shadowing so it'll appear on all photos. Research progress pics and see which overlays look best and most unobtrusive. 
+ - Need to auto add the date and other labels to the scaffolding and make sure the text has shadowing so it'll appear on all photos. Research progress pics and see which overlays look best and most unobtrusive.
  - Image stitching http://stackoverflow.com/questions/6765370/merge-image-using-javascript
  - Image placeholding https://github.com/imsky/holder
  - Image loading notifications / progress status https://github.com/desandro/imagesloaded

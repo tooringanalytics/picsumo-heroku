@@ -12,22 +12,18 @@
  * or:
  *      http://rok3.me/programming/using-sass-sails-js/
  */
+
 module.exports = function(grunt) {
 
-    grunt.config.set('sass', {
-        dev: {
-            options: {
-                style: 'expanded'  // Set your prefered style for development here.
-            },
-            files: [{
-                expand: true,
-                cwd: 'assets/styles/',
-                src: ['importer.scss'],  // Feel free to remove a format if you do not use it.
-                dest: '.tmp/public/styles/',
-                ext: '.css'
-            }]
+    grunt.config.set('compass', {
+        prod: {
+            options: {              // Target options
+              sassDir: 'assets/styles',
+              cssDir: '.tmp/public/styles/',
+              environment: 'production'
+            }
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-compass');
 };

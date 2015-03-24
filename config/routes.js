@@ -36,20 +36,6 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'get /login': 'AuthController.login',
-  'get /logout': 'AuthController.logout',
-  'post /logout': 'AuthController.logout',
-  'get /register': 'AuthController.register',
-
-  'get /auth/user': 'AuthController.user',
-
-  'post /auth/local': 'AuthController.callback',
-  'post /auth/local/:action': 'AuthController.callback',
-
-  'get /auth/:provider': 'AuthController.provider',
-  'get /auth/:provider/callback': 'AuthController.callback',
-  'get /auth/:provider/:action': 'AuthController.callback'
-
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
@@ -59,5 +45,20 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+
+  'get /login': 'AuthController.login',
+  'get /logout': 'AuthController.logout',
+  'get /register': 'AuthController.register',
+  'get /user': 'AuthController.user',
+
+  'post /auth/local': 'AuthController.callback',
+  'post /auth/local/:action': 'AuthController.callback',
+  'post /auth/password/:action': 'AuthController.password',
+
+  'get /auth/:provider': 'AuthController.provider',
+  'get /auth/:provider/callback': 'AuthController.callback',
+  'get /auth/:provider/:action': 'AuthController.callback',
+
+  'post upload/index': 'UploadController.index'
 
 };

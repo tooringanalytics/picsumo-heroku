@@ -19,6 +19,10 @@ module.exports.passport = {
     strategy: require('passport-local').Strategy
   },
 
+  bearer: {
+    strategy: require('passport-http-bearer').Strategy
+  },
+
   twitter: {
     name: 'Twitter',
     protocol: 'oauth',
@@ -45,7 +49,8 @@ module.exports.passport = {
     strategy: require('passport-facebook').Strategy,
     options: {
       clientID: 'your-client-id',
-      clientSecret: 'your-client-secret'
+      clientSecret: 'your-client-secret',
+      scope: ['email'] /* email is necessary for login behavior */
     }
   },
 
@@ -56,6 +61,17 @@ module.exports.passport = {
     options: {
       clientID: 'your-client-id',
       clientSecret: 'your-client-secret'
+    }
+  },
+
+  cas: {
+    name: 'CAS',
+    protocol: 'cas',
+    strategy: require('passport-cas').Strategy,
+    options: {
+      ssoBaseURL: 'http://your-cas-url',
+      serverBaseURL: 'http://localhost:1337',
+      serviceURL: 'http://localhost:1337/auth/cas/callback'
     }
   }
 };

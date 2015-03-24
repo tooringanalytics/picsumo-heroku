@@ -34,39 +34,6 @@ module.exports.connections = {
 
   /***************************************************************************
   *                                                                          *
-  * MySQL is the world's most popular relational database.                   *
-  * http://en.wikipedia.org/wiki/MySQL                                       *
-  *                                                                          *
-  * Run: npm install sails-mysql                                             *
-  *                                                                          *
-  ***************************************************************************/
-  someMysqlServer: {
-    adapter: 'sails-mysql',
-    host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_MYSQL_USER',
-    password: 'YOUR_MYSQL_PASSWORD',
-    database: 'YOUR_MYSQL_DB'
-  },
-
-  /***************************************************************************
-  *                                                                          *
-  * MongoDB is the leading NoSQL database.                                   *
-  * http://en.wikipedia.org/wiki/MongoDB                                     *
-  *                                                                          *
-  * Run: npm install sails-mongo                                             *
-  *                                                                          *
-  ***************************************************************************/
-  mongoServer: {
-    adapter: 'sails-mongo',
-    host: 'localhost',
-    port: 27017,
-    // user: 'username',
-    // password: 'password',
-    // database: 'your_mongo_db_name_here'
-  },
-
-  /***************************************************************************
-  *                                                                          *
   * PostgreSQL is another officially supported relational database.          *
   * http://en.wikipedia.org/wiki/PostgreSQL                                  *
   *                                                                          *
@@ -74,12 +41,16 @@ module.exports.connections = {
   *                                                                          *
   *                                                                          *
   ***************************************************************************/
-  postgres: {
+  postgresDb: {
     adapter: 'sails-postgresql',
-    host: 'localhost',
-    user: 'postgres',
-    password: '',
-    database: 'picsumodb'
+    host: process.env.PG_HOSTNAME || 'localhost',
+    user: process.env.PG_USER || 'picsumo',
+    password: process.env.PG_PASSWORD || 'picsumo',
+    database:process.env.PG_DATABASE || 'picsumodb',
+    port: process.env.PG_PORT || 5432,
+    ssl: {
+      rejectUnauthorized: false
+    }
   }
 
 

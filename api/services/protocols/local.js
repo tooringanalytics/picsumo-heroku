@@ -1,4 +1,5 @@
 var validator = require('validator');
+var crypto    = require('crypto');
 
 /**
  * Local Authentication Protocol
@@ -32,10 +33,15 @@ exports.register = function (req, res, next) {
     return next(new Error('No email was entered.'));
   }
 
+  username = email.toLowerCase();
+  email = email.toLowerCase();
+
+  /*
   if (!username) {
     req.flash('error', 'Error.Passport.Username.Missing');
     return next(new Error('No username was entered.'));
   }
+  */
 
   if (!password) {
     req.flash('error', 'Error.Passport.Password.Missing');
@@ -58,10 +64,14 @@ exports.register = function (req, res, next) {
       return next(err);
     }
 
+    // Generating accessToken for API authentication
+    var token = crypto.randomBytes(48).toString('base64');
+
     Passport.create({
-      protocol : 'local'
-    , password : password
-    , user     : user.id
+      protocol    : 'local'
+    , password    : password
+    , user        : user.id
+    , accessToken : token
     }, function (err, passport) {
       if (err) {
         if (err.code === 'E_VALIDATION') {
@@ -129,6 +139,9 @@ exports.connect = function (req, res, next) {
  * @param {Function} next
  */
 exports.login = function (req, identifier, password, next) {
+  // Force lower casing of all identifiers.
+  identifier = identifier.toLowerCase();
+
   var isEmail = validator.isEmail(identifier)
     , query   = {};
 

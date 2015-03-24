@@ -21,15 +21,6 @@ module.exports = {
   //   connection: 'someMysqlServer'
   // },
 
-  connections: {
-    postgres: {
-      adapter: 'sails-postgresql',
-      url: process.env.DATABASE_URL,
-      pool: false,
-      ssl: true
-    }
-  }
-
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
@@ -43,5 +34,7 @@ module.exports = {
   // log: {
   //   level: "silent"
   // }
+
+  hookTimeout: 30000  // Required for server-side SASS compilation on heroku
 
 };
