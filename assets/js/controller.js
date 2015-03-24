@@ -501,6 +501,22 @@
             userID: null,
         };
 
+        // Controller & scope methods.
+        $scope.showProgressBar = function () {
+          $scope.progressBar = true;
+          $scope.showAfterAcceptOptions = true;
+          $scope.showAfterPhotoOptions = false;
+        };
+
+        $scope.upload = function (files) {
+
+            PhotoService.uploadPhotos(files,
+                                      aftctl.onLoadPhoto,
+                                      aftctl.updateUploadProgress,
+                                      aftctl.uploadSuccess);
+
+        };
+
         this.updateUploadProgress = function (evt) {
             $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
