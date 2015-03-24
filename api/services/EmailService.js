@@ -4,7 +4,9 @@ var mandrill = require('mandrill-api/mandrill');
 
 sails.log.debug("Creating mandrill client");
 
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_APIKEY);
+sails.log.debug(sails.config.mandrill.key);
+
+var mandrill_client = new mandrill.Mandrill(sails.config.mandrill.key);
 
 var EmailService = {
     "mandrill_client": mandrill_client,

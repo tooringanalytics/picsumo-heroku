@@ -85,5 +85,75 @@
 
     }]);
 
+    appsvc.factory('PhotoService',  ['$upload',
+                                     function($upload) {
+
+        var photoService = {};
+
+        photoService.beforePhoto = '',
+
+        photoService.afterPhoto = '',
+
+        photoService.setBeforePhoto = function (beforePhoto) {
+            photoService.beforePhoto = beforePhoto;
+        };
+
+        photoService.getBeforePhoto = function () {
+            return photoService.beforePhoto;
+        };
+
+        photoService.setAfterPhoto = function (afterPhoto) {
+            photoService.afterPhoto = afterPhoto;
+        };
+
+        photoService.getAfterPhoto = function () {
+            return photoService.afterPhoto;
+        };
+
+        photoService.takeSnapshot = function(resetAfter, done) {
+            // take snapshot and get image data
+            Webcam.snap(function(data_uri) {
+                if (resetAfter) {
+                    Webcam.reset();
+                }
+                // display results in page
+                done(data_uri);
+            });
+        };
+
+        photoService.startWebcam = function (camConfig) {
+            // Configure a few settings and attach camera
+            Webcam.set(camConfig.webcam);
+            Webcam.attach(camConfig.displayElement);
+        };
+
+
+        photoService.uploadPhotos = function (files, onLoadPhoto, updateUploadProgress, uploadSuccess) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+
+                    // Load up image preview.
+                    var reader = new FileReader();
+                    reader.onload = onLoadPhoto;
+                    reader.readAsDataURL(file);
+
+                    console.log(file);
+
+                    // Upload the file
+                    $upload.upload({
+                        url: 'upload/index',
+                        method: 'POST',
+                        data: {}, // Any data needed to be submitted along with the files
+                        file: file
+                    }).progress(updateUploadProgress)
+                    .success(uploadSuccess);
+                }
+            }
+        };
+
+        return photoService;
+    }]);
+
 
 })();

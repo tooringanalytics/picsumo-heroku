@@ -4,6 +4,12 @@
 </header>
 
 <div class="frame">
-	<div class="shared-before-image-placeholder" ng-cloak>"Before" Image Placeholder</div>
-	<div class="shared-after-image-placeholder" ng-cloak> "After" Image Placeholder</div>
+	<div class="shared-before-image-placeholder" ng-cloak>
+        Before
+        <img ng-src="{{beforePhotoURL}}" class="before-image" alt="before picture">
+    </div>
+	<div class="shared-after-image-placeholder" ng-cloak>
+        After
+        <img ng-src="{{afterPhotoURL}}" class="before-image" alt="after picture">
+    </div>
 </div>
