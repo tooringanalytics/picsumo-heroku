@@ -1,3 +1,4 @@
+
 /**
  * The main app module, wrapped in a closure.
  */
@@ -47,11 +48,6 @@
           url: '/before',
           templateUrl: 'templates/before.html',
           controller: 'BeforeCtrl'
-        })
-        .state('fake', {
-        url: '/fake',
-        templateUrl: 'templates/fake.html',
-        controller: 'FakeCtrl'
         })
         .state('after', {
           url: '/after',

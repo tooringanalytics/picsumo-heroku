@@ -1,34 +1,36 @@
+
+
 <header>
-	<div class="step">Step 2</div>
-	<div class="instruction">Add your "after" photo now or <a class="reminder" ng-href="#/after" ng-click="setReminder = true">or set a reminder to take it later...</a></div>
+    <div class="step">Step 2</div>
+    <div class="instruction">Add your "after" photo now or <a class="reminder" ng-href="#/after" ng-click="setReminder = true">or set a reminder to take it later...</a></div>
 </header>
 
 <!-- When you arrive on page, your before photo should appear -->
 
 <div class="frame">
 
-	<div class="saved-before-image-placeholder" ng-cloak>
+    <div class="saved-before-image-placeholder" ng-cloak>
         Before
         <img ng-src="{{beforePhotoURL}}" class="before-image" alt="before picture">
     </div>
 
-	<div class="after-options" ng-show="showAfterPhotoOptions">
-		<div class="button-area">
-			<button class="takePic" ng-click="takeAfterPhoto()">Take your 'after' photo</button>
-			<p class="option">Or, if you prefer...</p>
-			<label class="uploadPic">
+    <div class="after-options" ng-show="showAfterPhotoOptions">
+        <div class="button-area">
+            <button class="takePic" ng-click="takeAfterPhoto()">Take your 'after' photo</button>
+            <p class="option">Or, if you prefer...</p>
+            <label class="uploadPic">
                 <input type="file" ng-file-select ng-file-change="upload($files)" ng-click="showProgressBar()">
-	    		Choose a photo to upload
-			</label>
-		</div>
-	</div>
+                Choose a photo to upload
+            </label>
+        </div>
+    </div>
 
-	<div class="after-webcam" ng-show="showAfterWebcam" ng-cloak>
-		<div id="webcam_window" class="after-webcam-placeholder">Webcam Placeholder</div>
-		<button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
-	</div>
+    <div class="after-webcam" ng-show="showAfterWebcam" ng-cloak>
+        <div id="webcam_window" class="after-webcam-placeholder">Webcam Placeholder</div>
+        <button class="snap" ng-click="snapAfterShutter()">Snap photo</button>
+    </div>
 
-	<div class="saved-after-image-placeholder" ng-show="showAfterAcceptOptions" ng-cloak>
+    <div class="saved-after-image-placeholder" ng-show="showAfterAcceptOptions" ng-cloak>
         <figure class="draft-image-placeholder">
                 After
                 <img ng-src="{{afterPhotoURL}}" class="before-image" alt="after picture">
@@ -48,10 +50,10 @@
             <div class="percentage">{{progressPercentage}}%</div>
         </div>
         <div class="button-container">
-			<button class="retry" ng-click="retryAfter()">Retry</button>
-			<button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
-		</div>
-	</div>
+            <button class="retry" ng-click="retryAfter()">Retry</button>
+            <button class="accept" ng-click="accept()" ui-sref="share">Accept</button>
+        </div>
+    </div>
 
 </div>
 
@@ -68,8 +70,3 @@
         </select>
         <button class="remind">Remind Me</button>
 </div>
-
-
-
-
-

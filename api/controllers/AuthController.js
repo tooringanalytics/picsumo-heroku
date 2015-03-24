@@ -71,7 +71,7 @@ var AuthController = {
     req.logout();
 
     // mark the user as logged out for auth purposes
-    // req.session.authenticated = false;
+    req.session.authenticated = false;
 
     // Merged from Ryan's picsumo app
     if(req.wantsJSON) {
@@ -80,7 +80,6 @@ var AuthController = {
     else {
       res.redirect('/');
     }
-
   },
 
   /**
@@ -88,11 +87,11 @@ var AuthController = {
    *
    * Just like the login form, the registration form is just simple HTML:
    *
-      <form role="form" action="/auth/local/register" method="post">
-        <input type="text" name="username" placeholder="Username">
-        <input type="text" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        <button type="submit">Sign up</button>
+      <form role='form' action='/auth/local/register' method='post'>
+        <input type='text' name='username' placeholder='Username'>
+        <input type='text' name='email' placeholder='Email'>
+        <input type='password' name='password' placeholder='Password'>
+        <button type='submit'>Sign up</button>
       </form>
    *
    * @param {Object} req

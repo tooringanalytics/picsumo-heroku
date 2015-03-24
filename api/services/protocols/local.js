@@ -42,6 +42,7 @@ exports.register = function (req, res, next) {
     return next(new Error('No username was entered.'));
   }
   */
+
   if (!password) {
     req.flash('error', 'Error.Passport.Password.Missing');
     return next(new Error('No password was entered.'));
@@ -138,7 +139,6 @@ exports.connect = function (req, res, next) {
  * @param {Function} next
  */
 exports.login = function (req, identifier, password, next) {
-
   // Force lower casing of all identifiers.
   identifier = identifier.toLowerCase();
 

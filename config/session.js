@@ -21,8 +21,8 @@ module.exports.session = {
   * of your users, forcing them to log in again.                             *
   *                                                                          *
   ***************************************************************************/
-  secret: 'db2e95a9dd2ed44f843c652d5165d64b',
-
+  // secret: '82e0529dec15b661b77583bef21d0070', // Orig repo
+  secret: 'db2e95a9dd2ed44f843c652d5165d64b',    // Forked Repo
 
   /***************************************************************************
   *                                                                          *

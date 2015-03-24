@@ -36,6 +36,7 @@ var jsFilesToInject = [
   'js/angular-mocks.js',
   'js/validator.js',
   'js/webcam.js',
+  'js/exif.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
@@ -58,6 +59,7 @@ var jsFilesToConcat = [
   'js/angular-mocks.js',
   'js/validator.js',
   'js/webcam.js',
+  'js/exif.js',
 
   // Other client-side js files
   'js/app.js',

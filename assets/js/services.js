@@ -1,3 +1,4 @@
+
 (function() {
 
     var appsvc = angular.module('app.services', []);
@@ -91,11 +92,17 @@
         var photoService = {};
 
         photoService.beforePhoto = '',
+        photoService.beforePhotoDate = null;
 
         photoService.afterPhoto = '',
+        photoService.afterPhotoDate = null;
 
         photoService.setBeforePhoto = function (beforePhoto) {
             photoService.beforePhoto = beforePhoto;
+        };
+
+        photoService.setBeforePhotoDate = function (createDate) {
+            photoService.beforePhotoDate = createDate;
         };
 
         photoService.getBeforePhoto = function () {
@@ -104,6 +111,10 @@
 
         photoService.setAfterPhoto = function (afterPhoto) {
             photoService.afterPhoto = afterPhoto;
+        };
+
+        photoService.setAfterPhotoDate = function (createDate) {
+            photoService.afterPhotoDate = createDate;
         };
 
         photoService.getAfterPhoto = function () {
@@ -128,28 +139,80 @@
         };
 
 
-        photoService.uploadPhotos = function (files, onLoadPhoto, updateUploadProgress, uploadSuccess) {
+        photoService.uploadPhotos = function (files, saveCreateDate, onLoadPhoto, updateUploadProgress, uploadSuccess) {
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
 
-                    // Load up image preview.
-                    var reader = new FileReader();
-                    reader.onload = onLoadPhoto;
-                    reader.readAsDataURL(file);
+                    function completeUpload(file) {
+                        // Load up image preview.
+                        var reader = new FileReader();
+                        reader.onload = onLoadPhoto;
+                        reader.readAsDataURL(file);
 
-                    console.log(file);
+                        console.log(file);
 
-                    // Upload the file
-                    $upload.upload({
-                        url: 'upload/index',
-                        method: 'POST',
-                        data: {}, // Any data needed to be submitted along with the files
-                        file: file
-                    }).progress(updateUploadProgress)
-                    .success(uploadSuccess);
+                        // Upload the file
+                        $upload.upload({
+                            url: 'upload/index',
+                            method: 'POST',
+                            data: {}, // Any data needed to be submitted along with the files
+                            file: file
+                        }).progress(updateUploadProgress)
+                        .success(uploadSuccess);
+                    }
+
+                    EXIF.getData(file, function() {
+                        var createDate = EXIF.getTag(this, "DateTimeOriginal");
+                        console.log(createDate);
+                        if (createDate === undefined) {
+                            // $scope.enterDate = true;
+                            //Temporary until date input finished.
+                            // Add callback to ensure we get create date
+                            // interactively from the user.
+                            console.log('Did not get create date in EXIF data');
+                        } else {
+                            var createISODateFormat = createDate.slice(0, 10).replace(/:/g,'-');
+                            console.log(createISODateFormat);
+                            //$scope.date = createISODateFormat;
+                            //photoService.beforePhotoDate = createISODateFormat;
+                            createDate = createISODateFormat;
+                        }
+                        saveCreateDate(createDate);
+                        completeUpload(file);
+                    });
                 }
             }
+        };
+
+        photoService.ryanUpload = function (file) {
+
+            var photo = {
+                date: null,
+                uploadPromise: null
+            };
+
+            EXIF.getData(file, function() {
+                console.log(file);
+                var createDate = EXIF.getTag(this, "DateTimeOriginal");
+                if (createDate === undefined) {
+                    console.log('date not defined');
+                  } else {
+                    var createISODate = createDate.slice(0, 10).replace(/:/g,'-');
+                    console.log(createISODate);
+                    photo.date = createISODate;
+                    console.log(photo.date);
+                    }
+            });
+
+            photo.uploadPromise = $upload.upload({
+                    url: 'upload/index',
+                    method: 'POST',
+                    data: {}, // Any data needed to be submitted along with the files
+                    file: file
+                });
+
+            return photo;
         };
 
         return photoService;
@@ -157,3 +220,4 @@
 
 
 })();
+

@@ -1,11 +1,11 @@
 module.exports = function (grunt) {
-	grunt.registerTask('compileAssets', [
-		'clean:dev',
+    grunt.registerTask('compileAssets', [
+        'clean:dev',
         'bower:dev',
-		'jst:dev',
-		'less:dev',
+        'jst:dev',
+        'less:dev',
         'sass:dev',
-		'copy:dev',
-		'coffee:dev',
-	]);
+        'copy:dev',
+        'coffee:dev'
+    ]);
 };

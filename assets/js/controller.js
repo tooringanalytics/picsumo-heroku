@@ -1,3 +1,4 @@
+
 (function() {
 
     var appctl = angular.module('app.controllers',
@@ -407,6 +408,7 @@
         $scope.upload = function (files) {
 
             PhotoService.uploadPhotos(files,
+                                      PhotoService.setBeforePhotoDate,
                                       befctl.onLoadPhoto,
                                       befctl.updateUploadProgress,
                                       befctl.uploadSuccess);
@@ -511,6 +513,7 @@
         $scope.upload = function (files) {
 
             PhotoService.uploadPhotos(files,
+                                      PhotoService.setAfterPhotoDate,
                                       aftctl.onLoadPhoto,
                                       aftctl.updateUploadProgress,
                                       aftctl.uploadSuccess);

@@ -1,9 +1,10 @@
 {
   "name": "picsumo",
   "version": "0.0.0",
-  "homepage": "https://github.com/tooringanalytics/picsumo-heroku",
+  "homepage": "https://github.com/ryanluedecke/picsumo",
   "authors": [
-    "Tooring Analytics <support@tooringanalytics.com>"
+    "Ryan Luedecke <ryan@sumojerky.com>",
+    "Tooring Analytics <info@tooringanalytics.com>"
   ],
   "license": "MIT",
   "ignore": [
@@ -19,6 +20,7 @@
     "angular-validation-match": "*",
     "ng-file-upload": "~3.2.4",
     "webcamjs": "*",
+    "exif-js": "*",
     "validator-js": "~3.33.0",
     "ng-file-upload-shim": "~3.2.4"
   },

@@ -2,7 +2,7 @@
   "name": "picsumo-heroku",
   "private": true,
   "version": "0.0.0",
-  "description": "a Sails application",
+  "description": "PicSumo is the easiest way to take and share your before and after photos.",
   "keywords": [],
   "dependencies": {
     "aws": "0.0.3-2",
@@ -51,10 +51,10 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/anshuman/picsumo-heroku.git"
+    "url": "git://github.com/tooringanalytics/picsumo-heroku.git"
   },
-  "author": "anshuman",
-  "license": "",
+  "author": "tooringanalytics",
+  "license": "MIT",
   "devDependencies": {
     "angular-mocks": "^1.3.14",
     "grunt": "^0.4.2",
