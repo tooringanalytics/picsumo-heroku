@@ -420,9 +420,7 @@
             console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
         };
 
-        this.updateSuccess = function (data, status, headers, config) {
-            $scope.photoURL = data[0].extra.Location;
-            PhotoService.setBeforePhoto($scope.photoURL);
+        this.uploadSuccess = function (data, status, headers, config) {
             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             console.log(data);
         };
@@ -525,9 +523,7 @@
             console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
         };
 
-        this.updateSuccess = function (data, status, headers, config) {
-            $scope.afterPhotoURL = data[0].extra.Location;
-            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+        this.uploadSuccess = function (data, status, headers, config) {
             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             console.log(data);
         };

@@ -15,6 +15,7 @@ var UploadController = {
         sails.log.debug('uploading files to S3');
         var skipperS3 = require('skipper-s3');
         // Disable S3 uploads for now
+        //sails.log.debug(req.para);
         res.jsonx({
                 "error": "E_UPLOAD",
                 "status": 500,
@@ -23,13 +24,17 @@ var UploadController = {
         /*
         try {
             sails.log.debug(req.file('file'));
-            req.file('file').upload({
+
+            req.file('file')
+            .upload({
                   adapter: skipperS3,
                   key: sails.config.s3.key,
                   secret: sails.config.s3.secret,
                   bucket: sails.config.s3.bucket,
                   region: sails.config.s3.region
             }, function(err, uploadedFiles) {
+                sails.log.debug(err);
+                sails.log.debug(uploadedFiles);
                 if(err) {
                     sails.log.error(err);
                     res.status(500);

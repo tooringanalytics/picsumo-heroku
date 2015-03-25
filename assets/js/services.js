@@ -144,25 +144,24 @@
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
 
-                    function completeUpload(file) {
-                        // Load up image preview.
-                        var reader = new FileReader();
-                        reader.onload = onLoadPhoto;
-                        reader.readAsDataURL(file);
+                    function onGetEXIFData () {
+                        function completeUpload(file) {
+                            // Load up image preview.
+                            var reader = new FileReader();
+                            reader.onload = onLoadPhoto;
+                            reader.readAsDataURL(file);
 
-                        console.log(file);
+                            console.log(file);
 
-                        // Upload the file
-                        $upload.upload({
-                            url: 'upload/index',
-                            method: 'POST',
-                            data: {}, // Any data needed to be submitted along with the files
-                            file: file
-                        }).progress(updateUploadProgress)
-                        .success(uploadSuccess);
-                    }
-
-                    EXIF.getData(file, function() {
+                            // Upload the file
+                            $upload.upload({
+                                url: 'upload/index',
+                                method: 'POST',
+                                data: {}, // Any data needed to be submitted along with the files
+                                file: file
+                            }).progress(updateUploadProgress)
+                            .success(uploadSuccess);
+                        }
                         var createDate = EXIF.getTag(this, "DateTimeOriginal");
                         console.log(createDate);
                         if (createDate === undefined) {
@@ -178,9 +177,15 @@
                             //photoService.beforePhotoDate = createISODateFormat;
                             createDate = createISODateFormat;
                         }
-                        saveCreateDate(createDate);
+                        if (!(createDate === undefined)) {
+                            console.log('Saving create date using callback');
+                            saveCreateDate(createDate);
+                        }
+                        console.log('Completing File Upload');
                         completeUpload(file);
-                    });
+                    }
+                    console.log("Getting EXIF data & uploading pic.")
+                    EXIF.getData(file, onGetEXIFData);
                 }
             }
         };
