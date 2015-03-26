@@ -21,9 +21,8 @@ var UploadController = {
                 "status": 500,
                 "summary": "There was a problem uploading the file."
             });
-        /*
+        sails.log.debug(req.file('file'));
         try {
-            sails.log.debug(req.file('file'));
 
             req.file('file')
             .upload({
@@ -56,7 +55,7 @@ var UploadController = {
                 "summary": "There was a problem uploading the file."
             });
         }
-        */
+
     }
 };
 

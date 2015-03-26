@@ -849,6 +849,36 @@
                       [function() {
     }]);
 
+    appctl.controller('S3TestCtrl', [ "$scope", function ($scope) {
+
+        var s3ctl = this;
+        //var input_element = document.getElementById("files");
+        //input_element.onchange = s3_upload;
+
+        $scope.s3_upload = function () {
+            var status_elem = document.getElementById("status");
+            var url_elem = document.getElementById("avatar_url");
+            var preview_elem = document.getElementById("preview");
+
+            var s3upload = new S3Upload({
+                file_dom_selector: 'files',
+                s3_sign_put_url: '/sign_s3',
+                onProgress: function(percent, msessage) {
+                    status_elem.innerHTML = 'Upload progress: ' + percent + '% ' + message;
+                },
+                onFinishS3Put: function(public_url) {
+                    status_elem.innerHTML = 'Upload completed. Uploaded to: '+ public_url;
+                    url_elem.value = public_url;
+                    preview_elem.innerHTML = '<img src="'+public_url+'" style="width:300px;" />';
+                },
+                onError: function(status) {
+                    status_elem.innerHTML = 'Upload error: ' + status;
+                }
+            });
+        }
+
+    }]);
+
 
     /**
      * LogoutCtrl

@@ -63,6 +63,11 @@
           url: '/gallery',
           templateUrl: 'templates/gallery.html',
           controller: 'GalleryCtrl'
+        })
+        .state('s3test', {
+          url: '/s3test',
+          templateUrl: 'templates/s3test.html',
+          controller: 'S3TestCtrl'
         });
 
         $urlRouterProvider.otherwise('/');
