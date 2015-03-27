@@ -5,17 +5,50 @@
 
 <h2>Your avatar</h2>
 
-<input type="file" id="files" ng-change="s3_upload()"/>
 <p id="status">Please select a file</p>
-<div style="border:1px solid gray;width:300px;"  id="preview"><img src="/images/default.png" style="width:300px;" /></div>
+
+    {{ uploadStatus }}
+
+    <div class="before-options" ng-show="showPhotoOptions">
+        <div class="button-area">
+            <label class="uploadPic">
+                <input id="files" type="file" ng-file-select ng-file-change="upload($files)" ng-click="showProgressBar()">
+                Choose a photo to upload
+            </label>
+        </div>
+    </div>
+
+    <div ng-show="showAcceptOptions" ng-cloak>
+            <figure class="draft-image-placeholder">
+                Before
+                <img ng-src="{{photoURL}}" class="before-image" alt="before picture">
+                <figcaption>
+                    <div class="day">Day 1</div>
+                    <div class="date">{{date | date: 'mediumDate'}}</div>
+                </figcaption>
+            </figure>
+            <!-- As the image uploads there should be a progress bar -->
+            <div class="progress-bar-container" ng-if="progressBar && progressPercentage < 100">
+                <div class="progress-text">Upload progress:</div>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar">
+                        <div class="progress" style="width:{{progressPercentage}}%"></div>
+                    </div>
+                </div>
+                <div class="percentage">{{progressPercentage}}%</div>
+            </div>
+            <!--The user has the option to accept the photo or take another. -->
+            <div class="button-container">
+                <button class="retry" ng-click="retry()">Retry</button>
+                <button class="accept" ng-click="accept()" ui-sref="after">Accept</button>
+            </div>
+        </div>
+
 
 <h2>Your information</h2>
 
-<form method="POST" action="/submit_form/">
-    <input type="hidden" id="avatar_url" name="avatar_url" value="/public/images/default.png" />
-    <input type="text" name="username" placeholder="Username" /><br />
-    <input type="text" name="full_name" placeholder="Full name" /><br /><br />
-
+<form method="POST" action="upload/upload_photo_url">
+    <input type="hidden" id="photo_url" name="photo_url" ng-model="photo_url" />
     <hr />
     <h2>Save changes</h2>
 

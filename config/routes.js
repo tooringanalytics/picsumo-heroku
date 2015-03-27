@@ -59,6 +59,7 @@ module.exports.routes = {
   'get /auth/:provider/callback': 'AuthController.callback',
   'get /auth/:provider/:action': 'AuthController.callback',
 
-  'post upload/index': 'UploadController.index'
-
+  'post /upload/index': 'UploadController.index',
+  'get /upload/sign_request': 'UploadController.sign_request',
+  'post /upload/photo_url/*': 'UploadController.upload_photo_url'
 };

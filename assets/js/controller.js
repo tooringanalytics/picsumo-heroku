@@ -405,6 +405,18 @@
           $scope.showPhotoOptions = false;
         };
 
+        $scope.webcamUpload = function () {
+            console.log("Uplaoding data uri: ");
+            console.log($scope.photoURL);
+
+            var blob = PhotoService.getWebcamPhotoBlob($scope.photoURL);
+
+            var files = [ blob ];
+
+            $scope.upload(files);
+
+        };
+
         $scope.upload = function (files) {
 
             PhotoService.uploadPhotos(files,
@@ -423,6 +435,8 @@
         this.uploadSuccess = function (data, status, headers, config) {
             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             console.log(data);
+            $scope.photoURL = data.uploadedFiles[0].extra.Location;
+            PhotoService.setAfterPhoto($scope.photoURL);
         };
 
         this.onLoadPhoto = function (e) {
@@ -435,6 +449,9 @@
             // display photo from webcam
             $scope.photoURL = data_uri;
             PhotoService.setBeforePhoto($scope.photoURL);
+            PhotoService.setBeforePhotoDate(Date.now());
+            $scope.showProgressBar();
+            $scope.webcamUpload();
         };
 
         $scope.takePhoto = function () {
@@ -454,6 +471,7 @@
             $scope.showAcceptOptions = false;
             $scope.showPhotoOptions = true;
         };
+
 
     }]);
 
@@ -508,6 +526,18 @@
           $scope.showAfterPhotoOptions = false;
         };
 
+        $scope.webcamUpload = function () {
+            console.log("Uplaoding data uri: ");
+            console.log($scope.afterPhotoURL);
+
+            var blob = PhotoService.getWebcamPhotoBlob($scope.afterPhotoURL);
+
+            var files = [ blob ];
+
+            $scope.upload(files);
+
+        };
+
         $scope.upload = function (files) {
 
             PhotoService.uploadPhotos(files,
@@ -524,8 +554,10 @@
         };
 
         this.uploadSuccess = function (data, status, headers, config) {
-            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+            console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
             console.log(data);
+            $scope.afterPhotoURL = data.uploadedFiles[0].extra.Location;
+            PhotoService.setAfterPhoto($scope.afterPhotoURL);
         };
 
         this.onLoadPhoto = function (e) {
@@ -538,6 +570,8 @@
             // display photo from webcam
             $scope.afterPhotoURL = data_uri;
             PhotoService.setAfterPhoto($scope.afterPhotoURL);
+            $scope.showProgressBar();
+            $scope.webcamUpload();
         };
 
         $scope.takeAfterPhoto = function () {
@@ -849,33 +883,66 @@
                       [function() {
     }]);
 
-    appctl.controller('S3TestCtrl', [ "$scope", function ($scope) {
+    appctl.controller('S3TestCtrl', ["$scope",
+                                     "$upload",
+                                     "PhotoService",
+                                     function ($scope,
+                                               $upload,
+                                               PhotoService) {
 
         var s3ctl = this;
         //var input_element = document.getElementById("files");
         //input_element.onchange = s3_upload;
+        $scope.progressPercentage = 0;
+        $scope.showPhotoOptions = true;
+        $scope.showAcceptOptions = false;
+        $scope.progressBar = false;
+        $scope.photoURL = null;
+        $scope.uploadStatus = '';
 
-        $scope.s3_upload = function () {
-            var status_elem = document.getElementById("status");
-            var url_elem = document.getElementById("avatar_url");
-            var preview_elem = document.getElementById("preview");
+        // Controller & scope methods.
+        $scope.showProgressBar = function () {
+          $scope.progressBar = true;
+          $scope.showAfterAcceptOptions = true;
+          $scope.showAfterPhotoOptions = false;
+        };
 
-            var s3upload = new S3Upload({
-                file_dom_selector: 'files',
-                s3_sign_put_url: '/sign_s3',
-                onProgress: function(percent, msessage) {
-                    status_elem.innerHTML = 'Upload progress: ' + percent + '% ' + message;
-                },
-                onFinishS3Put: function(public_url) {
-                    status_elem.innerHTML = 'Upload completed. Uploaded to: '+ public_url;
-                    url_elem.value = public_url;
-                    preview_elem.innerHTML = '<img src="'+public_url+'" style="width:300px;" />';
-                },
-                onError: function(status) {
-                    status_elem.innerHTML = 'Upload error: ' + status;
-                }
-            });
-        }
+        // Called to initiate file upload.
+        $scope.upload = function (files) {
+
+            PhotoService.s3UploadPhotos(files,
+                                      PhotoService.setBeforePhotoDate,
+                                      s3ctl.onLoadPhoto,
+                                      s3ctl.updateUploadProgress,
+                                      s3ctl.uploadSuccess,
+                                      s3ctl.uploadError);
+
+        };
+
+        // Called when file is loaded from disk into browser memory
+        // at a data URL.
+        this.onLoadPhoto = function (e) {
+            // display the photo loaded from disk
+            $scope.photoURL = e.target.result;
+            PhotoService.setBeforePhoto($scope.photoURL);
+        };
+
+        // Called periodically for progress update, while file is being uploaded
+        // to the server
+        this.updateUploadProgress = function (percent, message) {
+            $scope.uploadStatus = 'Upload progress: ' + percent + '% ' + message;
+            console.log($scope.uploadStatus);
+        };
+
+        // Called when upload to the remote server completes.
+        this.uploadSuccess = function (public_url) {
+            $scope.uploadStatus = 'Upload completed. Uploaded to: '+ public_url;
+            $scope.photoURL = public_url;
+        };
+
+        this.uploadError = function(status) {
+            $scope.uploadStatus = 'Upload error: ' + status;
+        };
 
     }]);
 
