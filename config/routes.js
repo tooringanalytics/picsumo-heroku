@@ -61,5 +61,7 @@ module.exports.routes = {
 
   'post /upload/index': 'UploadController.index',
   'get /upload/sign_request': 'UploadController.sign_request',
-  'post /upload/photo_url/*': 'UploadController.upload_photo_url'
+  'post /upload/photo_url/*': 'UploadController.upload_photo_url',
+  'post /reminders/:action': 'ReminderController.reminders'
+
 };

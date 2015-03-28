@@ -10,26 +10,34 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'sinon-chai'],
 
 
     // list of files / patterns to load in the browser
     files: [
-    "bower_components/angular/angular.js",
-    "bower_components/ng-file-upload/angular-file-upload.js",
-    'bower_components/angular-mocks/angular-mocks.js',
-    "bower_components/angular-ui-router/release/angular-ui-router.js",
-    "bower_components/validator-js/validator.js",
-    "bower_components/webcamjs/webcam.js",
-    'assets/js/app.js',
-    'assets/js/controller.js',
-    'assets/js/services.js',
-    'assets/tests/*.js' ,    // Add all tests
+        "bower_components/angular/angular.js",
+        "bower_components/angular-ui-router/release/angular-ui-router.js",
+        'bower_components/angular-mocks/angular-mocks.js',
+        "bower_components/ng-file-upload/angular-file-upload.js",
+        "bower_components/ng-file-upload-shim/angular-file-upload-shim.js",
+        "bower_components/validator-js/validator.js",
+        "bower_components/webcamjs/webcam.js",
+        'bower_components/angular-validation-match/dist/angular-input-match.min.js',
+        'bower_components/exif-js/exif.js',
+        'assets/js/s3upload.js',
+        'assets/js/app.js',
+        'assets/js/controller.js',
+        'assets/js/services.js',
+        //'assets/tests/*.js' ,    // Add all tests
+
+        'test/**/*.spec.js',
+        'test/**/*.test.js'
     ],
 
 
     // list of files to exclude
     exclude: [
+        //'test/**/*.test.js'
     ],
 
 

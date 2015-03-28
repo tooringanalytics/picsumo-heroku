@@ -483,11 +483,37 @@
      */
     appctl.controller('AfterCtrl',
                       ['$scope',
+                        '$http',
                        'PhotoService',
                        function($scope,
+                                $http,
                                 PhotoService) {
 
         var aftctl = this;
+
+        $scope.delayOptions = [{
+              id: 1,
+              label: '7 Days',
+              value: 7
+        }, {
+              id: 2,
+              label: '14 Days',
+              value: 14
+        }, {
+              id: 3,
+              label: '30 Days',
+              value: 30
+        }, {
+              id: 4,
+              label: '60 Days',
+              value: 60
+        }, {
+              id: 5,
+              label: '90 Days',
+              value: 90
+        }];
+
+        $scope.delay_days = 7;
 
         this.webcamConfig = {
             webcam: {

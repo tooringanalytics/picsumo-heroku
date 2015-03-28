@@ -175,4 +175,59 @@ EmailService.sendPasswordChangedEmail = function(options) {
     });
 };
 
+
+EmailService.sendAfterPhotoReminderEmail = function(options) {
+
+    sails.log.debug("Getting mandrill client");
+
+    var mandrill_client = EmailService.mandrill_client;
+
+    sails.log.debug("Creating message");
+
+    html_body = "<p>Dear " + options.username + ",</p>" +
+                "<p>You asked us to remind you to take your 'After' photo today.</p>" +
+                "<p>Visit PicSumo now and let the world know about your progress!</p>";
+
+    text_body = "<p>Dear " + options.username + ",</p>" +
+                "<p>You asked us to remind you to take your 'After' photo today.</p>" +
+                "<p>Visit picSumo now and let the world know about your progress!</p>";
+
+    var message = {
+        "html": html_body,
+        "text": text_body,
+        "subject": "A Friendly Reminder from PicSumo!",
+        "from_email": EmailService.from_email,
+        "from_name": "PicSumo",
+        "to" : [{
+            "email": options.to_email,
+            "name": options.to_name,
+            "type": "to"
+        }],
+        "headers": {
+            "Reply-To": EmailService.reply_to_email
+        },
+        "important": false
+    };
+
+    var async = true;
+    var ip_pool = "Main Pool";
+
+    sails.log.debug("Sending email message");
+
+    mandrill_client.messages.send({
+        "message": message,
+        "async": async,
+        "ip_pool": ip_pool
+    }, function(result) {
+        sails.log.debug("Email send succeeded.");
+        sails.log.debug(result);
+    }, function(e) {
+        sails.log.debug('A mandrill error occurred: ' +
+                        e.name +
+                        ' - ' +
+                        e.message);
+    });
+};
+
+
 module.exports = EmailService;

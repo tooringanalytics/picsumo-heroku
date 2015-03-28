@@ -61,12 +61,12 @@
 
 <div ng-show="setReminder === true">
         <p>We'll send you an email reminder</p>
-        When: <select class='days'>
+        When: <select ng-options="option.value as option.label for option in delayOptions track by option.id" ng-model="selected"><!--select class='days'>
             <option value="7">In 7 days</option>
             <option value="14">In 14 days</option>
             <option value="30">In 30 days</option>
             <option value="60">In 60 days</option>
             <option value="90">In 90 days</option>
-        </select>
+        </select-->
         <button class="remind">Remind Me</button>
 </div>
