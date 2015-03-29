@@ -51,9 +51,11 @@ module.exports.connections = {
     ssl: {
       rejectUnauthorized: false
     }
+  },
+
+  testDb : {
+    adapter: 'sails-memory'
   }
-
-
   /***************************************************************************
   *                                                                          *
   * More adapters: https://github.com/balderdashy/sails                      *

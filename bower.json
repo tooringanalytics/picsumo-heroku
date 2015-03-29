@@ -20,7 +20,7 @@
     "angular-validation-match": "*",
     "ng-file-upload": "~3.2.4",
     "webcamjs": "*",
-    "exif-js": "*",
+    "exif-js": "https://github.com/webthusiast/exif-js.git",
     "validator-js": "~3.33.0",
     "ng-file-upload-shim": "~3.2.4"
   },

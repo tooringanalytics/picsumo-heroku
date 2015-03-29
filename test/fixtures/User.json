@@ -1,0 +1,20 @@
+[
+    {
+        "username": "user1@email.com",
+        "email": "user1@email.com",
+        "id": 1,
+        "passports":   [ 1 ]
+    },
+    {
+        "username": "user2@email.com",
+        "email": "user2@email.com",
+        "id": 2,
+        "passports":   [ 2 ]
+    },
+    {
+        "username": "user3@email.com",
+        "email": "user3@email.com",
+        "id": 3,
+        "passports":   [ 3 ]
+    }
+]

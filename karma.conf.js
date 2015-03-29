@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+
         "bower_components/angular/angular.js",
         "bower_components/angular-ui-router/release/angular-ui-router.js",
         'bower_components/angular-mocks/angular-mocks.js',
@@ -28,16 +29,14 @@ module.exports = function(config) {
         'assets/js/app.js',
         'assets/js/controller.js',
         'assets/js/services.js',
-        //'assets/tests/*.js' ,    // Add all tests
 
-        'test/**/*.spec.js',
-        'test/**/*.test.js'
+        'test/**/*.spec.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-        //'test/**/*.test.js'
+        'test/**/*.test.js'
     ],
 
 

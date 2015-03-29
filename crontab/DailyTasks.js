@@ -1,9 +1,13 @@
 module.exports = {
     run : function () {
-        sails.log.debug('do something very cool here: ' + Date.now().toISOString());
+        var sails = require('sails');
+        sails.log.debug('do something very cool here: ' + (new Date()).toISOString());
+
     },
 
     sendReminderEmails : function () {
-        sails.log.debug('Time to send reminder emails...' + Date.now().toISOString());
+        var sails = require('sails');
+        sails.log.debug('Time to send reminder emails...' + (new Date()).toISOString());
+        ReminderService.sendTodaysReminders();
     }
 };

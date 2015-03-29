@@ -60,7 +60,7 @@ module.exports = {
             var action = req.param('action');
 
             switch (action) {
-                case 'create':
+                case 'set':
                     if(req.wantsJSON) {
                         var status = getStatusCode(errorToReturn);
                         res.status(status);
@@ -88,7 +88,7 @@ module.exports = {
                         res.redirect('/');
                     }
                     break;
-                                case 'delete':
+                case 'delete':
                     if(req.wantsJSON) {
                         var status = getStatusCode(errorToReturn);
                         res.status(status);
@@ -105,12 +105,31 @@ module.exports = {
             }
         }
 
-        function createReminder() {
+        function onSuccess(summary) {
+            var action = req.param('action');
+            switch (action) {
+                case 'set':
+                    var status = 200;
+                    res.status(status);
+                    res.jsonx({
+                        "error": null,
+                        "status": status,
+                        "summary": locale.get(summary, req.getLocale()),
+                        "success": true
+                    });
+                    break;
+            }
+        }
+
+        function setReminder() {
             var user = req.user;
+            sails.log.debug("Entered setReminder");
+            sails.log.debug(req.body);
+
             var delay_days = req.body.delay;
 
             var delay_ms =  (delay_days * 24 * 60 * 60 * 1000.0);
-            var due_date = Date.now();
+            var due_date = new Date();
             sails.log.debug("Current Date: " + due_date);
             sails.log.debug("Delay Days: " + delay_days);
             due_date.setHours(8, 0, 0, 0);
@@ -119,17 +138,46 @@ module.exports = {
 
             sails.log.debug("Due date: " + due_date);
 
-            reminder = new Reminder({
-                userID: user.id,
-                dueDate: due_date
-            });
+            Reminder.findOne({userID: user.id, dueDate: due_date})
+                    .exec(function (err, reminder) {
+                        if (err || reminder === undefined) {
+                            Reminder.create({
+                                        userID: user.id,
+                                        dueDate: due_date
+                                        }, function (err, reminder) {
+                                            if (err || reminder === undefined) {
+                                                tryAgain(err);
+                                            } else {
+                                                reminder.save( function (err, reminder) {
+                                                    if (err || reminder === undefined) {
+                                                        tryAgain(err);
+                                                    } else {
+                                                        onSuccess('Created Reminder');
+                                                    }
+                                                });
 
-            reminder.save();
+                                            }
+                                        });
+                        } else {
+                            err = 'EEXISTS';
+                            tryAgain(err);
+                        }
+                    });
         }
 
+        function deleteReminder() {
+            tryAgain('Error.Passport.Generic');
+        }
+
+        function changeReminder() {
+            tryAgain('Error.Passport.Generic');
+        }
         var user = req.user;
 
+        sails.log.debug(user);
+
         if (!user) {
+            sails.log.debug("Did not find valid user");
             var err = 'Error.Passport.Generic';
             return tryAgain(err);
         }
@@ -137,8 +185,8 @@ module.exports = {
         var action = req.param('action');
 
         switch (action) {
-            case 'create':
-                createReminder();
+            case 'set':
+                setReminder();
                 break;
             case 'delete':
                 deleteReminder();

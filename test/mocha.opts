@@ -1,0 +1,5 @@
+--reporter spec
+--timeout 40000
+--recursive
+--growl
+-g Controller|Service|Upload

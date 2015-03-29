@@ -7,11 +7,8 @@ module.exports.crontab = {
    * so in the example below it will run every minute
    */
 
-  '0 */10 * * * * *': function() {
-      require('../crontab/DailyTasks.js').run();
-  },
-
-  '0 30 * * * * *': function() {
+  // Run this task every 4 hours.
+  '0 0 */4 * * * *': function() {
       require('../crontab/DailyTasks.js').sendReminderEmails();
   }
 
