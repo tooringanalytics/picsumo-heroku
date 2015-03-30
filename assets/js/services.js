@@ -87,38 +87,73 @@
     }]);
 
     appsvc.factory('PhotoService',  ['$upload',
-                                     function($upload) {
+                                     '$http',
+                                     function($upload, $http) {
 
         var photoService = {};
 
-        photoService.beforePhoto = '',
-        photoService.beforePhotoDate = null;
+        photoService.beforePhoto = null,
 
-        photoService.afterPhoto = '',
-        photoService.afterPhotoDate = null;
+        photoService.afterPhoto = null,
+
+        photoService.framedPhoto = null,
 
         photoService.setBeforePhoto = function (beforePhoto) {
+            if ('id' in photoService.afterPhoto) {
+                photoService.afterPhoto.matchID = beforePhoto.id;
+                beforePhoto.matchID = photoService.afterPhoto.id;
+            }
             photoService.beforePhoto = beforePhoto;
         };
 
         photoService.setBeforePhotoDate = function (createDate) {
-            photoService.beforePhotoDate = createDate;
+            photoService.beforePhoto.date = createDate.toISOString();
         };
 
         photoService.getBeforePhoto = function () {
-            return photoService.beforePhoto;
+            return new Promise(function (resolve, reject) {
+                if (!photoService.beforePhoto) {
+                    $http.get('/photos/before')
+                    .success(function (res) {
+                        photoService.beforePhoto = res.photo;
+                        if ('afterPhoto' in res && res.afterPhoto) {
+                            photoService.afterPhoto = res.afterPhoto;
+                        }
+                        resolve([photoService.beforePhoto, photoService.afterPhoto]);
+                    })
+                    .error(reject);
+                } else {
+                    resolve([photoService.beforePhoto, photoService.afterPhoto]);
+                }
+            });
         };
 
         photoService.setAfterPhoto = function (afterPhoto) {
+            if ('id' in photoService.beforePhoto) {
+                photoService.beforePhoto.matchID = afterPhoto.id;
+                afterPhoto.matchID = photoService.beforePhoto.id;
+            }
             photoService.afterPhoto = afterPhoto;
         };
 
         photoService.setAfterPhotoDate = function (createDate) {
-            photoService.afterPhotoDate = createDate;
+            photoService.afterPhoto.date = createDate.toISOString();
         };
 
         photoService.getAfterPhoto = function () {
             return photoService.afterPhoto;
+        };
+
+        photoService.setFramedPhoto = function (framedPhoto) {
+            photoService.framedPhoto = framedPhoto;
+        };
+
+        photoService.setFramedPhotoDate = function (createDate) {
+            photoService.framedPhoto.date = createDate;
+        };
+
+        photoService.getFramedPhoto = function () {
+            return photoService.framedPhoto;
         };
 
         photoService.takeSnapshot = function(resetAfter, done) {
@@ -222,6 +257,7 @@
                             // Add callback to ensure we get create date
                             // interactively from the user.
                             console.log('Did not get create date in EXIF data');
+                            createDate = (new Date()).toISOString();
                         } else {
                             var createISODateFormat = createDate.slice(0, 10).replace(/:/g,'-');
                             console.log(createISODateFormat);
@@ -236,8 +272,16 @@
                         console.log('Completing File Upload');
                         completeUpload(file);
                     }
-                    console.log("Getting EXIF data & uploading pic.")
-                    EXIF.getData(file, onGetEXIFData);
+                    console.log("Getting EXIF data & uploading pic.");
+                    if (!file.isWebcam) {
+                        exifOk = EXIF.getData(file, onGetEXIFData);
+                        if (!exifOk) {
+                            // Exif processing fail, so move on.
+                            onGetEXIFData();
+                        }
+                    } else {
+                        onGetEXIFData();
+                    }
                 }
             }
         };
@@ -274,6 +318,7 @@
                             // Add callback to ensure we get create date
                             // interactively from the user.
                             console.log('Did not get create date in EXIF data');
+                            createDate = (new Date()).toISOString();
                         } else {
                             var createISODateFormat = createDate.slice(0, 10).replace(/:/g,'-');
                             console.log(createISODateFormat);
@@ -289,9 +334,41 @@
                         completeUpload(file);
                     }
                     console.log("Getting EXIF data & uploading pic.")
-                    EXIF.getData(file, onGetEXIFData);
+                    exifOk = EXIF.getData(file, onGetEXIFData);
+                    if (!exifOk) {
+                        // Exif processing fail, so move on.
+                        onGetEXIFData();
+                    }
                 }
             }
+        };
+
+        photoService.savePhoto = function (photo) {
+            if (photo.type == 1) {
+                photoService.setBeforePhoto(photo);
+            } else if (photo.type == 2) {
+                photoService.setAfterPhoto(photo);
+            } else if (photo.type == 3) {
+                photoService.setFramedPhoto(photo);
+            }
+            return new Promise(function (resolve, reject) {
+                $http.post('photos/save', photo)
+                .success(function (res) {
+                    console.log(res);
+                    var savedPhoto = res.photo;
+                    if (photo.type == 1) {
+                        photoService.setBeforePhoto(savedPhoto);
+                    } else if (photo.type == 2) {
+                        photoService.setAfterPhoto(savedPhoto);
+                    } else if (photo.type == 3) {
+                        photoService.setFramedPhoto(savedPhoto);
+                    }
+                    resolve(savedPhoto);
+                })
+                .error(function (err) {
+                    reject(err);
+                });
+             });
         };
 
         photoService.ryanUpload = function (file) {

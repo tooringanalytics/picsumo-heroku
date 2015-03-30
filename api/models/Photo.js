@@ -15,6 +15,12 @@ module.exports = {
             unique: true,
             url: true
             },
+        // Data photo was taken.
+        date: {
+            type: 'datetime',
+            required: false,
+            defaultsTo: null
+        },
         //1 - before, 2 - after, 3 - framed
         type: {
             type: 'integer',

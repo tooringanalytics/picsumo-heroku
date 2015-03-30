@@ -1,9 +1,19 @@
 .shared-before-image-placeholder, .shared-after-image-placeholder {
 	float: left;
 	margin: 0 auto;
-	width: 237px;
-	height: 200px;
+	width: 245px;
+	height: 610px;
 	border: 4px dashed #ddd;
 	border-radius: 3px;
 	padding: 45px 30px;
+}
+
+.shared-framed-image-placeholder {
+    float: center;
+    margin: 0 auto;
+    width: 490px;
+    height: 610px;
+    border: 4px dashed #ddd;
+    border-radius: 3px;
+    padding: 45px 30px;
 }

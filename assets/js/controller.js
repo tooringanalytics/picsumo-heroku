@@ -372,10 +372,10 @@
 
         this.webcamConfig = {
             webcam: {
-                width: 320,
-                height: 240,
-                image_format: 'jpeg',
-                jpeg_quality: 90,
+                width: 237,
+                height: 200,
+                image_format: 'png',
+                jpeg_quality: 100,
             },
             displayElement: '#webcam_window'
         };
@@ -386,16 +386,12 @@
         $scope.showWebcam = false;
         $scope.showAcceptOptions = false;
         $scope.progressBar = false;
-        $scope.photoURL = '';
         $scope.date = new Date ();
+
         $scope.photo = {
-            id: null,
-            date: null,
-            url: null,
-            type: null,
-            matchID: null,
-            privatePic: null,
-            userID: null,
+            url: '',
+            type: 1,
+            privatePic: false
         };
 
         // Controller & scope methods.
@@ -406,10 +402,11 @@
         };
 
         $scope.webcamUpload = function () {
-            console.log("Uplaoding data uri: ");
-            console.log($scope.photoURL);
+            console.log("Uploading data uri: ");
+            console.log($scope.photo.url);
 
-            var blob = PhotoService.getWebcamPhotoBlob($scope.photoURL);
+            var blob = PhotoService.getWebcamPhotoBlob($scope.photo.url);
+            blob.isWebcam = true;
 
             var files = [ blob ];
 
@@ -420,11 +417,15 @@
         $scope.upload = function (files) {
 
             PhotoService.uploadPhotos(files,
-                                      PhotoService.setBeforePhotoDate,
+                                      befctl.onSetDate,
                                       befctl.onLoadPhoto,
                                       befctl.updateUploadProgress,
                                       befctl.uploadSuccess);
 
+        };
+
+        this.onSetDate = function (cdate) {
+            $scope.photo.date = new Date(cdate);
         };
 
         this.updateUploadProgress = function (evt) {
@@ -435,21 +436,26 @@
         this.uploadSuccess = function (data, status, headers, config) {
             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             console.log(data);
-            $scope.photoURL = data.uploadedFiles[0].extra.Location;
-            PhotoService.setAfterPhoto($scope.photoURL);
+            $scope.photo.url = data.uploadedFiles[0].extra.Location;
+            PhotoService.savePhoto($scope.photo)
+            .then(function (photo) {
+                console.log(photo);
+            }, function (error) {
+                console.log(error);
+            });
         };
 
         this.onLoadPhoto = function (e) {
             // display the photo loaded from disk
-            $scope.photoURL = e.target.result;
-            PhotoService.setBeforePhoto($scope.photoURL);
+            $scope.photo.url = e.target.result;
+            PhotoService.setBeforePhoto($scope.photo);
         };
 
         this.onTakePhoto = function (data_uri) {
             // display photo from webcam
-            $scope.photoURL = data_uri;
-            PhotoService.setBeforePhoto($scope.photoURL);
-            PhotoService.setBeforePhotoDate(Date.now());
+            $scope.photo.url = data_uri;
+            PhotoService.setBeforePhoto($scope.photo);
+            PhotoService.setBeforePhotoDate(new Date());
             $scope.showProgressBar();
             $scope.webcamUpload();
         };
@@ -484,9 +490,11 @@
     appctl.controller('AfterCtrl',
                       ['$scope',
                         '$http',
+                        '$window',
                        'PhotoService',
                        function($scope,
                                 $http,
+                                $window,
                                 PhotoService) {
 
         var aftctl = this;
@@ -517,33 +525,50 @@
 
         this.webcamConfig = {
             webcam: {
-                width: 320,
-                height: 240,
-                image_format: 'jpeg',
-                jpeg_quality: 90,
+                width: 237,
+                height: 200,
+                image_format: 'png',
+                jpeg_quality: 100,
             },
             displayElement: '#webcam_window'
         };
 
+        $scope.showSetReminder = false;
         $scope.showAfterAcceptOptions = false;
         $scope.showAfterPhotoOptions = true;
         $scope.showAfterWebcam = false;
 
-        $scope.afterPhotoURL = '';
-        $scope.beforePhotoURL = PhotoService.getBeforePhoto();
+        $scope.beforePhoto = {
+            url: '',
+            type: 1,
+            privatePic: false
+        };
+
+        $scope.afterPhoto = {
+            url: '',
+            type: 2,
+            privatePic: false
+        };
+
+        PhotoService.getBeforePhoto()
+        .then(function (photos) {
+          console.log(photos);
+            $scope.beforePhoto = photos[0];
+            if (photos[1]) {
+              $scope.afterPhoto = photos[1];
+            }
+            $scope.getAfterDays();
+            console.log($scope.beforePhoto);
+        }, function (err) {
+            console.log(err);
+            $scope.beforePhoto = null;
+        });
 
         $scope.progressPercentage = 0;
         $scope.progressBar = false;
-        $scope.date = new Date ();
-        $scope.afterPhoto = {
-            id: null,
-            date: null,
-            url: null,
-            type: null,
-            matchID: null,
-            privatePic: null,
-            userID: null,
-        };
+        $scope.afterDays = '?';
+
+
 
         // Controller & scope methods.
         $scope.showProgressBar = function () {
@@ -554,9 +579,10 @@
 
         $scope.webcamUpload = function () {
             console.log("Uplaoding data uri: ");
-            console.log($scope.afterPhotoURL);
+            console.log($scope.afterPhoto.url);
 
-            var blob = PhotoService.getWebcamPhotoBlob($scope.afterPhotoURL);
+            var blob = PhotoService.getWebcamPhotoBlob($scope.afterPhoto.url);
+            blob.isWebcam = true;
 
             var files = [ blob ];
 
@@ -567,11 +593,29 @@
         $scope.upload = function (files) {
 
             PhotoService.uploadPhotos(files,
-                                      PhotoService.setAfterPhotoDate,
+                                      aftctl.onSetDate,
                                       aftctl.onLoadPhoto,
                                       aftctl.updateUploadProgress,
                                       aftctl.uploadSuccess);
 
+        };
+
+        $scope.getAfterDays = function () {
+            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+            if ($scope.beforePhoto && $scope.afterPhoto) {
+              if ('date' in $scope.beforePhoto && 'date' in $scope.afterPhoto) {
+                var firstDate = new Date($scope.beforePhoto.date);
+                var secondDate = new Date($scope.afterPhoto.date);
+                if (firstDate && secondDate) {
+                  $scope.afterDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) + 1;
+                }
+              }
+            }
+        };
+
+        this.onSetDate = function (cdate) {
+            $scope.afterPhoto.date = new Date(cdate);
+            $scope.getAfterDays();
         };
 
         this.updateUploadProgress = function (evt) {
@@ -582,20 +626,26 @@
         this.uploadSuccess = function (data, status, headers, config) {
             console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
             console.log(data);
-            $scope.afterPhotoURL = data.uploadedFiles[0].extra.Location;
-            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+            $scope.afterPhoto.url = data.uploadedFiles[0].extra.Location;
+            PhotoService.savePhoto($scope.afterPhoto)
+            .then(function (photo) {
+                console.log(photo);
+                $scope.beforePhoto = PhotoService.getBeforePhoto();
+            }, function (error) {
+                console.log(error);
+            });
         };
 
         this.onLoadPhoto = function (e) {
             // display the photo loaded from disk
-            $scope.afterPhotoURL = e.target.result;
-            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+            $scope.afterPhoto.url = e.target.result;
+            PhotoService.setAfterPhoto($scope.afterPhoto);
         };
 
         this.onTakePhoto = function (data_uri) {
             // display photo from webcam
-            $scope.afterPhotoURL = data_uri;
-            PhotoService.setAfterPhoto($scope.afterPhotoURL);
+            $scope.afterPhoto.url = data_uri;
+            PhotoService.setAfterPhoto($scope.afterPhoto);
             $scope.showProgressBar();
             $scope.webcamUpload();
         };
@@ -620,7 +670,17 @@
             PhotoService.startWebcam(aftctl.webcamConfig);
         };
 
-
+        $scope.setReminder = function (delayDays) {
+          console.log("Setting reminder for " + delayDays + " days");
+            $http.post('reminders/set', {delay: delayDays})
+            .success(function (res) {
+                console.log(res);
+                $window.alert("We will send you an email reminder in " + delayDays + " days.");
+            })
+            .error(function (err) {
+                console.log(error);
+            })
+        }
     }]);
 
 
@@ -635,8 +695,40 @@
                       function($scope,
                                PhotoService) {
 
-        $scope.afterPhotoURL = PhotoService.getAfterPhoto();
-        $scope.beforePhotoURL = PhotoService.getBeforePhoto();
+        $scope.getAfterDays = function () {
+            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+            if ($scope.beforePhoto && $scope.afterPhoto) {
+              if ('date' in $scope.beforePhoto && 'date' in $scope.afterPhoto) {
+                var firstDate = new Date($scope.beforePhoto.date);
+                var secondDate = new Date($scope.afterPhoto.date);
+                if (firstDate && secondDate) {
+                  $scope.afterDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) + 1;
+                }
+              }
+            }
+        };
+
+        $scope.afterDays = '?';
+        $scope.afterPhoto = PhotoService.getAfterPhoto();
+        $scope.beforePhoto = null;
+
+        PhotoService.getBeforePhoto()
+        .then(function (photos) {
+            $scope.beforePhoto = photos[0];
+            if (photos[1]) {
+              $scope.afterPhoto = photos[1];
+            } else {
+              $scope.afterPhoto = PhotoService.getAfterPhoto();
+            }
+            $scope.getAfterDays();
+            console.log($scope.beforePhoto);
+            console.log($scope.afterPhoto);
+        }, function (err) {
+            $scope.beforePhoto = {};
+            $scope.afterPhoto = {};
+        });
+
+
     }]);
 
     /**

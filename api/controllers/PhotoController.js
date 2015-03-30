@@ -72,6 +72,20 @@ module.exports = {
                       res.redirect('/');
                     }
                     break;
+                case 'before':
+                    if(req.wantsJSON) {
+                        var status = getStatusCode(errorToReturn);
+                        res.status(status);
+                        res.jsonx({
+                            "error": errorToReturn,
+                            "status": status,
+                            "summary": locale.get(errorToReturn, req.getLocale()),
+                            "success": !errorToReturn
+                        });
+                    } else {
+                      res.redirect('/');
+                    }
+                    break;
                 case 'delete':
                     if(req.wantsJSON) {
                         var status = getStatusCode(errorToReturn);
@@ -89,8 +103,9 @@ module.exports = {
             }
         }
 
-        function onSuccess(summary, photo) {
+        function onSuccess(summary, photo, afterPhoto) {
             var action = req.param('action');
+            sails.log.debug(action + ": " + summary);
             switch (action) {
                 case 'save':
                     var status = 200;
@@ -101,6 +116,18 @@ module.exports = {
                         "summary": locale.get(summary, req.getLocale()),
                         "success": true,
                         "photo": photo
+                    });
+                    break;
+                case 'before':
+                    var status = 200;
+                    res.status(status);
+                    res.jsonx({
+                        "error": null,
+                        "status": status,
+                        "summary": locale.get(summary, req.getLocale()),
+                        "success": true,
+                        "photo": photo,
+                        "afterPhoto": afterPhoto
                     });
                     break;
                 case 'delete':
@@ -167,6 +194,7 @@ module.exports = {
                 photoSpec.matchID = null;
             }
             Photo.create({url: photoSpec.url,
+                          date: photoSpec.date,
                           matchID: photoSpec.matchID,
                           type: photoSpec.type,
                           userID: req.user.id},
@@ -174,7 +202,7 @@ module.exports = {
                             if (err || photo === undefined) {
                                 tryAgain(err);
                             } else {
-                                sails.log.debug('creared photo');
+                                sails.log.debug('created photo');
                                 if (photoSpec.matchID) {
                                     sails.log.debug('updating other');
                                     updateMatchPhoto(photo, photoSpec);
@@ -188,11 +216,14 @@ module.exports = {
         function updateExistingPhoto(photo, photoSpec) {
             sails.log.debug('updateExistingPhoto');
             // Update existing photo (only matchID & privacy)
-            if (matchID in photoSpec) {
+            if ('matchID' in photoSpec) {
                 photo.matchID = photoSpec.matchID;
             }
-            if (privatePic in photoSpec) {
+            if ('privatePic' in photoSpec) {
                 photo.privatePic = photoSpec.privatePic;
+            }
+            if ('date' in photoSpec) {
+                photo.date = photoSpec.date;
             }
             photo.save(function onPhotoSave(err, photo) {
                 if (err || photo === undefined) {
@@ -233,6 +264,32 @@ module.exports = {
             }
         }
 
+        function beforePhoto() {
+            sails.log.debug('getting latest Before photo');
+            Photo.find({where: {date: {"<=": new Date()},
+                                type: 1,
+                                userID: req.user.id},
+                        sort: "date DESC",
+                        limit:1}, function (err, photos) {
+                if (err) {
+                    tryAgain(err);
+                } else {
+                    var photo = photos[0];
+                    sails.log.debug("Found photo: " + photo);
+                    if ('matchID' in photo) {
+                        sails.log.debug("Getting match");
+                        Photo.findOne({"matchID": photo.id}, function (err, afterPhoto) {
+                            sails.log.debug("Found match");
+                            onSuccess('Found Before & after Photos', photo, afterPhoto);
+                        });
+                    } else {
+                        sails.log.debug("Found before, but no match");
+                        onSuccess('Found Before Photo', photo, null);
+                    }
+                }
+            });
+        }
+
         var action = req.param('action');
         sails.log.debug(action);
 
@@ -243,7 +300,7 @@ module.exports = {
                 savePhoto();
                 break;
             case 'before':
-                setBefore();
+                beforePhoto();
                 break;
             case 'after':
                 setAfter();
