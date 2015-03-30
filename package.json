@@ -46,7 +46,8 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "main": "app.js",
   "repository": {

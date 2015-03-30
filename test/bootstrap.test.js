@@ -4,7 +4,7 @@ before(function(done) {
   Sails.lift({
       // configuration for testing purposes
       log: {
-          level: 'debug'
+          level: 'error'
       },
       models: {
           connection: 'testDb',
