@@ -43,11 +43,11 @@ module.exports.connections = {
   ***************************************************************************/
   postgresDb: {
     adapter: 'sails-postgresql',
-    host: process.env.PG_HOSTNAME || 'localhost',
-    user: process.env.PG_USER || 'picsumo',
-    password: process.env.PG_PASSWORD || 'picsumo',
-    database:process.env.PG_DATABASE || 'picsumodb',
-    port: process.env.PG_PORT || 5432,
+    host: process.env.PG_HOSTNAME,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    database:process.env.PG_DATABASE,
+    port: process.env.PG_PORT,
     ssl: {
       rejectUnauthorized: false
     }
