@@ -299,7 +299,7 @@ module.exports = {
                                 userID: req.user.id},
                         sort: "date DESC",
                         limit:1}, function (err, photos) {
-                if (err) {
+                if (err || !photos || photos.length == 0) {
                     tryAgain(err);
                 } else {
                     var photo = photos[0];

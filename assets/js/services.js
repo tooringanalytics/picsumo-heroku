@@ -99,7 +99,7 @@
         photoService.framedPhoto = null,
 
         photoService.setBeforePhoto = function (beforePhoto) {
-            if ('id' in photoService.afterPhoto) {
+            if (photoService.afterPhoto && 'id' in photoService.afterPhoto) {
                 photoService.afterPhoto.matchID = beforePhoto.id;
                 beforePhoto.matchID = photoService.afterPhoto.id;
             }
@@ -132,7 +132,7 @@
         };
 
         photoService.setAfterPhoto = function (afterPhoto) {
-            if ('id' in photoService.beforePhoto) {
+            if (photoService.beforePhoto && 'id' in photoService.beforePhoto) {
                 photoService.beforePhoto.matchID = afterPhoto.id;
                 afterPhoto.matchID = photoService.beforePhoto.id;
             }
@@ -149,7 +149,7 @@
 
         photoService.setFramedPhoto = function (framedPhoto) {
             photoService.framedPhoto = framedPhoto;
-            if ('id' in photoService.afterPhoto) {
+            if (photoService.afterPhoto && 'id' in photoService.afterPhoto) {
                 photoService.framedPhoto.matchID = photoService.afterPhoto.id;
             }
         };
