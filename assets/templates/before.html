@@ -29,10 +29,10 @@
     <!-- Then the image should appear with options to accept or retry-->
         <div ng-if="showAcceptOptions" ng-cloak>
             <figure class="draft-image-placeholder">
-                <img ng-src="{{photo.url}}" class="before-image" alt="before picture">
+                <img ng-src="{{ photoURL }}" class="before-image" alt="before picture">
                 <figcaption>
                     <div class="day">Before: Day 1</div>
-                    <div class="date">{{photo.date | date: 'mediumDate'}}</div>
+                    <div class="date">{{ date | date: 'mediumDate'}}</div>
                 </figcaption>
             </figure>
             <!-- As the image uploads there should be a progress bar -->
@@ -43,7 +43,7 @@
                         <div class="progress" style="width:{{progressPercentage}}%"></div>
                     </div>
                 </div>
-                <div class="percentage">{{progressPercentage}}%</div>
+                <div class="percentage">{{ progressPercentage }}%</div>
             </div>
             <!--The user has the option to accept the photo or take another. -->
             <div class="button-container">

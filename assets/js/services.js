@@ -119,11 +119,14 @@
                         if ('afterPhoto' in res && res.afterPhoto) {
                             photoService.afterPhoto = res.afterPhoto;
                         }
-                        resolve([photoService.beforePhoto, photoService.afterPhoto]);
+                        if ('framedPhoto' in res && res.framedPhoto) {
+                            photoService.framedPhoto = res.framedPhoto;
+                        }
+                        resolve([photoService.beforePhoto, photoService.afterPhoto, photoService.framedPhoto]);
                     })
                     .error(reject);
                 } else {
-                    resolve([photoService.beforePhoto, photoService.afterPhoto]);
+                    resolve([photoService.beforePhoto, photoService.afterPhoto, photoService.framedPhoto]);
                 }
             });
         };
@@ -146,6 +149,9 @@
 
         photoService.setFramedPhoto = function (framedPhoto) {
             photoService.framedPhoto = framedPhoto;
+            if ('id' in photoService.afterPhoto) {
+                photoService.framedPhoto.matchID = photoService.afterPhoto.id;
+            }
         };
 
         photoService.setFramedPhotoDate = function (createDate) {

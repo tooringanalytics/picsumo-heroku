@@ -86,6 +86,20 @@ module.exports = {
                       res.redirect('/');
                     }
                     break;
+                case 'framed':
+                    if(req.wantsJSON) {
+                        var status = getStatusCode(errorToReturn);
+                        res.status(status);
+                        res.jsonx({
+                            "error": errorToReturn,
+                            "status": status,
+                            "summary": locale.get(errorToReturn, req.getLocale()),
+                            "success": !errorToReturn
+                        });
+                    } else {
+                      res.redirect('/');
+                    }
+                    break;
                 case 'delete':
                     if(req.wantsJSON) {
                         var status = getStatusCode(errorToReturn);
@@ -103,7 +117,7 @@ module.exports = {
             }
         }
 
-        function onSuccess(summary, photo, afterPhoto) {
+        function onSuccess(summary, arg1, arg2, arg3) {
             var action = req.param('action');
             sails.log.debug(action + ": " + summary);
             switch (action) {
@@ -115,7 +129,7 @@ module.exports = {
                         "status": status,
                         "summary": locale.get(summary, req.getLocale()),
                         "success": true,
-                        "photo": photo
+                        "photo": arg1
                     });
                     break;
                 case 'before':
@@ -126,8 +140,22 @@ module.exports = {
                         "status": status,
                         "summary": locale.get(summary, req.getLocale()),
                         "success": true,
-                        "photo": photo,
-                        "afterPhoto": afterPhoto
+                        "photo": arg1,
+                        "afterPhoto": arg2,
+                        "framedPhoto": arg3
+                    });
+                    break;
+                case 'framed':
+                    var status = 200;
+                    res.status(status);
+                    res.jsonx({
+                        "error": null,
+                        "status": status,
+                        "summary": locale.get(summary, req.getLocale()),
+                        "success": true,
+                        "framedPhotos": arg1,
+                        "page": arg2,
+                        "pages": arg3
                     });
                     break;
                 case 'delete':
@@ -278,16 +306,49 @@ module.exports = {
                     sails.log.debug("Found photo: " + photo);
                     if ('matchID' in photo) {
                         sails.log.debug("Getting match");
-                        Photo.findOne({"matchID": photo.id}, function (err, afterPhoto) {
-                            sails.log.debug("Found match");
-                            onSuccess('Found Before & after Photos', photo, afterPhoto);
+                        Photo.find({where: {id: photo.matchID,
+                                            type: 2,
+                                            userID: req.user.id},
+                                            sort: "date DESC",
+                                            limit:1}, function (err, afterPhotos) {
+                            if (err) {
+                                tryAgain(err);
+                            } else {
+                                if (afterPhotos.length == 0) {
+                                    onSuccess('Found Before Photos but no afters', photo);
+                                } else {
+                                    var afterPhoto = afterPhotos[0];
+                                    sails.log.debug("Found after photo match");
+                                    Photo.find({where: {id: afterPhoto.matchID,
+                                                type: 3,
+                                                userID: req.user.id},
+                                                sort: "date DESC",
+                                                limit:1}, function (err, framedPhotos) {
+                                        if (err) {
+                                            tryAgain(err);
+                                        } else {
+                                            if (framedPhotos.length == 0) {
+                                                onSuccess('Found Before & after Photos but no framed', photo, afterPhoto);
+                                            } else {
+                                                var framedPhoto = framedPhotos[0];
+                                                sails.log.debug("Found framed photo match");
+                                                onSuccess('Found Before & after & framed Photos', photo, afterPhoto, framedPhoto);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
                         });
                     } else {
                         sails.log.debug("Found before, but no match");
-                        onSuccess('Found Before Photo', photo, null);
+                        onSuccess('Found Before Photo', photo);
                     }
                 }
             });
+        }
+
+        function framedPhotos() {
+
         }
 
         var action = req.param('action');
@@ -302,11 +363,8 @@ module.exports = {
             case 'before':
                 beforePhoto();
                 break;
-            case 'after':
-                setAfter();
-                break;
             case 'framed':
-                setFramed();
+                framedPhotos();
                 break;
             case 'delete':
                 deletePhoto();

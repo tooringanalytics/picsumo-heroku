@@ -24,10 +24,10 @@
 <div class="frame">
 
     <div class="saved-before-image-placeholder" ng-cloak>
-        <img ng-src="{{beforePhoto.url}}" class="before-image" alt="before picture">
+        <img ng-src="{{ beforePhotoURL }}" class="before-image" ng-if="beforePhotoURL" alt="before picture">
         <figcaption>
             <div class="day">Before: Day 1</div>
-            <div class="date">{{beforePhoto.date | date: 'mediumDate'}}</div>
+            <div class="date">{{ beforePhotoDate | date: 'mediumDate' }}</div>
         </figcaption>
     </div>
 
@@ -49,10 +49,10 @@
 
     <div class="saved-after-image-placeholder" ng-if="showAfterAcceptOptions" ng-cloak>
         <figure class="draft-image-placeholder">
-                <img ng-src="{{afterPhoto.url}}" class="before-image" alt="after picture">
+                <img ng-src="{{ afterPhotoURL }}" ng-if="afterPhotoURL" class="before-image" alt="after picture">
                 <figcaption>
-                    <div class="day">After: Day {{afterDays}}</div>
-                    <div class="date">{{afterPhoto.date | date: 'mediumDate'}}</div>
+                    <div class="day">After: Day {{ afterDays }}</div>
+                    <div class="date">{{ afterPhotoDate | date: 'mediumDate' }}</div>
                 </figcaption>
         </figure>
         <!-- As the image uploads there should be a progress bar -->
@@ -63,7 +63,7 @@
                     <div class="progress" style="width:{{progressPercentage}}%"></div>
                 </div>
             </div>
-            <div class="percentage">{{progressPercentage}}%</div>
+            <div class="percentage">{{ progressPercentage }}%</div>
         </div>
         <div class="button-container">
             <button class="retry" ng-click="retryAfter()">Retry</button>

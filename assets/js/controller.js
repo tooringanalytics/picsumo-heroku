@@ -380,6 +380,7 @@
             displayElement: '#webcam_window'
         };
 
+        $scope.photoURL;
 
         $scope.progressPercentage = 0;
         $scope.showPhotoOptions = true;
@@ -393,6 +394,17 @@
             type: 1,
             privatePic: false
         };
+
+        PhotoService.getBeforePhoto()
+        .then(function (photos) {
+          console.log(photos);
+            $scope.photo = photos[0];
+            $scope.photoURL = $scope.photo.url;
+            console.log($scope.photo);
+        }, function (err) {
+            console.log(err);
+        });
+
 
         // Controller & scope methods.
         $scope.showProgressBar = function () {
@@ -426,6 +438,7 @@
 
         this.onSetDate = function (cdate) {
             $scope.photo.date = new Date(cdate);
+            $scope.date = new Date(cdate);
         };
 
         this.updateUploadProgress = function (evt) {
@@ -437,9 +450,13 @@
             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             console.log(data);
             $scope.photo.url = data.uploadedFiles[0].extra.Location;
+            $scope.photoURL = data.uploadedFiles[0].extra.Location;
             PhotoService.savePhoto($scope.photo)
             .then(function (photo) {
                 console.log(photo);
+                $scope.photo = photo;
+                $scope.photoURL = photo.url;
+                $scope.date = new Date(photo.date);
             }, function (error) {
                 console.log(error);
             });
@@ -448,14 +465,36 @@
         this.onLoadPhoto = function (e) {
             // display the photo loaded from disk
             $scope.photo.url = e.target.result;
+            $scope.photoURL = e.target.result;
             PhotoService.setBeforePhoto($scope.photo);
+            PhotoService.setAfterPhoto({
+                url: '',
+                type: 2,
+                privatePic: false
+            });
+            PhotoService.setFramedPhoto({
+                url: '',
+                type: 3,
+                privatePic: false
+            });
         };
 
         this.onTakePhoto = function (data_uri) {
             // display photo from webcam
             $scope.photo.url = data_uri;
+            $scope.photoURL = data_uri;
             PhotoService.setBeforePhoto($scope.photo);
             PhotoService.setBeforePhotoDate(new Date());
+            PhotoService.setAfterPhoto({
+                url: '',
+                type: 2,
+                privatePic: false
+            });
+            PhotoService.setFramedPhoto({
+                url: '',
+                type: 3,
+                privatePic: false
+            });
             $scope.showProgressBar();
             $scope.webcamUpload();
         };
@@ -533,6 +572,10 @@
             displayElement: '#webcam_window'
         };
 
+        $scope.beforePhotoURL = '';
+        $scope.beforePhotoDate = '';
+        $scope.afterPhotoURL = '';
+        $scope.afterPhotoDate = '';
         $scope.showSetReminder = false;
         $scope.showAfterAcceptOptions = false;
         $scope.showAfterPhotoOptions = true;
@@ -554,14 +597,18 @@
         .then(function (photos) {
           console.log(photos);
             $scope.beforePhoto = photos[0];
+            $scope.beforePhotoURL = $scope.beforePhoto.url;
+            $scope.beforePhotoDate = $scope.beforePhoto.date;
             if (photos[1]) {
               $scope.afterPhoto = photos[1];
+              $scope.afterPhotoURL = $scope.afterPhoto.url;
+              $scope.afterPhotoDate = $scope.afterPhoto.date;
             }
             $scope.getAfterDays();
             console.log($scope.beforePhoto);
+            $scope.$apply();
         }, function (err) {
             console.log(err);
-            $scope.beforePhoto = null;
         });
 
         $scope.progressPercentage = 0;
@@ -615,6 +662,7 @@
 
         this.onSetDate = function (cdate) {
             $scope.afterPhoto.date = new Date(cdate);
+            $scope.afterPhotoDate = $scope.afterPhoto.date;
             $scope.getAfterDays();
         };
 
@@ -627,10 +675,27 @@
             console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
             console.log(data);
             $scope.afterPhoto.url = data.uploadedFiles[0].extra.Location;
+            $scope.afterPhotoURL = $scope.afterPhoto.url;
             PhotoService.savePhoto($scope.afterPhoto)
             .then(function (photo) {
                 console.log(photo);
-                $scope.beforePhoto = PhotoService.getBeforePhoto();
+                PhotoService.getBeforePhoto()
+                .then(function (photos) {
+                  console.log(photos);
+                    $scope.beforePhoto = photos[0];
+                    $scope.beforePhotoURL = $scope.beforePhoto.url;
+                    $scope.beforePhotoDate = $scope.beforePhoto.date;
+                    if (photos[1]) {
+                      $scope.afterPhoto = photos[1];
+                      $scope.afterPhotoURL = $scope.afterPhoto.url;
+                      $scope.afterPhotoDate = $scope.afterPhoto.date;
+                    }
+                    $scope.getAfterDays();
+                    console.log($scope.beforePhoto);
+                    $scope.$apply();
+                }, function (err) {
+                    console.log(err);
+                });
             }, function (error) {
                 console.log(error);
             });
@@ -639,13 +704,26 @@
         this.onLoadPhoto = function (e) {
             // display the photo loaded from disk
             $scope.afterPhoto.url = e.target.result;
+            $scope.afterPhotoURL = e.target.result;
+            $scope.$apply();
             PhotoService.setAfterPhoto($scope.afterPhoto);
+            PhotoService.setFramedPhoto({
+                url: '',
+                type: 3,
+                privatePic: false
+            });
         };
 
         this.onTakePhoto = function (data_uri) {
             // display photo from webcam
             $scope.afterPhoto.url = data_uri;
+            $scope.afterPhotoURL = data_uri;
             PhotoService.setAfterPhoto($scope.afterPhoto);
+            PhotoService.setFramedPhoto({
+                url: '',
+                type: 3,
+                privatePic: false
+            });
             $scope.showProgressBar();
             $scope.webcamUpload();
         };
@@ -695,6 +773,8 @@
                       function($scope,
                                PhotoService) {
 
+        var sharectl = this;
+
         $scope.getAfterDays = function () {
             var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
             if ($scope.beforePhoto && $scope.afterPhoto) {
@@ -708,288 +788,182 @@
             }
         };
 
+        $scope.beforePhotoURL;
+        $scope.beforePhotoDate;
+        $scope.afterPhotoURL;
+        $scope.afterPhotoDate;
         $scope.afterDays = '?';
-        $scope.afterPhoto = PhotoService.getAfterPhoto();
+
+        $scope.framedPhotoURL;
+
+        $scope.framedPhoto = {
+            url: '',
+            type: 3,
+            matchID: null,
+            date: ''
+        };
+
+        $scope.afterPhoto = null;
         $scope.beforePhoto = null;
+
+        $scope.framedUpload = function () {
+            console.log("Uploading data uri: ");
+            console.log($scope.framedPhoto.url);
+
+            var blob = PhotoService.getWebcamPhotoBlob($scope.framedPhoto.url);
+            blob.isWebcam = true;
+
+            var files = [ blob ];
+
+            $scope.upload(files);
+
+        };
+
+        $scope.upload = function (files) {
+
+            PhotoService.uploadPhotos(files,
+                                      sharectl.onSetDate,
+                                      sharectl.onLoadPhoto,
+                                      sharectl.updateUploadProgress,
+                                      sharectl.uploadSuccess);
+
+        };
+
+        this.onSetDate = function (cdate) {
+            $scope.framedPhoto.date = new Date(cdate);
+            $scope.framedPhotoDate = $scope.framedPhoto.date;
+        };
+
+        this.updateUploadProgress = function (evt) {
+            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
+        };
+
+        this.uploadSuccess = function (data, status, headers, config) {
+            console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
+            console.log(data);
+            $scope.framedPhoto.url = data.uploadedFiles[0].extra.Location;
+            $scope.framedPhotoURL = $scope.framedPhoto.url;
+            PhotoService.savePhoto($scope.framedPhoto)
+            .then(function (photo) {
+                console.log(photo);
+                $scope.framedPhoto = photo;
+                $scope.$apply();
+            }, function (error) {
+                console.log(error);
+            });
+        };
+
+        console.log("hello!");
 
         PhotoService.getBeforePhoto()
         .then(function (photos) {
+            console.log(photos);
             $scope.beforePhoto = photos[0];
+            $scope.beforePhotoURL = $scope.beforePhoto.url;
+            $scope.beforePhotoDate = $scope.beforePhoto.date;
             if (photos[1]) {
               $scope.afterPhoto = photos[1];
+              $scope.afterPhotoURL = $scope.afterPhoto.url;
+              $scope.afterPhotoDate = $scope.afterPhoto.date;
             } else {
               $scope.afterPhoto = PhotoService.getAfterPhoto();
+              if (!$scope.afterPhoto) {
+                  return;
+              } else {
+                  $scope.afterPhotoURL = $scope.afterPhoto.url;
+                  $scope.afterPhotoDate = $scope.afterPhoto.date;
+              }
             }
+
             $scope.getAfterDays();
             console.log($scope.beforePhoto);
             console.log($scope.afterPhoto);
-        }, function (err) {
-            $scope.beforePhoto = {};
-            $scope.afterPhoto = {};
-        });
+            if (photos[2]) {
+              $scope.framedPhoto = photos[2];
+              $scope.framedPhotoURL = $scope.framedPhoto.url;
+              var target = document.getElementById('framedPhotoCanvas');
+              var ctx = target.getContext("2d");
+              var framedPhoto = new Image();
+              framedPhoto.onload = function () {
+                  ctx.drawImage(framedPhoto, 0, 0);
+                  $scope.$apply();
+              }
+              framedPhoto.crossOrigin = "anonymous";
+              framedPhoto.src = $scope.framedPhotoURL;
 
-
-    }]);
-
-    /**
-     * FakeCtrl
-     *
-     *
-     */
-    appctl.controller('FakeCtrl',
-                      ['$scope',
-                       '$http',
-                       '$timeout',
-                       '$compile',
-                       '$upload',
-                       function($scope,
-                                $http,
-                                $timeout,
-                                $compile,
-                                $upload) {
-
-        $scope.$watch('files', function(files) {
-
-            $scope.formUpload = false;
-
-            if (files != null) {
-                for (var i = 0; i < files.length; i++) {
-                    $scope.errorMsg = null;
-                    (function(file) {
-                        generateThumbAndUpload(file);
-                    })(files[i]);
-                }
-            }
-        });
-
-        $scope.uploadPic = function(files) {
-            $scope.formUpload = true;
-            if (files != null) {
-                generateThumbAndUpload(files[0])
-            }
-        };
-
-        function generateThumbAndUpload(file) {
-            $scope.errorMsg = null;
-            $scope.generateThumb(file);
-            if ($scope.howToSend === 1) {
-                uploadUsing$upload(file);
-            } else if ($scope.howToSend == 2) {
-                uploadUsing$http(file);
             } else {
-                uploadS3(file);
-            }
-        }
+                var target = document.getElementById('framedPhotoCanvas');
+                var ctx = target.getContext("2d");
+                var beforePhoto = new Image();
+                var afterPhoto = new Image();
+                var canvasWidth = 490;
+                var canvasHeight = 610;
 
-        $scope.generateThumb = function(file) {
-            if (file != null) {
-                if ($scope.fileReaderSupported &&
-                    file.type.indexOf('image') > -1) {
-                    $timeout(function() {
-                        var fileReader = new FileReader();
-                        fileReader.readAsDataURL(file);
-                        fileReader.onload = function(e) {
-                            $timeout(function() {
-                                file.dataUrl = e.target.result;
-                            });
-                        }
-                    });
+
+                beforePhoto.onload = function() {
+                    console.log(beforePhoto);
+                    ctx.drawImage(beforePhoto, 10, 10);
+                    ctx.font="20px Roboto bold";
+                    //var bw_gradient=ctx.createLinearGradient(0,0,0,170);
+                    //bw_gradient.addColorStop(0,"black");
+                    //bw_gradient.addColorStop(1,"white");
+                    //ctx.fillStyle = bw_gradient;
+                    var date = new Date($scope.beforePhotoDate).toLocaleString();
+                    ctx.fillText("Before: Day 1",15, canvasHeight-50);
+                    ctx.font="14px Roboto bold";
+                    ctx.fillText("Date: " + date,15, canvasHeight-28);
+
+                    // To ensure afterphoto.onload is executed after this.
+                    afterPhoto.crossOrigin = "anonymous";
+                    afterPhoto.src = $scope.afterPhotoURL;
+                };
+
+                afterPhoto.onload = function () {
+                    console.log(afterPhoto);
+                    ctx.drawImage(afterPhoto, 245, 10);
+                    ctx.font="20px Roboto bold";
+                    //var bw_gradient=ctx.createLinearGradient(0,0,0,170);
+                    //bw_gradient.addColorStop(0,"black");
+                    //bw_gradient.addColorStop(1,"white");
+                    //ctx.fillStyle = bw_gradient;
+                    var date = new Date($scope.afterPhotoDate).toLocaleString();
+                    ctx.fillText("After: Day " + $scope.afterDays,250, canvasHeight-50);
+                    ctx.font="14px Roboto bold";
+                    ctx.fillText("Date: " + date, 250, canvasHeight-28);
+
+                    // Now the canvas is painted, lets store the data url.
+                    $scope.framedPhotoURL = target.toDataURL();
+                    $scope.framedPhoto.url = $scope.framedPhotoURL;
+                    $scope.framedPhoto.matchID = $scope.afterPhoto.id;
+                    $scope.framedPhoto.date = new Date();
+
+                    // Now let's start the upload;
+                    $scope.framedUpload();
                 }
+
+                // If the page domain and image domain are different,
+                // and we paint the image on a Canvas, the Canvas is
+                // 'tainted', and it cannot be captured as a dataURL.
+                // To get around this, we need two requirements:
+                // 1. The image server must return a header:
+                // Access-Control-Allow-Origin:*
+                // On S3, we need to edit the CORS setting to allow
+                // all origins and all headers.
+                // 2. The browser must send an 'Origin:' header in the
+                // request. This can be forced by setting the
+                // crossOrigin: "anonymous"
+                // attribute on the img element that will refer to the
+                // image.
+                beforePhoto.crossOrigin = "anonymous";
+                beforePhoto.src = $scope.beforePhotoURL;
             }
-        };
-
-        function uploadUsing$upload(file) {
-            file.upload = $upload.upload({
-                url: 'https://angular-file-upload-cors-srv.appspot.com/upload' + $scope.getReqParams(),
-                method: 'POST',
-                headers: {
-                    'my-header' : 'my-header-value'
-                },
-                fields: {username: $scope.username},
-                file: file,
-                fileFormDataName: 'myFile'
-            });
-
-            file.upload.then(function(response) {
-                $timeout(function() {
-                    file.result = response.data;
-                });
-            }, function(response) {
-                if (response.status > 0)
-                  $scope.errorMsg = response.status + ': ' + response.data;
-            });
-
-            file.upload.progress(function(evt) {
-                // Math.min is to fix IE which reports 200% sometimes
-                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            });
-
-            file.upload.xhr(function(xhr) {
-                // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
-            });
-        }
-
-        function uploadUsing$http(file) {
-            var fileReader = new FileReader();
-            fileReader.onload = function(e) {
-                $timeout(function() {
-                    file.upload = $upload.http({
-                        url: 'https://angular-file-upload-cors-srv.appspot.com/upload' + $scope.getReqParams(),
-                        method: 'POST',
-                        headers : {
-                            'Content-Type': file.type
-                        },
-                        data: e.target.result
-                    });
-
-                    file.upload.then(function(response) {
-                        file.result = response.data;
-                    }, function(response) {
-                        if (response.status > 0) {
-                            $scope.errorMsg = response.status + ': ' + response.data;
-                        }
-                    });
-
-                    file.upload.progress(function(evt) {
-                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                    });
-                }, 5000);
-            };
-
-            fileReader.readAsArrayBuffer(file);
-        }
-
-        function uploadS3(file) {
-
-            file.upload = $upload.upload({
-                url : $scope.s3url,
-                method : 'POST',
-                fields : {
-                    key : file.name,
-                    AWSAccessKeyId : $scope.AWSAccessKeyId,
-                    acl : $scope.acl,
-                    policy : $scope.policy,
-                    signature : $scope.signature,
-                    'Content-Type' : file.type === null || file.type === '' ? 'application/octet-stream' : file.type,
-                    filename : file.name
-                },
-                file : file
-            });
-
-            file.upload.then(function(response) {
-                $timeout(function() {
-                  file.result = response.data;
-                });
-            }, function(response) {
-                if (response.status > 0) {
-                    $scope.errorMsg = response.status + ': ' + response.data;
-                }
-            });
-
-            file.upload.progress(function(evt) {
-                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            });
-
-            storeS3UploadConfigInLocalStore();
-        }
-
-        $scope.generateSignature = function() {
-            $http.post('/s3sign?aws-secret-key=' + encodeURIComponent($scope.AWSSecretKey), $scope.jsonPolicy)
-                .success(function(data) {
-                    $scope.policy = data.policy;
-                    $scope.signature = data.signature;
-                });
-        };
-
-        if (localStorage) {
-            $scope.s3url = localStorage.getItem('s3url');
-            $scope.AWSAccessKeyId = localStorage.getItem('AWSAccessKeyId');
-            $scope.acl = localStorage.getItem('acl');
-            $scope.success_action_redirect = localStorage.getItem('success_action_redirect');
-            $scope.policy = localStorage.getItem('policy');
-            $scope.signature = localStorage.getItem('signature');
-        }
-
-        $scope.success_action_redirect = $scope.success_action_redirect || window.location.protocol + '//' + window.location.host;
-        $scope.jsonPolicy = $scope.jsonPolicy || '{\n  "expiration": "2020-01-01T00:00:00Z",\n  "conditions": [\n    {"bucket": "angular-file-upload"},\n    ["starts-with", "$key", ""],\n    {"acl": "private"},\n    ["starts-with", "$Content-Type", ""],\n    ["starts-with", "$filename", ""],\n    ["content-length-range", 0, 524288000]\n  ]\n}';
-        $scope.acl = $scope.acl || 'private';
-
-        function storeS3UploadConfigInLocalStore() {
-            if ($scope.howToSend === 3 && localStorage) {
-                localStorage.setItem('s3url', $scope.s3url);
-                localStorage.setItem('AWSAccessKeyId', $scope.AWSAccessKeyId);
-                localStorage.setItem('acl', $scope.acl);
-                localStorage.setItem('success_action_redirect', $scope.success_action_redirect);
-                localStorage.setItem('policy', $scope.policy);
-                localStorage.setItem('signature', $scope.signature);
-            }
-        }
-
-        (function handleDynamicEditingOfScriptsAndHtml($scope) {
-
-            $scope.defaultHtml = document.getElementById('editArea').innerHTML.replace(/\t\t\t\t/g, '');
-
-            $scope.editHtml = (localStorage && localStorage.getItem('editHtml' + version)) || $scope.defaultHtml;
-
-            function htmlEdit() {
-                document.getElementById('editArea').innerHTML = $scope.editHtml;
-                $compile(document.getElementById('editArea'))($scope);
-                $scope.editHtml && localStorage && localStorage.setItem('editHtml' + version, $scope.editHtml);
-                if ($scope.editHtml != $scope.htmlEditor.getValue()) {
-                    $scope.htmlEditor.setValue($scope.editHtml);
-                }
-            }
-
-            $scope.$watch('editHtml', htmlEdit);
-
-            $scope.htmlEditor = CodeMirror(document.getElementById('htmlEdit'), {
-                lineNumbers: true, indentUnit: 4,
-                mode:  'htmlmixed'
-            });
-            $scope.htmlEditor.on('change', function() {
-                if ($scope.editHtml != $scope.htmlEditor.getValue()) {
-                    $scope.editHtml = $scope.htmlEditor.getValue();
-                    htmlEdit();
-                }
-            });
-        })($scope, $http);
-
-        $scope.confirm = function() {
-            return confirm('Are you sure? Your local changes will be lost.');
-        };
-
-        $scope.getReqParams = function() {
-            return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
-              '&errorMessage=' + $scope.serverErrorMsg : '';
-        };
-
-        angular.element(window).bind('dragover', function(e) {
-            e.preventDefault();
+        }, function (err) {
+            console.log(err);
         });
 
-        angular.element(window).bind('drop', function(e) {
-            e.preventDefault();
-        });
 
-        $timeout(function() {
-            $scope.capture = localStorage.getItem('capture'+ version) || 'camera';
-            $scope.accept = localStorage.getItem('accept'+ version) || 'image/*';
-            $scope.acceptSelect = localStorage.getItem('acceptSelect'+ version) || 'image/*';
-            $scope.disabled = localStorage.getItem('disabled'+ version) == 'true' || false;
-            $scope.multiple = localStorage.getItem('multiple'+ version) == 'true' || false;
-            $scope.allowDir = localStorage.getItem('allowDir'+ version) == 'true' || true;
-            $scope.$watch('capture+accept+acceptSelect+disabled+capture+multiple+allowDir',
-                          function() {
-                localStorage.setItem('capture'+ version, $scope.capture);
-                localStorage.setItem('accept'+ version, $scope.accept);
-                localStorage.setItem('acceptSelect'+ version, $scope.acceptSelect);
-                localStorage.setItem('disabled'+ version, $scope.disabled);
-                localStorage.setItem('multiple'+ version, $scope.multiple);
-                localStorage.setItem('allowDir'+ version, $scope.allowDir);
-            });
-        });
     }]);
-
 
 
     /**
